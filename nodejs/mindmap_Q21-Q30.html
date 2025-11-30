@@ -1,0 +1,2597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Interview Questions - Q21-Q30</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .mindmap {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .question-node {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .question-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .question-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .question-header:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #65397d 100%);
+        }
+
+        .question-number {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-right: 15px;
+            padding: 5px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+        }
+
+        .question-title {
+            flex: 1;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .question-node.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .question-content {
+            max-height: 5000px;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+        }
+
+        .question-node.collapsed .question-content {
+            max-height: 0;
+            padding: 0;
+        }
+
+        .content-inner {
+            padding: 30px;
+        }
+
+        .sub-topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .sub-topic {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .sub-topic h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .sub-topic p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .code-section {
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #e0e0e0;
+        }
+
+        .code-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .code-header:hover {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+        }
+
+        .code-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .code-icon {
+            font-size: 1.3em;
+        }
+
+        .code-section.collapsed .code-block {
+            max-height: 0;
+            padding: 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            overflow-x: auto;
+            max-height: 2000px;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .code-block pre {
+            margin: 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-block code {
+            color: #d4d4d4;
+        }
+
+        .code-block .keyword {
+            color: #569cd6;
+        }
+
+        .code-block .string {
+            color: #ce9178;
+        }
+
+        .code-block .function {
+            color: #dcdcaa;
+        }
+
+        .code-block .comment {
+            color: #6a9955;
+            font-style: italic;
+        }
+
+        .code-block .number {
+            color: #b5cea8;
+        }
+
+        .key-points {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .key-points h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .key-points ul {
+            list-style-position: inside;
+            color: #555;
+        }
+
+        .key-points li {
+            margin: 10px 0;
+            line-height: 1.6;
+            padding-left: 10px;
+        }
+
+        .key-points strong {
+            color: #667eea;
+        }
+
+        .dos-donts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .dos, .donts {
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .dos {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+        }
+
+        .donts {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+        }
+
+        .dos h4 {
+            color: #28a745;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .donts h4 {
+            color: #dc3545;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .dos ul, .donts ul {
+            list-style-position: inside;
+        }
+
+        .dos li, .donts li {
+            margin: 8px 0;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge-beginner {
+            background: #28a745;
+            color: white;
+        }
+
+        .badge-intermediate {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .badge-advanced {
+            background: #dc3545;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .sub-topics {
+                grid-template-columns: 1fr;
+            }
+
+            .dos-donts {
+                grid-template-columns: 1fr;
+            }
+
+            .question-title {
+                font-size: 1.1em;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Node.js Interview Questions</h1>
+            <p>Advanced Topics: Q21-Q30 | Process Management, Memory, Performance & Security</p>
+        </div>
+
+        <div class="mindmap">
+
+            <!-- Question 21: Clustering for Multi-Core Processing -->
+            <div class="question-node" id="q21">
+                <div class="question-header" onclick="toggleQuestion('q21')">
+                    <div>
+                        <span class="question-number">Q21</span>
+                        <span class="question-title">Clustering for Multi-Core Processing</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>⚡ Cluster Module</h3>
+                                <p>Spawn worker processes to utilize all CPU cores</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>👥 Master/Worker Architecture</h3>
+                                <p>Master manages workers, workers handle requests</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔄 Load Balancing</h3>
+                                <p>Round-robin distribution across workers</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🛡️ Fault Tolerance</h3>
+                                <p>Auto-restart crashed workers, zero-downtime</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q21-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Basic Cluster Implementation</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q21-1">
+<pre><code><span class="keyword">const</span> cluster = <span class="function">require</span>(<span class="string">'cluster'</span>);
+<span class="keyword">const</span> http = <span class="function">require</span>(<span class="string">'http'</span>);
+<span class="keyword">const</span> os = <span class="function">require</span>(<span class="string">'os'</span>);
+
+<span class="keyword">if</span> (cluster.isMaster) {
+  console.log(<span class="string">`Master process ${process.pid} starting`</span>);
+  
+  <span class="keyword">const</span> numCPUs = os.<span class="function">cpus</span>().length;
+  console.log(<span class="string">`Forking <span class="keyword">${numCPUs}</span> workers...`</span>);
+  
+  <span class="comment">// Fork workers</span>
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < numCPUs; i++) {
+    cluster.<span class="function">fork</span>();
+  }
+  
+  <span class="comment">// Handle worker exit</span>
+  cluster.<span class="function">on</span>(<span class="string">'exit'</span>, (worker, code, signal) => {
+    console.log(<span class="string">`Worker ${worker.process.pid} died`</span>);
+    console.log(<span class="string">'Starting a new worker...'</span>);
+    cluster.<span class="function">fork</span>();
+  });
+  
+} <span class="keyword">else</span> {
+  <span class="comment">// Workers share the same server port</span>
+  <span class="keyword">const</span> server = http.<span class="function">createServer</span>((req, res) => {
+    res.<span class="function">writeHead</span>(<span class="number">200</span>);
+    res.<span class="function">end</span>(<span class="string">`Handled by worker ${process.pid}\n`</span>);
+  });
+  
+  server.<span class="function">listen</span>(<span class="number">3000</span>, () => {
+    console.log(<span class="string">`Worker ${process.pid} started`</span>);
+  });
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q21-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: High-Traffic API with Clustering</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q21-2">
+<pre><code><span class="keyword">const</span> cluster = <span class="function">require</span>(<span class="string">'cluster'</span>);
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> os = <span class="function">require</span>(<span class="string">'os'</span>);
+
+<span class="keyword">if</span> (cluster.isMaster) {
+  <span class="keyword">const</span> numWorkers = os.<span class="function">cpus</span>().length;
+  console.log(<span class="string">`🏦 Banking API - Master starting with ${numWorkers} workers`</span>);
+  
+  <span class="keyword">const</span> workerMetrics = <span class="keyword">new</span> <span class="function">Map</span>();
+  
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < numWorkers; i++) {
+    <span class="keyword">const</span> worker = cluster.<span class="function">fork</span>();
+    workerMetrics.<span class="function">set</span>(worker.id, { requests: <span class="number">0</span>, errors: <span class="number">0</span> });
+  }
+  
+  <span class="comment">// Track worker metrics</span>
+  cluster.<span class="function">on</span>(<span class="string">'message'</span>, (worker, msg) => {
+    <span class="keyword">if</span> (msg.type === <span class="string">'request'</span>) {
+      <span class="keyword">const</span> metrics = workerMetrics.<span class="function">get</span>(worker.id);
+      metrics.requests++;
+    }
+  });
+  
+  <span class="comment">// Graceful restart</span>
+  cluster.<span class="function">on</span>(<span class="string">'exit'</span>, (worker, code, signal) => {
+    <span class="keyword">const</span> metrics = workerMetrics.<span class="function">get</span>(worker.id);
+    console.log(<span class="string">`Worker ${worker.id} died (handled ${metrics.requests} requests)`</span>);
+    
+    workerMetrics.<span class="function">delete</span>(worker.id);
+    <span class="keyword">const</span> newWorker = cluster.<span class="function">fork</span>();
+    workerMetrics.<span class="function">set</span>(newWorker.id, { requests: <span class="number">0</span>, errors: <span class="number">0</span> });
+  });
+  
+  <span class="comment">// Display metrics every 10 seconds</span>
+  <span class="function">setInterval</span>(() => {
+    <span class="keyword">let</span> totalRequests = <span class="number">0</span>;
+    workerMetrics.<span class="function">forEach</span>(m => totalRequests += m.requests);
+    console.log(<span class="string">`📊 Total requests: ${totalRequests}`</span>);
+  }, <span class="number">10000</span>);
+  
+} <span class="keyword">else</span> {
+  <span class="comment">// Worker process - Banking API</span>
+  <span class="keyword">const</span> app = <span class="function">express</span>();
+  app.<span class="function">use</span>(express.<span class="function">json</span>());
+  
+  <span class="comment">// Track requests for this worker</span>
+  app.<span class="function">use</span>((req, res, next) => {
+    process.<span class="function">send</span>({ type: <span class="string">'request'</span> });
+    <span class="function">next</span>();
+  });
+  
+  <span class="comment">// Banking endpoints</span>
+  app.<span class="function">get</span>(<span class="string">'/api/accounts/:id/balance'</span>, <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">try</span> {
+      <span class="comment">// Simulate balance lookup</span>
+      <span class="keyword">const</span> balance = <span class="keyword">await</span> <span class="function">getAccountBalance</span>(req.params.id);
+      res.<span class="function">json</span>({ 
+        accountId: req.params.id, 
+        balance,
+        workerId: process.pid 
+      });
+    } <span class="keyword">catch</span> (error) {
+      process.<span class="function">send</span>({ type: <span class="string">'error'</span> });
+      res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: error.message });
+    }
+  });
+  
+  app.<span class="function">post</span>(<span class="string">'/api/transactions'</span>, <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">try</span> {
+      <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="function">processTransaction</span>(req.body);
+      res.<span class="function">json</span>(result);
+    } <span class="keyword">catch</span> (error) {
+      process.<span class="function">send</span>({ type: <span class="string">'error'</span> });
+      res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: error.message });
+    }
+  });
+  
+  app.<span class="function">listen</span>(<span class="number">3000</span>, () => {
+    console.log(<span class="string">`Worker ${process.pid} listening on port 3000`</span>);
+  });
+  
+  <span class="comment">// Graceful shutdown</span>
+  process.<span class="function">on</span>(<span class="string">'SIGTERM'</span>, () => {
+    console.log(<span class="string">`Worker ${process.pid} shutting down`</span>);
+    server.<span class="function">close</span>(() => process.<span class="function">exit</span>(<span class="number">0</span>));
+  });
+}
+
+<span class="keyword">async function</span> <span class="function">getAccountBalance</span>(accountId) {
+  <span class="comment">// Database query</span>
+  <span class="keyword">return</span> <span class="number">10000</span>;
+}
+
+<span class="keyword">async function</span> <span class="function">processTransaction</span>(txnData) {
+  <span class="comment">// Transaction processing</span>
+  <span class="keyword">return</span> { success: <span class="keyword">true</span>, txnId: <span class="string">'TXN001'</span> };
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Cluster module</strong> creates multiple worker processes to utilize all CPU cores</li>
+                                <li><strong>Master process</strong> manages workers, distributes load via round-robin</li>
+                                <li><strong>Workers share port</strong> but have separate memory and event loops</li>
+                                <li><strong>Auto-restart</strong> crashed workers for fault tolerance</li>
+                                <li><strong>Use Redis/DB</strong> for shared state across workers</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use cluster for CPU-intensive operations</li>
+                                    <li>Fork one worker per CPU core</li>
+                                    <li>Implement graceful shutdown in workers</li>
+                                    <li>Monitor worker health and metrics</li>
+                                    <li>Use PM2 or similar for production management</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't share state between workers (use Redis)</li>
+                                    <li>Don't fork more workers than CPU cores</li>
+                                    <li>Don't use cluster for I/O-bound operations only</li>
+                                    <li>Don't forget to handle worker crashes</li>
+                                    <li>Don't use in-memory sessions with clustering</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 23: Memory Management - Heap & Stack -->
+            <div class="question-node" id="q23">
+                <div class="question-header" onclick="toggleQuestion('q23')">
+                    <div>
+                        <span class="question-number">Q23</span>
+                        <span class="question-title">Memory Management - Heap & Stack</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📚 Stack Memory</h3>
+                                <p>Fast, fixed-size, stores primitives and references</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🗄️ Heap Memory</h3>
+                                <p>Slow, dynamic, stores objects and arrays</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>♻️ Garbage Collection</h3>
+                                <p>V8's generational GC (Minor/Major)</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📊 Memory Limits</h3>
+                                <p>Default 1.4GB, increase with --max-old-space-size</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q23-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Stack vs Heap Memory Allocation</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q23-1">
+<pre><code><span class="comment">// Stack vs Heap Example</span>
+
+<span class="keyword">function</span> <span class="function">processPayment</span>(amount) {
+  <span class="comment">// STACK: Primitives stored directly on stack</span>
+  <span class="keyword">const</span> fee = amount * <span class="number">0.02</span>;              <span class="comment">// Stack</span>
+  <span class="keyword">const</span> total = amount + fee;             <span class="comment">// Stack</span>
+  <span class="keyword">const</span> isValid = amount > <span class="number">0</span>;           <span class="comment">// Stack</span>
+  
+  <span class="comment">// HEAP: Objects stored on heap, reference on stack</span>
+  <span class="keyword">const</span> payment = {                       <span class="comment">// Heap (object)</span>
+    amount: amount,
+    fee: fee,
+    total: total,
+    timestamp: <span class="keyword">new</span> <span class="function">Date</span>()             <span class="comment">// Heap (Date object)</span>
+  };
+  
+  <span class="keyword">const</span> tags = [<span class="string">'urgent'</span>, <span class="string">'verified'</span>];    <span class="comment">// Heap (array)</span>
+  
+  <span class="keyword">return</span> payment;  <span class="comment">// Stack cleared, heap data persists until GC</span>
+}
+
+<span class="comment">// Memory Layout:</span>
+<span class="comment">// STACK:          HEAP:</span>
+<span class="comment">// fee   → 20      payment → { amount: 1000, fee: 20, ... }</span>
+<span class="comment">// total → 1020    tags → ['urgent', 'verified']</span>
+<span class="comment">// isValid → true  Date → Sat Nov 30 2025...</span>
+<span class="comment">// payment → 0x1A2B (reference to heap)</span>
+
+<span class="comment">// V8 Heap Structure</span>
+<span class="comment">/*
+ * New Space (Young Generation) ~1-8MB
+ *   - Nursery: New allocations
+ *   - Intermediate: Survived one GC
+ *
+ * Old Space (Old Generation) ~hundreds of MB
+ *   - Old Pointer Space: Objects with pointers
+ *   - Old Data Space: Objects without pointers
+ *
+ * Large Object Space
+ *   - Objects > 1MB
+ *
+ * Code Space
+ *   - JIT compiled code
+ */</span>
+
+<span class="comment">// Increase memory limit</span>
+<span class="comment">// node --max-old-space-size=4096 app.js  (4GB)</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q23-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Memory-Efficient Transaction Processing</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q23-2">
+<pre><code><span class="keyword">class</span> <span class="function">TransactionProcessor</span> {
+  <span class="comment">// ❌ BAD: Loads all transactions into memory</span>
+  <span class="keyword">async</span> <span class="function">processAllTransactions_BAD</span>() {
+    <span class="comment">// This loads 1 million transactions (~500MB) into heap!</span>
+    <span class="keyword">const</span> transactions = <span class="keyword">await</span> db.<span class="function">query</span>(<span class="string">'SELECT * FROM transactions'</span>);
+    
+    <span class="keyword">for</span> (<span class="keyword">const</span> txn <span class="keyword">of</span> transactions) {
+      <span class="keyword">await</span> <span class="keyword">this</span>.<span class="function">processSingle</span>(txn);
+    }
+  }
+  
+  <span class="comment">// ✅ GOOD: Stream-based processing (constant memory)</span>
+  <span class="keyword">async</span> <span class="function">processAllTransactions_GOOD</span>() {
+    <span class="keyword">const</span> stream = db.<span class="function">stream</span>(<span class="string">'SELECT * FROM transactions'</span>);
+    
+    <span class="keyword">for await</span> (<span class="keyword">const</span> txn <span class="keyword">of</span> stream) {
+      <span class="keyword">await</span> <span class="keyword">this</span>.<span class="function">processSingle</span>(txn);
+      <span class="comment">// Each txn is GC'd after processing</span>
+    }
+  }
+  
+  <span class="comment">// Memory-efficient batch processing</span>
+  <span class="keyword">async</span> <span class="function">processBatch</span>(batchSize = <span class="number">1000</span>) {
+    <span class="keyword">let</span> offset = <span class="number">0</span>;
+    <span class="keyword">let</span> hasMore = <span class="keyword">true</span>;
+    
+    <span class="keyword">while</span> (hasMore) {
+      <span class="comment">// Process in chunks to limit heap usage</span>
+      <span class="keyword">const</span> batch = <span class="keyword">await</span> db.<span class="function">query</span>(
+        <span class="string">'SELECT * FROM transactions LIMIT $1 OFFSET $2'</span>,
+        [batchSize, offset]
+      );
+      
+      <span class="keyword">if</span> (batch.length === <span class="number">0</span>) {
+        hasMore = <span class="keyword">false</span>;
+        <span class="keyword">break</span>;
+      }
+      
+      <span class="keyword">await</span> Promise.<span class="function">all</span>(batch.<span class="function">map</span>(txn => <span class="keyword">this</span>.<span class="function">processSingle</span>(txn)));
+      
+      offset += batchSize;
+      
+      <span class="comment">// Hint to GC (optional, usually automatic)</span>
+      <span class="keyword">if</span> (global.gc) global.<span class="function">gc</span>();
+    }
+  }
+}
+
+<span class="comment">// Memory monitoring</span>
+<span class="keyword">function</span> <span class="function">checkMemoryUsage</span>() {
+  <span class="keyword">const</span> usage = process.<span class="function">memoryUsage</span>();
+  
+  console.log(<span class="string">'Memory Usage:'</span>);
+  console.log(<span class="string">`  RSS: <span class="keyword">${Math.round(usage.rss / 1024 / 1024)}</span> MB`</span>);
+  console.log(<span class="string">`  Heap Total: <span class="keyword">${Math.round(usage.heapTotal / 1024 / 1024)}</span> MB`</span>);
+  console.log(<span class="string">`  Heap Used: <span class="keyword">${Math.round(usage.heapUsed / 1024 / 1024)}</span> MB`</span>);
+  console.log(<span class="string">`  External: <span class="keyword">${Math.round(usage.external / 1024 / 1024)}</span> MB`</span>);
+}
+
+<span class="comment">// Monitor every 5 seconds</span>
+<span class="function">setInterval</span>(checkMemoryUsage, <span class="number">5000</span>);
+
+<span class="comment">// Object pooling for frequent allocations</span>
+<span class="keyword">class</span> <span class="function">TransactionPool</span> {
+  constructor(maxSize = <span class="number">100</span>) {
+    <span class="keyword">this</span>.pool = [];
+    <span class="keyword">this</span>.maxSize = maxSize;
+  }
+  
+  <span class="function">acquire</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.pool.<span class="function">pop</span>() || {};
+  }
+  
+  <span class="function">release</span>(obj) {
+    <span class="keyword">if</span> (<span class="keyword">this</span>.pool.length < <span class="keyword">this</span>.maxSize) {
+      <span class="comment">// Clear properties instead of creating new object</span>
+      <span class="keyword">Object</span>.<span class="function">keys</span>(obj).<span class="function">forEach</span>(key => <span class="keyword">delete</span> obj[key]);
+      <span class="keyword">this</span>.pool.<span class="function">push</span>(obj);
+    }
+  }
+}
+
+<span class="keyword">const</span> pool = <span class="keyword">new</span> <span class="function">TransactionPool</span>();
+
+<span class="keyword">function</span> <span class="function">processTransaction</span>(data) {
+  <span class="keyword">const</span> txn = pool.<span class="function">acquire</span>();
+  <span class="comment">// Use txn object</span>
+  txn.id = data.id;
+  txn.amount = data.amount;
+  
+  <span class="comment">// ... process ...</span>
+  
+  pool.<span class="function">release</span>(txn);  <span class="comment">// Reuse instead of GC</span>
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Stack</strong>: Fast, fixed-size, stores primitives and references (LIFO)</li>
+                                <li><strong>Heap</strong>: Slow, dynamic, stores objects/arrays, managed by GC</li>
+                                <li><strong>V8 GC</strong>: Generational (Minor GC for young, Major GC for old objects)</li>
+                                <li><strong>Memory limits</strong>: Default 1.4GB, increase with --max-old-space-size</li>
+                                <li><strong>Efficient processing</strong>: Use streams, batching, object pooling</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use streams for large datasets</li>
+                                    <li>Process data in batches to limit memory</li>
+                                    <li>Monitor memory usage with process.memoryUsage()</li>
+                                    <li>Use object pooling for frequent allocations</li>
+                                    <li>Increase heap size for memory-intensive apps</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't load entire datasets into memory</li>
+                                    <li>Don't create unnecessary objects in loops</li>
+                                    <li>Don't hold references to large objects</li>
+                                    <li>Don't ignore memory warnings and leaks</li>
+                                    <li>Don't use synchronous operations on large files</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 24: Memory Leaks Detection & Prevention -->
+            <div class="question-node" id="q24">
+                <div class="question-header" onclick="toggleQuestion('q24')">
+                    <div>
+                        <span class="question-number">Q24</span>
+                        <span class="question-title">Memory Leaks Detection & Prevention</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔍 Common Leak Patterns</h3>
+                                <p>Event listeners, closures, timers, global variables</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🛠️ Detection Tools</h3>
+                                <p>Heap snapshots, Chrome DevTools, memwatch-next</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>♻️ Event Listener Leaks</h3>
+                                <p>Forgotten listeners accumulate over time</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🎯 Prevention Strategies</h3>
+                                <p>Bounded caches, cleanup handlers, weak references</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q24-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Common Memory Leak Patterns</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q24-1">
+<pre><code><span class="comment">// 1. EVENT LISTENER LEAK</span>
+
+<span class="comment">// ❌ BAD: Listeners never removed</span>
+<span class="keyword">class</span> <span class="function">LeakyService</span> <span class="keyword">extends</span> EventEmitter {
+  <span class="function">processTransaction</span>(tx) {
+    <span class="keyword">const</span> handler = () => console.log(<span class="string">'Done'</span>);
+    <span class="keyword">this</span>.<span class="function">on</span>(<span class="string">'complete'</span>, handler);  <span class="comment">// ❌ Never removed!</span>
+    <span class="keyword">this</span>.<span class="function">emit</span>(<span class="string">'complete'</span>);
+  }
+}
+<span class="comment">// After 10,000 calls → 10,000 listeners!</span>
+
+<span class="comment">// ✅ GOOD: Remove listeners</span>
+<span class="keyword">class</span> <span class="function">CleanService</span> <span class="keyword">extends</span> EventEmitter {
+  <span class="function">processTransaction</span>(tx) {
+    <span class="keyword">const</span> handler = () => {
+      console.log(<span class="string">'Done'</span>);
+      <span class="keyword">this</span>.<span class="function">removeListener</span>(<span class="string">'complete'</span>, handler);
+    };
+    <span class="keyword">this</span>.<span class="function">once</span>(<span class="string">'complete'</span>, handler);  <span class="comment">// ✅ Auto-removes</span>
+    <span class="keyword">this</span>.<span class="function">emit</span>(<span class="string">'complete'</span>);
+  }
+}
+
+<span class="comment">// 2. GLOBAL VARIABLE LEAK</span>
+
+<span class="comment">// ❌ BAD: Unbounded global array</span>
+<span class="keyword">let</span> allTransactions = [];
+
+<span class="keyword">function</span> <span class="function">recordTransaction</span>(tx) {
+  allTransactions.<span class="function">push</span>(tx);  <span class="comment">// ❌ Grows forever</span>
+}
+
+<span class="comment">// ✅ GOOD: Bounded cache with LRU</span>
+<span class="keyword">const</span> MAX_SIZE = <span class="number">1000</span>;
+<span class="keyword">let</span> recentTransactions = [];
+
+<span class="keyword">function</span> <span class="function">recordTransaction</span>(tx) {
+  recentTransactions.<span class="function">push</span>(tx);
+  <span class="keyword">if</span> (recentTransactions.length > MAX_SIZE) {
+    recentTransactions.<span class="function">shift</span>();  <span class="comment">// ✅ Remove oldest</span>
+  }
+}
+
+<span class="comment">// 3. CLOSURE LEAK</span>
+
+<span class="comment">// ❌ BAD: Closure captures large object</span>
+<span class="keyword">function</span> <span class="function">processLargeDataset</span>(dataset) {  <span class="comment">// 100MB</span>
+  <span class="keyword">return</span> <span class="keyword">function</span> <span class="function">getFirst</span>() {
+    <span class="keyword">return</span> dataset[<span class="number">0</span>];  <span class="comment">// ❌ Keeps entire 100MB</span>
+  };
+}
+
+<span class="comment">// ✅ GOOD: Extract only needed data</span>
+<span class="keyword">function</span> <span class="function">processLargeDataset</span>(dataset) {
+  <span class="keyword">const</span> firstItem = dataset[<span class="number">0</span>];  <span class="comment">// ✅ Extract value</span>
+  <span class="keyword">return</span> <span class="keyword">function</span> <span class="function">getFirst</span>() {
+    <span class="keyword">return</span> firstItem;  <span class="comment">// Only captures firstItem</span>
+  };
+}
+
+<span class="comment">// 4. TIMER LEAK</span>
+
+<span class="comment">// ❌ BAD: Timer never cleared</span>
+<span class="keyword">function</span> <span class="function">startMonitoring</span>() {
+  <span class="function">setInterval</span>(() => {
+    <span class="function">checkHealth</span>();
+  }, <span class="number">1000</span>);  <span class="comment">// ❌ Runs forever</span>
+}
+
+<span class="comment">// ✅ GOOD: Clear timers</span>
+<span class="keyword">function</span> <span class="function">startMonitoring</span>() {
+  <span class="keyword">const</span> intervalId = <span class="function">setInterval</span>(() => {
+    <span class="function">checkHealth</span>();
+  }, <span class="number">1000</span>);
+  
+  <span class="keyword">return</span> () => <span class="function">clearInterval</span>(intervalId);  <span class="comment">// ✅ Cleanup</span>
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q24-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Leak-Free Payment Processor</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q24-2">
+<pre><code><span class="keyword">const</span> EventEmitter = <span class="function">require</span>(<span class="string">'events'</span>);
+
+<span class="keyword">class</span> <span class="function">PaymentProcessor</span> <span class="keyword">extends</span> EventEmitter {
+  constructor() {
+    <span class="keyword">super</span>();
+    <span class="keyword">this</span>.activePayments = <span class="keyword">new</span> <span class="function">Map</span>();
+    <span class="keyword">this</span>.cache = <span class="keyword">new</span> <span class="function">LRUCache</span>(<span class="number">1000</span>);  <span class="comment">// Bounded cache</span>
+    <span class="keyword">this</span>.timers = <span class="keyword">new</span> <span class="function">Set</span>();
+  }
+  
+  <span class="keyword">async</span> <span class="function">processPayment</span>(paymentData) {
+    <span class="keyword">const</span> paymentId = paymentData.id;
+    
+    <span class="comment">// Track active payment</span>
+    <span class="keyword">this</span>.activePayments.<span class="function">set</span>(paymentId, paymentData);
+    
+    <span class="comment">// Set timeout with cleanup</span>
+    <span class="keyword">const</span> timeoutId = <span class="function">setTimeout</span>(() => {
+      <span class="keyword">this</span>.<span class="function">emit</span>(<span class="string">'timeout'</span>, paymentId);
+      <span class="keyword">this</span>.<span class="function">cleanup</span>(paymentId);
+    }, <span class="number">30000</span>);
+    
+    <span class="keyword">this</span>.timers.<span class="function">add</span>(timeoutId);
+    
+    <span class="keyword">try</span> {
+      <span class="comment">// Process payment</span>
+      <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="keyword">this</span>.<span class="function">executePayment</span>(paymentData);
+      
+      <span class="comment">// Cache result (bounded)</span>
+      <span class="keyword">this</span>.cache.<span class="function">set</span>(paymentId, result);
+      
+      <span class="keyword">return</span> result;
+      
+    } <span class="keyword">finally</span> {
+      <span class="comment">// ✅ Always cleanup</span>
+      <span class="function">clearTimeout</span>(timeoutId);
+      <span class="keyword">this</span>.timers.<span class="function">delete</span>(timeoutId);
+      <span class="keyword">this</span>.activePayments.<span class="function">delete</span>(paymentId);
+    }
+  }
+  
+  <span class="function">cleanup</span>(paymentId) {
+    <span class="keyword">this</span>.activePayments.<span class="function">delete</span>(paymentId);
+  }
+  
+  <span class="function">shutdown</span>() {
+    <span class="comment">// Clear all timers</span>
+    <span class="keyword">this</span>.timers.<span class="function">forEach</span>(id => <span class="function">clearTimeout</span>(id));
+    <span class="keyword">this</span>.timers.<span class="function">clear</span>();
+    
+    <span class="comment">// Remove all listeners</span>
+    <span class="keyword">this</span>.<span class="function">removeAllListeners</span>();
+    
+    <span class="comment">// Clear caches</span>
+    <span class="keyword">this</span>.activePayments.<span class="function">clear</span>();
+    <span class="keyword">this</span>.cache.<span class="function">clear</span>();
+  }
+}
+
+<span class="comment">// LRU Cache with bounded size</span>
+<span class="keyword">class</span> <span class="function">LRUCache</span> {
+  constructor(maxSize = <span class="number">100</span>) {
+    <span class="keyword">this</span>.maxSize = maxSize;
+    <span class="keyword">this</span>.cache = <span class="keyword">new</span> <span class="function">Map</span>();
+  }
+  
+  <span class="function">get</span>(key) {
+    <span class="keyword">if</span> (!<span class="keyword">this</span>.cache.<span class="function">has</span>(key)) <span class="keyword">return</span> <span class="keyword">null</span>;
+    
+    <span class="comment">// Move to end (most recently used)</span>
+    <span class="keyword">const</span> value = <span class="keyword">this</span>.cache.<span class="function">get</span>(key);
+    <span class="keyword">this</span>.cache.<span class="function">delete</span>(key);
+    <span class="keyword">this</span>.cache.<span class="function">set</span>(key, value);
+    <span class="keyword">return</span> value;
+  }
+  
+  <span class="function">set</span>(key, value) {
+    <span class="keyword">if</span> (<span class="keyword">this</span>.cache.<span class="function">has</span>(key)) {
+      <span class="keyword">this</span>.cache.<span class="function">delete</span>(key);
+    }
+    
+    <span class="keyword">this</span>.cache.<span class="function">set</span>(key, value);
+    
+    <span class="comment">// ✅ Evict oldest if over limit</span>
+    <span class="keyword">if</span> (<span class="keyword">this</span>.cache.size > <span class="keyword">this</span>.maxSize) {
+      <span class="keyword">const</span> firstKey = <span class="keyword">this</span>.cache.<span class="function">keys</span>().<span class="function">next</span>().value;
+      <span class="keyword">this</span>.cache.<span class="function">delete</span>(firstKey);
+    }
+  }
+  
+  <span class="function">clear</span>() {
+    <span class="keyword">this</span>.cache.<span class="function">clear</span>();
+  }
+}
+
+<span class="comment">// Monitoring memory leaks</span>
+<span class="keyword">function</span> <span class="function">monitorMemory</span>() {
+  <span class="keyword">const</span> initialMemory = process.<span class="function">memoryUsage</span>().heapUsed;
+  
+  <span class="function">setInterval</span>(() => {
+    <span class="keyword">const</span> currentMemory = process.<span class="function">memoryUsage</span>().heapUsed;
+    <span class="keyword">const</span> diff = currentMemory - initialMemory;
+    
+    <span class="keyword">if</span> (diff > <span class="number">100</span> * <span class="number">1024</span> * <span class="number">1024</span>) {  <span class="comment">// 100MB increase</span>
+      console.warn(<span class="string">'⚠️  Potential memory leak detected!'</span>);
+    }
+  }, <span class="number">10000</span>);
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Memory leaks</strong> occur when memory is allocated but never freed</li>
+                                <li><strong>Common causes</strong>: Forgotten event listeners, timers, closures, unbounded caches</li>
+                                <li><strong>Detection</strong>: Use heap snapshots, Chrome DevTools, process.memoryUsage()</li>
+                                <li><strong>Prevention</strong>: Remove listeners, clear timers, bound caches, cleanup in finally</li>
+                                <li><strong>Tools</strong>: --inspect, heapdump, memwatch-next, clinic.js</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use .once() or removeListener() for events</li>
+                                    <li>Clear all timers when done (clearTimeout/clearInterval)</li>
+                                    <li>Implement bounded caches (LRU, FIFO)</li>
+                                    <li>Use WeakMap/WeakSet for objects</li>
+                                    <li>Monitor memory usage in production</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't forget to remove event listeners</li>
+                                    <li>Don't leave timers running indefinitely</li>
+                                    <li>Don't use unbounded global caches</li>
+                                    <li>Don't capture large objects in closures</li>
+                                    <li>Don't ignore increasing memory usage</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 25: Performance Profiling -->
+            <div class="question-node" id="q25">
+                <div class="question-header" onclick="toggleQuestion('q25')">
+                    <div>
+                        <span class="question-number">Q25</span>
+                        <span class="question-title">Performance Profiling with Chrome DevTools</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔍 --inspect Flag</h3>
+                                <p>Enable V8 Inspector for Chrome DevTools</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔥 Flame Graphs</h3>
+                                <p>Visualize function call stacks and CPU time</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📊 CPU Profiler</h3>
+                                <p>Identify hot paths and bottlenecks</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚡ Optimization</h3>
+                                <p>Fix slow functions, improve algorithms</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q25-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Profiling with --inspect</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q25-1">
+<pre><code><span class="comment">// Start Node.js with --inspect flag</span>
+<span class="comment">// node --inspect server.js</span>
+<span class="comment">// node --inspect-brk app.js  (break before code starts)</span>
+
+<span class="comment">// Then open Chrome DevTools:</span>
+<span class="comment">// chrome://inspect → Open dedicated DevTools</span>
+
+<span class="comment">// SLOW API Example - Before Optimization</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+
+<span class="comment">// ❌ SLOW: O(n) scan for every request</span>
+<span class="keyword">const</span> transactions = [];
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">100000</span>; i++) {
+  transactions.<span class="function">push</span>({
+    id: <span class="string">`TXN<span class="keyword">${i}</span>`</span>,
+    accountId: <span class="string">`ACC<span class="keyword">${i % 1000}</span>`</span>,
+    amount: Math.<span class="function">random</span>() * <span class="number">1000</span>
+  });
+}
+
+<span class="comment">// SLOW endpoint</span>
+app.<span class="function">get</span>(<span class="string">'/api/account/:id/transactions'</span>, (req, res) => {
+  <span class="keyword">const</span> accountId = req.params.id;
+  
+  <span class="comment">// ❌ O(n) - Scans all 100k transactions</span>
+  <span class="keyword">const</span> result = transactions.<span class="function">filter</span>(
+    tx => tx.accountId === accountId
+  );
+  
+  res.<span class="function">json</span>(result);
+});
+
+<span class="comment">// Profiling workflow:</span>
+<span class="comment">// 1. Start: node --inspect server.js</span>
+<span class="comment">// 2. Open Chrome DevTools</span>
+<span class="comment">// 3. Go to Profiler tab → Start Recording</span>
+<span class="comment">// 4. Generate load: ab -n 1000 -c 10 http://localhost:3000/api/account/ACC500/transactions</span>
+<span class="comment">// 5. Stop Recording → Analyze flame graph</span>
+
+<span class="comment">// Flame graph will show:</span>
+<span class="comment">// - filter() taking 80% of CPU time</span>
+<span class="comment">// - Most time in comparison operations</span>
+
+<span class="comment">// Built-in profiler (alternative)</span>
+<span class="comment">// node --prof server.js</span>
+<span class="comment">// (Run load tests)</span>
+<span class="comment">// node --prof-process isolate-*.log > profile.txt</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q25-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Optimized Transaction API</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q25-2">
+<pre><code><span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+
+<span class="comment">// ✅ FAST: Pre-indexed by accountId (O(1) lookup)</span>
+<span class="keyword">const</span> transactionsByAccount = <span class="keyword">new</span> <span class="function">Map</span>();
+
+<span class="comment">// Build index once at startup</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">100000</span>; i++) {
+  <span class="keyword">const</span> accountId = <span class="string">`ACC<span class="keyword">${i % 1000}</span>`</span>;
+  <span class="keyword">const</span> transaction = {
+    id: <span class="string">`TXN<span class="keyword">${i}</span>`</span>,
+    accountId,
+    amount: Math.<span class="function">random</span>() * <span class="number">1000</span>
+  };
+  
+  <span class="keyword">if</span> (!transactionsByAccount.<span class="function">has</span>(accountId)) {
+    transactionsByAccount.<span class="function">set</span>(accountId, []);
+  }
+  transactionsByAccount.<span class="function">get</span>(accountId).<span class="function">push</span>(transaction);
+}
+
+<span class="comment">// FAST endpoint - O(1) lookup</span>
+app.<span class="function">get</span>(<span class="string">'/api/account/:id/transactions'</span>, (req, res) => {
+  <span class="keyword">const</span> accountId = req.params.id;
+  
+  <span class="comment">// ✅ O(1) - Direct Map lookup</span>
+  <span class="keyword">const</span> result = transactionsByAccount.<span class="function">get</span>(accountId) || [];
+  
+  res.<span class="function">json</span>(result);
+});
+
+<span class="comment">// Caching for expensive calculations</span>
+<span class="keyword">const</span> balanceCache = <span class="keyword">new</span> <span class="function">Map</span>();
+
+app.<span class="function">get</span>(<span class="string">'/api/account/:id/balance'</span>, (req, res) => {
+  <span class="keyword">const</span> accountId = req.params.id;
+  
+  <span class="comment">// Check cache first</span>
+  <span class="keyword">if</span> (balanceCache.<span class="function">has</span>(accountId)) {
+    <span class="keyword">return</span> res.<span class="function">json</span>({ 
+      balance: balanceCache.<span class="function">get</span>(accountId),
+      cached: <span class="keyword">true</span>
+    });
+  }
+  
+  <span class="comment">// Calculate balance</span>
+  <span class="keyword">const</span> transactions = transactionsByAccount.<span class="function">get</span>(accountId) || [];
+  <span class="keyword">const</span> balance = transactions.<span class="function">reduce</span>((sum, tx) => sum + tx.amount, <span class="number">0</span>);
+  
+  <span class="comment">// Cache for 60 seconds</span>
+  balanceCache.<span class="function">set</span>(accountId, balance);
+  <span class="function">setTimeout</span>(() => balanceCache.<span class="function">delete</span>(accountId), <span class="number">60000</span>);
+  
+  res.<span class="function">json</span>({ balance, cached: <span class="keyword">false</span> });
+});
+
+<span class="comment">// Performance benchmarking</span>
+<span class="keyword">function</span> <span class="function">benchmark</span>(name, fn) {
+  <span class="keyword">const</span> start = process.<span class="function">hrtime</span>.bigint();
+  <span class="function">fn</span>();
+  <span class="keyword">const</span> end = process.<span class="function">hrtime</span>.bigint();
+  <span class="keyword">const</span> duration = <span class="function">Number</span>(end - start) / <span class="number">1000000</span>; <span class="comment">// Convert to ms</span>
+  console.log(<span class="string">`<span class="keyword">${name}</span>: <span class="keyword">${duration.toFixed(2)}</span>ms`</span>);
+}
+
+<span class="comment">// Compare SLOW vs FAST</span>
+<span class="function">benchmark</span>(<span class="string">'Slow filter'</span>, () => {
+  <span class="comment">// O(n) scan</span>
+  <span class="keyword">const</span> result = transactions.<span class="function">filter</span>(tx => tx.accountId === <span class="string">'ACC500'</span>);
+});
+
+<span class="function">benchmark</span>(<span class="string">'Fast lookup'</span>, () => {
+  <span class="comment">// O(1) lookup</span>
+  <span class="keyword">const</span> result = transactionsByAccount.<span class="function">get</span>(<span class="string">'ACC500'</span>);
+});
+
+<span class="comment">// Output:</span>
+<span class="comment">// Slow filter: 15.42ms</span>
+<span class="comment">// Fast lookup: 0.03ms  ← 500x faster!</span>
+
+app.<span class="function">listen</span>(<span class="number">3000</span>, () => {
+  console.log(<span class="string">'Optimized API running on port 3000'</span>);
+});</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>--inspect flag</strong> enables Chrome DevTools for profiling Node.js apps</li>
+                                <li><strong>CPU profiler</strong> identifies functions consuming the most time (hot paths)</li>
+                                <li><strong>Flame graphs</strong> visualize call stacks and help find bottlenecks</li>
+                                <li><strong>Optimize algorithms</strong>: O(n) → O(1) with proper data structures</li>
+                                <li><strong>Cache expensive</strong> calculations to avoid repeated work</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Profile with realistic production workloads</li>
+                                    <li>Use --inspect and Chrome DevTools for visual profiling</li>
+                                    <li>Index data structures for O(1) lookups (Map, Set)</li>
+                                    <li>Cache expensive calculations with TTL</li>
+                                    <li>Benchmark before and after optimizations</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't optimize without profiling first</li>
+                                    <li>Don't use O(n) scans when O(1) is possible</li>
+                                    <li>Don't profile in development mode (different JIT)</li>
+                                    <li>Don't ignore hot paths shown in flame graphs</li>
+                                    <li>Don't sacrifice readability for micro-optimizations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 26: V8 Optimization Techniques -->
+            <div class="question-node" id="q26">
+                <div class="question-header" onclick="toggleQuestion('q26')">
+                    <div>
+                        <span class="question-number">Q26</span>
+                        <span class="question-title">V8 Optimization Techniques</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🎯 Hidden Classes</h3>
+                                <p>V8 shapes for object optimization</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚡ Inline Caching</h3>
+                                <p>Fast property access via caching</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🚫 Optimization Killers</h3>
+                                <p>try-catch, eval, arguments, delete</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔄 Monomorphic Functions</h3>
+                                <p>Same types = faster execution</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q26-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Hidden Classes & Optimization Killers</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q26-1">
+<pre><code><span class="comment">// HIDDEN CLASSES (Object Shapes)</span>
+
+<span class="comment">// ❌ BAD: Different hidden classes</span>
+<span class="keyword">const</span> obj1 = { a: <span class="number">1</span> };
+obj1.b = <span class="number">2</span>;  <span class="comment">// Changes shape</span>
+
+<span class="keyword">const</span> obj2 = { b: <span class="number">2</span> };
+obj2.a = <span class="number">1</span>;  <span class="comment">// Different property order = different shape</span>
+
+<span class="comment">// ✅ GOOD: Same hidden class</span>
+<span class="keyword">const</span> obj1 = { a: <span class="number">1</span>, b: <span class="number">2</span> };
+<span class="keyword">const</span> obj2 = { a: <span class="number">3</span>, b: <span class="number">4</span> };  <span class="comment">// Same shape = optimized</span>
+
+<span class="comment">// MONOMORPHIC vs MEGAMORPHIC</span>
+
+<span class="comment">// ✅ Monomorphic (fast)</span>
+<span class="keyword">function</span> <span class="function">getBalance</span>(account) {
+  <span class="keyword">return</span> account.balance;
+}
+
+getBalance({ id: <span class="number">1</span>, balance: <span class="number">100</span> });
+getBalance({ id: <span class="number">2</span>, balance: <span class="number">200</span> });  <span class="comment">// Same shape</span>
+
+<span class="comment">// ❌ Megamorphic (slow) - 5+ different shapes</span>
+getBalance({ balance: <span class="number">100</span> });
+getBalance({ name: <span class="string">'John'</span>, balance: <span class="number">200</span> });
+getBalance({ id: <span class="number">3</span>, type: <span class="string">'savings'</span>, balance: <span class="number">300</span> });
+getBalance({ balance: <span class="number">400</span>, status: <span class="string">'active'</span> });
+getBalance({ balance: <span class="number">500</span>, branch: <span class="string">'NYC'</span> });
+
+<span class="comment">// OPTIMIZATION KILLERS</span>
+
+<span class="comment">// ❌ BAD: try-catch in function</span>
+<span class="keyword">function</span> <span class="function">processTransaction</span>(txn) {
+  <span class="keyword">try</span> {
+    <span class="keyword">return</span> txn.amount * <span class="number">1.02</span>;
+  } <span class="keyword">catch</span> (e) {
+    <span class="keyword">return</span> <span class="number">0</span>;
+  }
+}
+
+<span class="comment">// ✅ GOOD: Wrap in separate function</span>
+<span class="keyword">function</span> <span class="function">calculateAmount</span>(txn) {
+  <span class="keyword">return</span> txn.amount * <span class="number">1.02</span>;
+}
+
+<span class="keyword">function</span> <span class="function">processTransaction</span>(txn) {
+  <span class="keyword">try</span> {
+    <span class="keyword">return</span> <span class="function">calculateAmount</span>(txn);
+  } <span class="keyword">catch</span> (e) {
+    <span class="keyword">return</span> <span class="number">0</span>;
+  }
+}
+
+<span class="comment">// ❌ BAD: Using arguments</span>
+<span class="keyword">function</span> <span class="function">sum</span>() {
+  <span class="keyword">let</span> total = <span class="number">0</span>;
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < arguments.length; i++) {
+    total += arguments[i];
+  }
+  <span class="keyword">return</span> total;
+}
+
+<span class="comment">// ✅ GOOD: Use rest parameters</span>
+<span class="keyword">function</span> <span class="function">sum</span>(...numbers) {
+  <span class="keyword">return</span> numbers.<span class="function">reduce</span>((a, b) => a + b, <span class="number">0</span>);
+}
+
+<span class="comment">// ❌ BAD: Deleting properties</span>
+<span class="keyword">const</span> obj = { a: <span class="number">1</span>, b: <span class="number">2</span>, c: <span class="number">3</span> };
+<span class="keyword">delete</span> obj.c;  <span class="comment">// Deoptimizes!</span>
+
+<span class="comment">// ✅ GOOD: Set to undefined/null</span>
+<span class="keyword">const</span> obj = { a: <span class="number">1</span>, b: <span class="number">2</span>, c: <span class="number">3</span> };
+obj.c = <span class="keyword">undefined</span>;  <span class="comment">// Keeps shape</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q26-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Optimized Account Processing</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q26-2">
+<pre><code><span class="comment">// Account class with consistent shapes</span>
+<span class="keyword">class</span> <span class="function">Account</span> {
+  constructor(id, balance, type) {
+    <span class="comment">// Always initialize ALL properties in same order</span>
+    <span class="keyword">this</span>.id = id;
+    <span class="keyword">this</span>.balance = balance;
+    <span class="keyword">this</span>.type = type;
+    <span class="keyword">this</span>.status = <span class="string">'active'</span>;
+    <span class="keyword">this</span>.lastUpdated = <span class="keyword">null</span>;
+  }
+  
+  <span class="function">updateBalance</span>(amount) {
+    <span class="keyword">this</span>.balance += amount;
+    <span class="keyword">this</span>.lastUpdated = <span class="keyword">new</span> <span class="function">Date</span>();
+  }
+}
+
+<span class="comment">// ✅ All accounts have same hidden class</span>
+<span class="keyword">const</span> accounts = [
+  <span class="keyword">new</span> <span class="function">Account</span>(<span class="string">'ACC1'</span>, <span class="number">1000</span>, <span class="string">'savings'</span>),
+  <span class="keyword">new</span> <span class="function">Account</span>(<span class="string">'ACC2'</span>, <span class="number">2000</span>, <span class="string">'checking'</span>),
+  <span class="keyword">new</span> <span class="function">Account</span>(<span class="string">'ACC3'</span>, <span class="number">3000</span>, <span class="string">'savings'</span>)
+];
+
+<span class="comment">// Monomorphic function (always receives Account objects)</span>
+<span class="keyword">function</span> <span class="function">calculateInterest</span>(account) {
+  <span class="keyword">return</span> account.balance * <span class="number">0.05</span>;
+}
+
+<span class="comment">// Fast array operations (consistent types)</span>
+<span class="keyword">const</span> balances = [<span class="number">1000</span>, <span class="number">2000</span>, <span class="number">3000</span>];  <span class="comment">// SMI array (fast)</span>
+balances.<span class="function">push</span>(<span class="number">4000</span>);  <span class="comment">// Still SMI array</span>
+
+<span class="comment">// ❌ Avoid mixing types</span>
+<span class="keyword">const</span> badArray = [<span class="number">1000</span>, <span class="number">2000</span>, <span class="string">'3000'</span>];  <span class="comment">// Mixed types = slow</span>
+
+<span class="comment">// Transaction processor with optimized patterns</span>
+<span class="keyword">class</span> <span class="function">TransactionProcessor</span> {
+  <span class="function">processDebit</span>(account, amount) {
+    <span class="comment">// Small focused function (easier to optimize)</span>
+    <span class="keyword">if</span> (account.balance >= amount) {
+      account.balance -= amount;
+      <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+  }
+  
+  <span class="function">processCredit</span>(account, amount) {
+    account.balance += amount;
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+  }
+  
+  <span class="function">processBatch</span>(transactions) {
+    <span class="comment">// Use for-of instead of for-in</span>
+    <span class="keyword">for</span> (<span class="keyword">const</span> txn <span class="keyword">of</span> transactions) {
+      <span class="keyword">if</span> (txn.type === <span class="string">'debit'</span>) {
+        <span class="keyword">this</span>.<span class="function">processDebit</span>(txn.account, txn.amount);
+      } <span class="keyword">else</span> {
+        <span class="keyword">this</span>.<span class="function">processCredit</span>(txn.account, txn.amount);
+      }
+    }
+  }
+}
+
+<span class="comment">// Consistent transaction objects</span>
+<span class="keyword">function</span> <span class="function">createTransaction</span>(type, account, amount) {
+  <span class="keyword">return</span> {
+    type,
+    account,
+    amount,
+    timestamp: <span class="keyword">Date</span>.<span class="function">now</span>(),
+    status: <span class="string">'pending'</span>
+  };
+}
+
+<span class="comment">// All transactions have same shape</span>
+<span class="keyword">const</span> transactions = [
+  <span class="function">createTransaction</span>(<span class="string">'debit'</span>, accounts[<span class="number">0</span>], <span class="number">100</span>),
+  <span class="function">createTransaction</span>(<span class="string">'credit'</span>, accounts[<span class="number">1</span>], <span class="number">200</span>),
+  <span class="function">createTransaction</span>(<span class="string">'debit'</span>, accounts[<span class="number">2</span>], <span class="number">150</span>)
+];</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Hidden classes</strong>: Initialize all properties in constructor, same order</li>
+                                <li><strong>Monomorphic</strong> functions (same types) are 10x faster than megamorphic</li>
+                                <li><strong>Avoid</strong>: try-catch in functions, arguments, delete, eval, with</li>
+                                <li><strong>Consistent shapes</strong>: Use classes or factory functions for objects</li>
+                                <li><strong>Small functions</strong>: Easier for V8 to optimize than large functions</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Initialize all properties in constructor</li>
+                                    <li>Keep same property order across objects</li>
+                                    <li>Use rest parameters (...args) instead of arguments</li>
+                                    <li>Keep functions monomorphic (same types)</li>
+                                    <li>Write small, focused functions</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't use try-catch inside hot functions</li>
+                                    <li>Don't delete object properties</li>
+                                    <li>Don't use eval or with statements</li>
+                                    <li>Don't add properties after object creation</li>
+                                    <li>Don't mix types in arrays or function parameters</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 27: Authentication (JWT & OAuth) -->
+            <div class="question-node" id="q27">
+                <div class="question-header" onclick="toggleQuestion('q27')">
+                    <div>
+                        <span class="question-number">Q27</span>
+                        <span class="question-title">Authentication - JWT & OAuth</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔐 JWT Tokens</h3>
+                                <p>Stateless authentication with signed tokens</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔑 bcrypt Hashing</h3>
+                                <p>Secure password storage with adaptive hashing</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🌐 OAuth 2.0</h3>
+                                <p>Delegated authorization flows</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🛡️ Security Best Practices</h3>
+                                <p>HTTPS, httpOnly cookies, token expiration</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q27-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>JWT & bcrypt Basics</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q27-1">
+<pre><code><span class="keyword">const</span> jwt = <span class="function">require</span>(<span class="string">'jsonwebtoken'</span>);
+<span class="keyword">const</span> bcrypt = <span class="function">require</span>(<span class="string">'bcrypt'</span>);
+
+<span class="comment">// JWT Structure: Header.Payload.Signature</span>
+<span class="comment">// Header: { "alg": "HS256", "typ": "JWT" }</span>
+<span class="comment">// Payload: { "userId": 123, "role": "customer" }</span>
+<span class="comment">// Signature: HMACSHA256(header + payload, secret)</span>
+
+<span class="comment">// Generate JWT token</span>
+<span class="keyword">function</span> <span class="function">generateAccessToken</span>(userId, role) {
+  <span class="keyword">const</span> payload = {
+    userId,
+    role,
+    iat: <span class="keyword">Date</span>.<span class="function">now</span>()
+  };
+  
+  <span class="keyword">return</span> jwt.<span class="function">sign</span>(payload, process.env.JWT_SECRET, {
+    expiresIn: <span class="string">'15m'</span>  <span class="comment">// Short-lived access token</span>
+  });
+}
+
+<span class="comment">// Verify JWT token</span>
+<span class="keyword">function</span> <span class="function">verifyAccessToken</span>(token) {
+  <span class="keyword">try</span> {
+    <span class="keyword">return</span> jwt.<span class="function">verify</span>(token, process.env.JWT_SECRET);
+  } <span class="keyword">catch</span> (error) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Invalid token'</span>);
+  }
+}
+
+<span class="comment">// Password hashing with bcrypt</span>
+<span class="keyword">async function</span> <span class="function">hashPassword</span>(plainPassword) {
+  <span class="keyword">const</span> saltRounds = <span class="number">12</span>;  <span class="comment">// 2^12 = 4096 iterations (~260ms)</span>
+  <span class="keyword">return</span> <span class="keyword">await</span> bcrypt.<span class="function">hash</span>(plainPassword, saltRounds);
+}
+
+<span class="comment">// Verify password</span>
+<span class="keyword">async function</span> <span class="function">verifyPassword</span>(plainPassword, hashedPassword) {
+  <span class="keyword">return</span> <span class="keyword">await</span> bcrypt.<span class="function">compare</span>(plainPassword, hashedPassword);
+}
+
+<span class="comment">// Authentication middleware</span>
+<span class="keyword">function</span> <span class="function">authenticateToken</span>(req, res, next) {
+  <span class="keyword">const</span> authHeader = req.headers[<span class="string">'authorization'</span>];
+  <span class="keyword">const</span> token = authHeader && authHeader.<span class="function">split</span>(<span class="string">' '</span>)[<span class="number">1</span>];
+  
+  <span class="keyword">if</span> (!token) {
+    <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">401</span>).<span class="function">json</span>({ error: <span class="string">'Access token required'</span> });
+  }
+  
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> decoded = <span class="function">verifyAccessToken</span>(token);
+    req.user = decoded;
+    <span class="function">next</span>();
+  } <span class="keyword">catch</span> (error) {
+    <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">403</span>).<span class="function">json</span>({ error: <span class="string">'Invalid or expired token'</span> });
+  }
+}
+
+<span class="comment">// Role-based authorization</span>
+<span class="keyword">function</span> <span class="function">authorizeRole</span>(...allowedRoles) {
+  <span class="keyword">return</span> (req, res, next) => {
+    <span class="keyword">if</span> (!allowedRoles.<span class="function">includes</span>(req.user.role)) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">403</span>).<span class="function">json</span>({ error: <span class="string">'Insufficient permissions'</span> });
+    }
+    <span class="function">next</span>();
+  };
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q27-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Complete Auth System</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q27-2">
+<pre><code><span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="comment">// Registration endpoint</span>
+app.<span class="function">post</span>(<span class="string">'/api/auth/register'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> { username, password, email } = req.body;
+    
+    <span class="comment">// Validate password strength</span>
+    <span class="keyword">if</span> (password.length < <span class="number">8</span>) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">400</span>).<span class="function">json</span>({ error: <span class="string">'Password too short'</span> });
+    }
+    
+    <span class="comment">// Hash password</span>
+    <span class="keyword">const</span> hashedPassword = <span class="keyword">await</span> <span class="function">hashPassword</span>(password);
+    
+    <span class="comment">// Save to database</span>
+    <span class="keyword">const</span> user = <span class="keyword">await</span> db.<span class="function">createUser</span>({ username, email, hashedPassword });
+    
+    res.<span class="function">json</span>({ message: <span class="string">'User registered successfully'</span>, userId: user.id });
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: error.message });
+  }
+});
+
+<span class="comment">// Login endpoint</span>
+app.<span class="function">post</span>(<span class="string">'/api/auth/login'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> { username, password } = req.body;
+    
+    <span class="comment">// Find user</span>
+    <span class="keyword">const</span> user = <span class="keyword">await</span> db.<span class="function">findUserByUsername</span>(username);
+    <span class="keyword">if</span> (!user) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">401</span>).<span class="function">json</span>({ error: <span class="string">'Invalid credentials'</span> });
+    }
+    
+    <span class="comment">// Verify password</span>
+    <span class="keyword">const</span> isValid = <span class="keyword">await</span> <span class="function">verifyPassword</span>(password, user.hashedPassword);
+    <span class="keyword">if</span> (!isValid) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">401</span>).<span class="function">json</span>({ error: <span class="string">'Invalid credentials'</span> });
+    }
+    
+    <span class="comment">// Generate tokens</span>
+    <span class="keyword">const</span> accessToken = <span class="function">generateAccessToken</span>(user.id, user.role);
+    <span class="keyword">const</span> refreshToken = <span class="function">generateRefreshToken</span>(user.id);
+    
+    <span class="comment">// Save refresh token</span>
+    <span class="keyword">await</span> db.<span class="function">saveRefreshToken</span>(user.id, refreshToken);
+    
+    res.<span class="function">json</span>({ accessToken, refreshToken });
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: error.message });
+  }
+});
+
+<span class="comment">// Protected endpoint - Get account balance</span>
+app.<span class="function">get</span>(<span class="string">'/api/accounts/:id/balance'</span>, 
+  authenticateToken,
+  <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">try</span> {
+      <span class="keyword">const</span> accountId = req.params.id;
+      
+      <span class="comment">// Verify ownership</span>
+      <span class="keyword">const</span> account = <span class="keyword">await</span> db.<span class="function">findAccount</span>(accountId);
+      <span class="keyword">if</span> (account.userId !== req.user.userId) {
+        <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">403</span>).<span class="function">json</span>({ error: <span class="string">'Access denied'</span> });
+      }
+      
+      res.<span class="function">json</span>({ balance: account.balance });
+    } <span class="keyword">catch</span> (error) {
+      res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: error.message });
+    }
+});
+
+<span class="comment">// Admin-only endpoint</span>
+app.<span class="function">get</span>(<span class="string">'/api/admin/users'</span>,
+  authenticateToken,
+  <span class="function">authorizeRole</span>(<span class="string">'admin'</span>),
+  <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">const</span> users = <span class="keyword">await</span> db.<span class="function">getAllUsers</span>();
+    res.<span class="function">json</span>(users);
+});
+
+<span class="comment">// Refresh token endpoint</span>
+app.<span class="function">post</span>(<span class="string">'/api/auth/refresh'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">const</span> { refreshToken } = req.body;
+  
+  <span class="keyword">if</span> (!refreshToken) {
+    <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">401</span>).<span class="function">json</span>({ error: <span class="string">'Refresh token required'</span> });
+  }
+  
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> decoded = <span class="function">verifyRefreshToken</span>(refreshToken);
+    <span class="keyword">const</span> newAccessToken = <span class="function">generateAccessToken</span>(decoded.userId, decoded.role);
+    
+    res.<span class="function">json</span>({ accessToken: newAccessToken });
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">403</span>).<span class="function">json</span>({ error: <span class="string">'Invalid refresh token'</span> });
+  }
+});
+
+app.<span class="function">listen</span>(<span class="number">3000</span>);</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>JWT</strong>: Stateless tokens with Header.Payload.Signature structure</li>
+                                <li><strong>bcrypt</strong>: Adaptive hashing for passwords (cost factor ≥ 12)</li>
+                                <li><strong>Access tokens</strong>: Short-lived (15 min), used for API requests</li>
+                                <li><strong>Refresh tokens</strong>: Long-lived (7 days), used to get new access tokens</li>
+                                <li><strong>Never</strong> store plain passwords, use HTTPS, httpOnly cookies</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use bcrypt/argon2 for password hashing</li>
+                                    <li>Implement short-lived access tokens (15 min)</li>
+                                    <li>Use HTTPS for all authentication endpoints</li>
+                                    <li>Store JWT secret securely (env variables)</li>
+                                    <li>Implement rate limiting on login endpoints</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't store passwords in plain text</li>
+                                    <li>Don't use simple hashing (MD5, SHA1)</li>
+                                    <li>Don't store sensitive data in JWT payload</li>
+                                    <li>Don't use long-lived access tokens</li>
+                                    <li>Don't forget to validate token expiration</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 28: Data Protection & Encryption -->
+            <div class="question-node" id="q28">
+                <div class="question-header" onclick="toggleQuestion('q28')">
+                    <div>
+                        <span class="question-number">Q28</span>
+                        <span class="question-title">Data Protection & Encryption</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔐 AES-256 Encryption</h3>
+                                <p>Symmetric encryption for sensitive data</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔑 RSA Encryption</h3>
+                                <p>Asymmetric encryption for key exchange</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🌐 HTTPS/TLS</h3>
+                                <p>Secure data transmission</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>💳 PCI-DSS Compliance</h3>
+                                <p>Protecting payment card data</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q28-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>AES-256-GCM Encryption</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q28-1">
+<pre><code><span class="keyword">const</span> crypto = <span class="function">require</span>(<span class="string">'crypto'</span>);
+
+<span class="comment">// AES-256-GCM encryption (industry standard)</span>
+<span class="keyword">class</span> <span class="function">EncryptionService</span> {
+  constructor() {
+    <span class="comment">// 256-bit key (64 hex characters)</span>
+    <span class="keyword">this</span>.algorithm = <span class="string">'aes-256-gcm'</span>;
+    <span class="keyword">this</span>.key = Buffer.<span class="function">from</span>(process.env.ENCRYPTION_KEY, <span class="string">'hex'</span>);
+  }
+  
+  <span class="comment">// Encrypt sensitive data</span>
+  <span class="function">encrypt</span>(plaintext) {
+    <span class="comment">// Generate random IV (Initialization Vector)</span>
+    <span class="keyword">const</span> iv = crypto.<span class="function">randomBytes</span>(<span class="number">16</span>);
+    
+    <span class="comment">// Create cipher</span>
+    <span class="keyword">const</span> cipher = crypto.<span class="function">createCipheriv</span>(<span class="keyword">this</span>.algorithm, <span class="keyword">this</span>.key, iv);
+    
+    <span class="comment">// Encrypt data</span>
+    <span class="keyword">let</span> encrypted = cipher.<span class="function">update</span>(plaintext, <span class="string">'utf8'</span>, <span class="string">'hex'</span>);
+    encrypted += cipher.<span class="function">final</span>(<span class="string">'hex'</span>);
+    
+    <span class="comment">// Get authentication tag</span>
+    <span class="keyword">const</span> authTag = cipher.<span class="function">getAuthTag</span>();
+    
+    <span class="comment">// Return iv + authTag + encrypted data</span>
+    <span class="keyword">return</span> {
+      iv: iv.<span class="function">toString</span>(<span class="string">'hex'</span>),
+      authTag: authTag.<span class="function">toString</span>(<span class="string">'hex'</span>),
+      encrypted
+    };
+  }
+  
+  <span class="comment">// Decrypt encrypted data</span>
+  <span class="function">decrypt</span>(encryptedData) {
+    <span class="keyword">const</span> { iv, authTag, encrypted } = encryptedData;
+    
+    <span class="comment">// Create decipher</span>
+    <span class="keyword">const</span> decipher = crypto.<span class="function">createDecipheriv</span>(
+      <span class="keyword">this</span>.algorithm,
+      <span class="keyword">this</span>.key,
+      Buffer.<span class="function">from</span>(iv, <span class="string">'hex'</span>)
+    );
+    
+    <span class="comment">// Set auth tag</span>
+    decipher.<span class="function">setAuthTag</span>(Buffer.<span class="function">from</span>(authTag, <span class="string">'hex'</span>));
+    
+    <span class="comment">// Decrypt</span>
+    <span class="keyword">let</span> decrypted = decipher.<span class="function">update</span>(encrypted, <span class="string">'hex'</span>, <span class="string">'utf8'</span>);
+    decrypted += decipher.<span class="function">final</span>(<span class="string">'utf8'</span>);
+    
+    <span class="keyword">return</span> decrypted;
+  }
+}
+
+<span class="comment">// Usage example</span>
+<span class="keyword">const</span> encryptionService = <span class="keyword">new</span> <span class="function">EncryptionService</span>();
+
+<span class="comment">// Encrypt credit card number</span>
+<span class="keyword">const</span> cardNumber = <span class="string">'4532-1234-5678-9010'</span>;
+<span class="keyword">const</span> encrypted = encryptionService.<span class="function">encrypt</span>(cardNumber);
+console.log(<span class="string">'Encrypted:'</span>, encrypted);
+
+<span class="comment">// Decrypt credit card number</span>
+<span class="keyword">const</span> decrypted = encryptionService.<span class="function">decrypt</span>(encrypted);
+console.log(<span class="string">'Decrypted:'</span>, decrypted);  <span class="comment">// '4532-1234-5678-9010'</span>
+
+<span class="comment">// Generate encryption key (one-time setup)</span>
+<span class="keyword">const</span> key = crypto.<span class="function">randomBytes</span>(<span class="number">32</span>).<span class="function">toString</span>(<span class="string">'hex'</span>);
+console.log(<span class="string">'ENCRYPTION_KEY='</span>, key);  <span class="comment">// Save to .env</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q28-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Secure Customer Data Storage</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q28-2">
+<pre><code><span class="keyword">const</span> crypto = <span class="function">require</span>(<span class="string">'crypto'</span>);
+
+<span class="comment">// Banking encryption service for PII data</span>
+<span class="keyword">class</span> <span class="function">BankingEncryption</span> {
+  constructor() {
+    <span class="keyword">this</span>.algorithm = <span class="string">'aes-256-gcm'</span>;
+    <span class="keyword">this</span>.masterKey = Buffer.<span class="function">from</span>(process.env.MASTER_KEY, <span class="string">'hex'</span>);
+  }
+  
+  <span class="comment">// Encrypt SSN (Social Security Number)</span>
+  <span class="function">encryptSSN</span>(ssn) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.<span class="function">encrypt</span>(ssn);
+  }
+  
+  <span class="comment">// Encrypt account number</span>
+  <span class="function">encryptAccountNumber</span>(accountNumber) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.<span class="function">encrypt</span>(accountNumber);
+  }
+  
+  <span class="comment">// Encrypt credit card</span>
+  <span class="function">encryptCreditCard</span>(cardNumber) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.<span class="function">encrypt</span>(cardNumber);
+  }
+  
+  <span class="function">encrypt</span>(plaintext) {
+    <span class="keyword">const</span> iv = crypto.<span class="function">randomBytes</span>(<span class="number">16</span>);
+    <span class="keyword">const</span> cipher = crypto.<span class="function">createCipheriv</span>(<span class="keyword">this</span>.algorithm, <span class="keyword">this</span>.masterKey, iv);
+    
+    <span class="keyword">let</span> encrypted = cipher.<span class="function">update</span>(plaintext, <span class="string">'utf8'</span>, <span class="string">'base64'</span>);
+    encrypted += cipher.<span class="function">final</span>(<span class="string">'base64'</span>);
+    
+    <span class="keyword">const</span> authTag = cipher.<span class="function">getAuthTag</span>();
+    
+    <span class="comment">// Combine iv + authTag + encrypted</span>
+    <span class="keyword">const</span> combined = Buffer.<span class="function">concat</span>([
+      iv,
+      authTag,
+      Buffer.<span class="function">from</span>(encrypted, <span class="string">'base64'</span>)
+    ]);
+    
+    <span class="keyword">return</span> combined.<span class="function">toString</span>(<span class="string">'base64'</span>);
+  }
+  
+  <span class="function">decrypt</span>(encryptedData) {
+    <span class="keyword">const</span> buffer = Buffer.<span class="function">from</span>(encryptedData, <span class="string">'base64'</span>);
+    
+    <span class="comment">// Extract components</span>
+    <span class="keyword">const</span> iv = buffer.<span class="function">slice</span>(<span class="number">0</span>, <span class="number">16</span>);
+    <span class="keyword">const</span> authTag = buffer.<span class="function">slice</span>(<span class="number">16</span>, <span class="number">32</span>);
+    <span class="keyword">const</span> encrypted = buffer.<span class="function">slice</span>(<span class="number">32</span>);
+    
+    <span class="keyword">const</span> decipher = crypto.<span class="function">createDecipheriv</span>(<span class="keyword">this</span>.algorithm, <span class="keyword">this</span>.masterKey, iv);
+    decipher.<span class="function">setAuthTag</span>(authTag);
+    
+    <span class="keyword">let</span> decrypted = decipher.<span class="function">update</span>(encrypted);
+    decrypted = Buffer.<span class="function">concat</span>([decrypted, decipher.<span class="function">final</span>()]);
+    
+    <span class="keyword">return</span> decrypted.<span class="function">toString</span>(<span class="string">'utf8'</span>);
+  }
+}
+
+<span class="comment">// Customer data model with encryption</span>
+<span class="keyword">class</span> <span class="function">Customer</span> {
+  constructor(data) {
+    <span class="keyword">this</span>.encryption = <span class="keyword">new</span> <span class="function">BankingEncryption</span>();
+    <span class="keyword">this</span>.id = data.id;
+    <span class="keyword">this</span>.name = data.name;  <span class="comment">// Not encrypted</span>
+    <span class="keyword">this</span>.email = data.email;  <span class="comment">// Not encrypted</span>
+    
+    <span class="comment">// Encrypt sensitive data</span>
+    <span class="keyword">this</span>.ssnEncrypted = <span class="keyword">this</span>.encryption.<span class="function">encryptSSN</span>(data.ssn);
+    <span class="keyword">this</span>.accountNumberEncrypted = <span class="keyword">this</span>.encryption.<span class="function">encryptAccountNumber</span>(data.accountNumber);
+  }
+  
+  <span class="comment">// Get decrypted SSN (audit logged)</span>
+  <span class="function">getSSN</span>(requestedBy) {
+    <span class="function">auditLog</span>(<span class="string">'SSN_ACCESS'</span>, <span class="keyword">this</span>.id, requestedBy);
+    <span class="keyword">return</span> <span class="keyword">this</span>.encryption.<span class="function">decrypt</span>(<span class="keyword">this</span>.ssnEncrypted);
+  }
+  
+  <span class="function">getAccountNumber</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.encryption.<span class="function">decrypt</span>(<span class="keyword">this</span>.accountNumberEncrypted);
+  }
+  
+  <span class="comment">// Masked display</span>
+  <span class="function">getMaskedSSN</span>() {
+    <span class="keyword">const</span> ssn = <span class="keyword">this</span>.<span class="function">getSSN</span>(<span class="string">'system'</span>);
+    <span class="keyword">return</span> <span class="string">'***-**-'</span> + ssn.<span class="function">slice</span>(-<span class="number">4</span>);
+  }
+  
+  <span class="function">getMaskedAccountNumber</span>() {
+    <span class="keyword">const</span> account = <span class="keyword">this</span>.<span class="function">getAccountNumber</span>();
+    <span class="keyword">return</span> <span class="string">'****'</span> + account.<span class="function">slice</span>(-<span class="number">4</span>);
+  }
+}
+
+<span class="comment">// Express API with encrypted responses</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> https = <span class="function">require</span>(<span class="string">'https'</span>);
+<span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>);
+
+<span class="keyword">const</span> app = <span class="function">express</span>();
+
+<span class="comment">// HTTPS setup (required for banking)</span>
+<span class="keyword">const</span> httpsOptions = {
+  key: fs.<span class="function">readFileSync</span>(<span class="string">'./certs/private-key.pem'</span>),
+  cert: fs.<span class="function">readFileSync</span>(<span class="string">'./certs/certificate.pem'</span>)
+};
+
+<span class="comment">// Get customer data (masked by default)</span>
+app.<span class="function">get</span>(<span class="string">'/api/customers/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">const</span> customer = <span class="keyword">await</span> db.<span class="function">findCustomer</span>(req.params.id);
+  
+  res.<span class="function">json</span>({
+    id: customer.id,
+    name: customer.name,
+    email: customer.email,
+    ssn: customer.<span class="function">getMaskedSSN</span>(),  <span class="comment">// ***-**-1234</span>
+    accountNumber: customer.<span class="function">getMaskedAccountNumber</span>()  <span class="comment">// ****5678</span>
+  });
+});
+
+<span class="comment">// Admin: Get full SSN (requires special permission)</span>
+app.<span class="function">get</span>(<span class="string">'/api/admin/customers/:id/ssn'</span>,
+  authenticateToken,
+  <span class="function">authorizeRole</span>(<span class="string">'admin'</span>),
+  <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">const</span> customer = <span class="keyword">await</span> db.<span class="function">findCustomer</span>(req.params.id);
+    <span class="keyword">const</span> ssn = customer.<span class="function">getSSN</span>(req.user.userId);  <span class="comment">// Audit logged</span>
+    
+    res.<span class="function">json</span>({ ssn });
+});
+
+<span class="comment">// Start HTTPS server</span>
+https.<span class="function">createServer</span>(httpsOptions, app).<span class="function">listen</span>(<span class="number">443</span>, () => {
+  console.log(<span class="string">'Secure banking API on https://localhost:443'</span>);
+});
+
+<span class="keyword">function</span> <span class="function">auditLog</span>(action, customerId, requestedBy) {
+  console.log(<span class="string">`[AUDIT] <span class="keyword">${action}</span> for customer <span class="keyword">${customerId}</span> by <span class="keyword">${requestedBy}</span>`</span>);
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>AES-256-GCM</strong>: Industry standard for encrypting sensitive data at rest</li>
+                                <li><strong>Always encrypt</strong>: SSN, credit cards, account numbers, PINs</li>
+                                <li><strong>HTTPS/TLS</strong>: Required for all banking APIs (data in transit)</li>
+                                <li><strong>Key management</strong>: Store keys securely (AWS KMS, HashiCorp Vault)</li>
+                                <li><strong>Audit logging</strong>: Log all access to sensitive encrypted data</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use AES-256-GCM for symmetric encryption</li>
+                                    <li>Generate random IV for each encryption</li>
+                                    <li>Use HTTPS for all API endpoints</li>
+                                    <li>Store encryption keys in secure key management</li>
+                                    <li>Audit log all access to sensitive data</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't store encryption keys in source code</li>
+                                    <li>Don't reuse IV (Initialization Vector)</li>
+                                    <li>Don't use weak algorithms (DES, 3DES)</li>
+                                    <li>Don't transmit sensitive data over HTTP</li>
+                                    <li>Don't log or display unencrypted sensitive data</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 29: Database Connection Pooling -->
+            <div class="question-node" id="q29">
+                <div class="question-header" onclick="toggleQuestion('q29')">
+                    <div>
+                        <span class="question-number">Q29</span>
+                        <span class="question-title">Database Connection Pooling</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>💾 Pool Configuration</h3>
+                                <p>Min/max connections, idle timeout</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📊 Pool Sizing</h3>
+                                <p>Formula: connections = (cores * 2) + effective_spindle_count</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔄 Connection Lifecycle</h3>
+                                <p>Acquire, use, release pattern</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📈 Monitoring</h3>
+                                <p>Pool size, wait time, connection errors</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q29-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>PostgreSQL Connection Pool Setup</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q29-1">
+<pre><code><span class="keyword">const</span> { Pool } = <span class="function">require</span>(<span class="string">'pg'</span>);
+
+<span class="comment">// Connection pool configuration</span>
+<span class="keyword">const</span> pool = <span class="keyword">new</span> <span class="function">Pool</span>({
+  host: <span class="string">'localhost'</span>,
+  port: <span class="number">5432</span>,
+  database: <span class="string">'banking_db'</span>,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  
+  <span class="comment">// Pool sizing</span>
+  min: <span class="number">5</span>,              <span class="comment">// Minimum connections</span>
+  max: <span class="number">20</span>,             <span class="comment">// Maximum connections</span>
+  
+  <span class="comment">// Timeouts</span>
+  connectionTimeoutMillis: <span class="number">5000</span>,  <span class="comment">// Wait 5s for connection</span>
+  idleTimeoutMillis: <span class="number">30000</span>,       <span class="comment">// Close idle after 30s</span>
+  
+  <span class="comment">// Connection validation</span>
+  allowExitOnIdle: <span class="keyword">false</span>
+});
+
+<span class="comment">// Query with automatic connection management</span>
+<span class="keyword">async function</span> <span class="function">queryDatabase</span>(sql, params) {
+  <span class="keyword">const</span> client = <span class="keyword">await</span> pool.<span class="function">connect</span>();
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> result = <span class="keyword">await</span> client.<span class="function">query</span>(sql, params);
+    <span class="keyword">return</span> result.rows;
+  } <span class="keyword">finally</span> {
+    client.<span class="function">release</span>();  <span class="comment">// Always release back to pool</span>
+  }
+}
+
+<span class="comment">// Monitor pool health</span>
+<span class="function">setInterval</span>(() => {
+  console.log({
+    totalCount: pool.totalCount,    <span class="comment">// Total connections</span>
+    idleCount: pool.idleCount,      <span class="comment">// Available connections</span>
+    waitingCount: pool.waitingCount <span class="comment">// Queries waiting</span>
+  });
+}, <span class="number">10000</span>);</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q29-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: High-Volume Transaction System</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q29-2">
+<pre><code><span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+
+<span class="comment">// Transfer money between accounts</span>
+app.<span class="function">post</span>(<span class="string">'/api/transfer'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">const</span> { fromAccount, toAccount, amount } = req.body;
+  
+  <span class="keyword">const</span> client = <span class="keyword">await</span> pool.<span class="function">connect</span>();
+  <span class="keyword">try</span> {
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'BEGIN'</span>);
+    
+    <span class="comment">// Debit from account</span>
+    <span class="keyword">await</span> client.<span class="function">query</span>(
+      <span class="string">'UPDATE accounts SET balance = balance - $1 WHERE id = $2'</span>,
+      [amount, fromAccount]
+    );
+    
+    <span class="comment">// Credit to account</span>
+    <span class="keyword">await</span> client.<span class="function">query</span>(
+      <span class="string">'UPDATE accounts SET balance = balance + $1 WHERE id = $2'</span>,
+      [amount, toAccount]
+    );
+    
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'COMMIT'</span>);
+    res.<span class="function">json</span>({ success: <span class="keyword">true</span> });
+  } <span class="keyword">catch</span> (error) {
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'ROLLBACK'</span>);
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: error.message });
+  } <span class="keyword">finally</span> {
+    client.<span class="function">release</span>();
+  }
+});
+
+app.<span class="function">listen</span>(<span class="number">3000</span>);</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Pool sizing</strong>: connections = (cores × 2) + disk spindles</li>
+                                <li><strong>Always release</strong>: Use try/finally to return connections to pool</li>
+                                <li><strong>Monitor metrics</strong>: totalCount, idleCount, waitingCount</li>
+                                <li><strong>Connection timeout</strong>: Set reasonable limits (5-10 seconds)</li>
+                                <li><strong>Idle timeout</strong>: Close unused connections after 30-60 seconds</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Always release connections in finally block</li>
+                                    <li>Set appropriate min/max pool size</li>
+                                    <li>Monitor pool metrics regularly</li>
+                                    <li>Use connection timeouts</li>
+                                    <li>Close pool on application shutdown</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't forget to release connections</li>
+                                    <li>Don't set pool size too high (exhausts DB)</li>
+                                    <li>Don't create new pool for each request</li>
+                                    <li>Don't ignore connection errors</li>
+                                    <li>Don't use single connection for all queries</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 30: Database Transactions -->
+            <div class="question-node" id="q30">
+                <div class="question-header" onclick="toggleQuestion('q30')">
+                    <div>
+                        <span class="question-number">Q30</span>
+                        <span class="question-title">Database Transactions & ACID</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>⚛️ ACID Properties</h3>
+                                <p>Atomicity, Consistency, Isolation, Durability</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔒 Isolation Levels</h3>
+                                <p>Read Uncommitted, Read Committed, Repeatable Read, Serializable</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>↩️ Rollback Handling</h3>
+                                <p>Error recovery and compensation</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚠️ Deadlock Prevention</h3>
+                                <p>Lock ordering and timeout strategies</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q30-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Transaction Basics with PostgreSQL</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q30-1">
+<pre><code><span class="keyword">const</span> { Pool } = <span class="function">require</span>(<span class="string">'pg'</span>);
+<span class="keyword">const</span> pool = <span class="keyword">new</span> <span class="function">Pool</span>();
+
+<span class="comment">// ACID Properties:</span>
+<span class="comment">// A - Atomicity: All or nothing (BEGIN/COMMIT/ROLLBACK)</span>
+<span class="comment">// C - Consistency: Database constraints enforced</span>
+<span class="comment">// I - Isolation: Transactions don't interfere</span>
+<span class="comment">// D - Durability: Committed data persists</span>
+
+<span class="comment">// Basic transaction pattern</span>
+<span class="keyword">async function</span> <span class="function">executeTransaction</span>(queries) {
+  <span class="keyword">const</span> client = <span class="keyword">await</span> pool.<span class="function">connect</span>();
+  
+  <span class="keyword">try</span> {
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'BEGIN'</span>);
+    
+    <span class="keyword">for</span> (<span class="keyword">const</span> query <span class="keyword">of</span> queries) {
+      <span class="keyword">await</span> client.<span class="function">query</span>(query.sql, query.params);
+    }
+    
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'COMMIT'</span>);
+    <span class="keyword">return</span> { success: <span class="keyword">true</span> };
+  } <span class="keyword">catch</span> (error) {
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'ROLLBACK'</span>);
+    <span class="keyword">throw</span> error;
+  } <span class="keyword">finally</span> {
+    client.<span class="function">release</span>();
+  }
+}
+
+<span class="comment">// Isolation levels</span>
+<span class="keyword">async function</span> <span class="function">setIsolationLevel</span>(client, level) {
+  <span class="comment">// READ UNCOMMITTED - Dirty reads possible</span>
+  <span class="comment">// READ COMMITTED - Default in PostgreSQL</span>
+  <span class="comment">// REPEATABLE READ - Prevents non-repeatable reads</span>
+  <span class="comment">// SERIALIZABLE - Strictest, prevents phantom reads</span>
+  
+  <span class="keyword">await</span> client.<span class="function">query</span>(
+    <span class="string">`SET TRANSACTION ISOLATION LEVEL <span class="keyword">${level}</span>`</span>
+  );
+}
+
+<span class="comment">// Example with isolation level</span>
+<span class="keyword">async function</span> <span class="function">criticalTransaction</span>() {
+  <span class="keyword">const</span> client = <span class="keyword">await</span> pool.<span class="function">connect</span>();
+  
+  <span class="keyword">try</span> {
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'BEGIN'</span>);
+    <span class="keyword">await</span> client.<span class="function">query</span>(
+      <span class="string">'SET TRANSACTION ISOLATION LEVEL SERIALIZABLE'</span>
+    );
+    
+    <span class="comment">// Your queries here</span>
+    <span class="keyword">const</span> result = <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'SELECT * FROM accounts'</span>);
+    
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'COMMIT'</span>);
+    <span class="keyword">return</span> result.rows;
+  } <span class="keyword">catch</span> (error) {
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'ROLLBACK'</span>);
+    <span class="keyword">throw</span> error;
+  } <span class="keyword">finally</span> {
+    client.<span class="function">release</span>();
+  }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q30-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Safe Money Transfer with Rollback</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q30-2">
+<pre><code><span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="comment">// Money transfer with ACID guarantees</span>
+app.<span class="function">post</span>(<span class="string">'/api/transfer'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">const</span> { fromAccountId, toAccountId, amount } = req.body;
+  <span class="keyword">const</span> client = <span class="keyword">await</span> pool.<span class="function">connect</span>();
+  
+  <span class="keyword">try</span> {
+    <span class="comment">// Start transaction</span>
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'BEGIN'</span>);
+    
+    <span class="comment">// Lock rows to prevent concurrent modifications</span>
+    <span class="keyword">const</span> fromAccount = <span class="keyword">await</span> client.<span class="function">query</span>(
+      <span class="string">'SELECT * FROM accounts WHERE id = $1 FOR UPDATE'</span>,
+      [fromAccountId]
+    );
+    
+    <span class="keyword">const</span> toAccount = <span class="keyword">await</span> client.<span class="function">query</span>(
+      <span class="string">'SELECT * FROM accounts WHERE id = $1 FOR UPDATE'</span>,
+      [toAccountId]
+    );
+    
+    <span class="comment">// Validate sufficient balance</span>
+    <span class="keyword">if</span> (fromAccount.rows[<span class="number">0</span>].balance < amount) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Insufficient funds'</span>);
+    }
+    
+    <span class="comment">// Debit from source account</span>
+    <span class="keyword">await</span> client.<span class="function">query</span>(
+      <span class="string">'UPDATE accounts SET balance = balance - $1 WHERE id = $2'</span>,
+      [amount, fromAccountId]
+    );
+    
+    <span class="comment">// Credit to destination account</span>
+    <span class="keyword">await</span> client.<span class="function">query</span>(
+      <span class="string">'UPDATE accounts SET balance = balance + $1 WHERE id = $2'</span>,
+      [amount, toAccountId]
+    );
+    
+    <span class="comment">// Record transaction in audit log</span>
+    <span class="keyword">await</span> client.<span class="function">query</span>(
+      <span class="string">`INSERT INTO transactions (from_account, to_account, amount, timestamp)
+       VALUES ($1, $2, $3, NOW())`</span>,
+      [fromAccountId, toAccountId, amount]
+    );
+    
+    <span class="comment">// Commit transaction (ACID guarantee)</span>
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'COMMIT'</span>);
+    
+    res.<span class="function">json</span>({
+      success: <span class="keyword">true</span>,
+      message: <span class="string">`Transferred $<span class="keyword">${amount}</span> successfully`</span>
+    });
+    
+  } <span class="keyword">catch</span> (error) {
+    <span class="comment">// Rollback on any error (maintains consistency)</span>
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'ROLLBACK'</span>);
+    
+    console.error(<span class="string">'Transaction failed:'</span>, error);
+    res.<span class="function">status</span>(<span class="number">400</span>).<span class="function">json</span>({
+      success: <span class="keyword">false</span>,
+      error: error.message
+    });
+  } <span class="keyword">finally</span> {
+    client.<span class="function">release</span>();
+  }
+});
+
+<span class="comment">// Deadlock prevention: Always lock in same order</span>
+app.<span class="function">post</span>(<span class="string">'/api/transfer-safe'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">let</span> { fromAccountId, toAccountId, amount } = req.body;
+  
+  <span class="comment">// Lock accounts in ascending ID order</span>
+  <span class="keyword">if</span> (fromAccountId > toAccountId) {
+    [fromAccountId, toAccountId] = [toAccountId, fromAccountId];
+  }
+  
+  <span class="keyword">const</span> client = <span class="keyword">await</span> pool.<span class="function">connect</span>();
+  
+  <span class="keyword">try</span> {
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'BEGIN'</span>);
+    
+    <span class="comment">// Lock in order to prevent deadlock</span>
+    <span class="keyword">await</span> client.<span class="function">query</span>(
+      <span class="string">'SELECT * FROM accounts WHERE id IN ($1, $2) ORDER BY id FOR UPDATE'</span>,
+      [fromAccountId, toAccountId]
+    );
+    
+    <span class="comment">// Perform transfer...</span>
+    
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'COMMIT'</span>);
+    res.<span class="function">json</span>({ success: <span class="keyword">true</span> });
+  } <span class="keyword">catch</span> (error) {
+    <span class="keyword">await</span> client.<span class="function">query</span>(<span class="string">'ROLLBACK'</span>);
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: error.message });
+  } <span class="keyword">finally</span> {
+    client.<span class="function">release</span>();
+  }
+});
+
+<span class="comment">// Handle deadlock with retry</span>
+<span class="keyword">async function</span> <span class="function">transferWithRetry</span>(from, to, amount, maxRetries = <span class="number">3</span>) {
+  <span class="keyword">for</span> (<span class="keyword">let</span> attempt = <span class="number">0</span>; attempt < maxRetries; attempt++) {
+    <span class="keyword">try</span> {
+      <span class="keyword">await</span> <span class="function">executeTransfer</span>(from, to, amount);
+      <span class="keyword">return</span> { success: <span class="keyword">true</span> };
+    } <span class="keyword">catch</span> (error) {
+      <span class="keyword">if</span> (error.code === <span class="string">'40P01'</span>) {  <span class="comment">// Deadlock detected</span>
+        console.log(<span class="string">`Deadlock detected, retry <span class="keyword">${attempt + 1}</span>`</span>);
+        <span class="keyword">await</span> <span class="keyword">new</span> <span class="function">Promise</span>(r => <span class="function">setTimeout</span>(r, <span class="number">100</span>));
+        <span class="keyword">continue</span>;
+      }
+      <span class="keyword">throw</span> error;
+    }
+  }
+  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Max retries exceeded'</span>);
+}
+
+app.<span class="function">listen</span>(<span class="number">3000</span>);</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>ACID</strong>: Atomicity (all-or-nothing), Consistency (valid state), Isolation (concurrent safety), Durability (persists)</li>
+                                <li><strong>Isolation levels</strong>: Higher isolation = less concurrency but more consistency</li>
+                                <li><strong>Always rollback</strong>: Use try/catch to rollback on errors</li>
+                                <li><strong>Deadlock prevention</strong>: Lock resources in consistent order</li>
+                                <li><strong>Row locking</strong>: Use FOR UPDATE to prevent concurrent modifications</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Always use BEGIN/COMMIT/ROLLBACK</li>
+                                    <li>Lock resources in ascending order</li>
+                                    <li>Use appropriate isolation level</li>
+                                    <li>Implement retry logic for deadlocks</li>
+                                    <li>Keep transactions short and focused</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't forget to ROLLBACK on errors</li>
+                                    <li>Don't hold transactions for long periods</li>
+                                    <li>Don't perform I/O inside transactions</li>
+                                    <li>Don't ignore deadlock errors</li>
+                                    <li>Don't use READ UNCOMMITTED for financial data</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>💡 Click on any question to expand/collapse</p>
+            <p>📚 Banking-focused examples for real-world scenarios</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleQuestion(questionId) {
+            const questionNode = document.getElementById(questionId);
+            questionNode.classList.toggle('collapsed');
+        }
+
+        function toggleCode(codeId) {
+            const codeSection = document.getElementById(codeId).parentElement;
+            codeSection.classList.toggle('collapsed');
+        }
+
+        // Initialize all questions as expanded
+        document.addEventListener('DOMContentLoaded', function() {
+            // All questions start expanded by default
+        });
+    </script>
+</body>
+</html>

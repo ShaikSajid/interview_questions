@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Interview Questions - Mind Map (Q11-Q20)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .mindmap {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .central-node {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .question-node {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .question-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .question-header:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .question-title {
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .question-number {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .question-node.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .question-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .question-node.active .question-content {
+            max-height: 5000px;
+        }
+
+        .content-inner {
+            padding: 30px;
+        }
+
+        .sub-topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .sub-topic {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .sub-topic h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .sub-topic p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .code-section {
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+        }
+
+        .code-header {
+            background: #2d3748;
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-header:hover {
+            background: #1a202c;
+        }
+
+        .code-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .code-icon {
+            font-size: 1.2em;
+        }
+
+        .code-block {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: #1a202c;
+        }
+
+        .code-block.active {
+            max-height: 3000px;
+        }
+
+        .code-block pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .keyword { color: #ff79c6; }
+        .string { color: #50fa7b; }
+        .comment { color: #6272a4; }
+        .function { color: #8be9fd; }
+        .number { color: #bd93f9; }
+
+        .key-points {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .key-points h3 {
+            color: #c53030;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .key-points ul {
+            list-style-position: inside;
+            line-height: 2;
+            color: #2d3748;
+        }
+
+        .dos-donts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .dos, .donts {
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .dos {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            border-left: 5px solid #48bb78;
+        }
+
+        .donts {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left: 5px solid #e53e3e;
+        }
+
+        .dos h4, .donts h4 {
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+
+        .dos h4 {
+            color: #2f855a;
+        }
+
+        .donts h4 {
+            color: #c53030;
+        }
+
+        .dos ul, .donts ul {
+            list-style-position: inside;
+            line-height: 1.8;
+            color: #2d3748;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge-beginner { background: #48bb78; color: white; }
+        .badge-intermediate { background: #ed8936; color: white; }
+        .badge-advanced { background: #e53e3e; color: white; }
+
+        .footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .dos-donts {
+                grid-template-columns: 1fr;
+            }
+            
+            .sub-topics {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .central-node {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Node.js Interview Questions</h1>
+            <p>Interactive Mind Map - Advanced Topics (Q11-Q20)</p>
+        </div>
+
+        <div class="mindmap">
+            <div class="central-node">
+                📚 Node.js Advanced Topics - Questions 11-20
+            </div>
+
+            <!-- Question 12: File System Operations -->
+            <div class="question-node" id="q12">
+                <div class="question-header" onclick="toggleQuestion('q12')">
+                    <div>
+                        <span class="question-number">Q12</span>
+                        <span class="question-title">File System Operations</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📖 Reading Files</h3>
+                                <p>readFile, readFileSync, fs.promises</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>✍️ Writing Files</h3>
+                                <p>writeFile, appendFile, atomic writes</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📂 Directory Operations</h3>
+                                <p>mkdir, readdir, recursive operations</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>👀 File Watching</h3>
+                                <p>fs.watch, fs.watchFile, chokidar</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q12-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Async File Operations with Promises</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q12-1">
+<pre><code><span class="keyword">import</span> { readFile, writeFile, mkdir } <span class="keyword">from</span> <span class="string">'fs/promises'</span>;
+<span class="keyword">import</span> { join } <span class="keyword">from</span> <span class="string">'path'</span>;
+
+<span class="comment">// Read file asynchronously</span>
+<span class="keyword">async function</span> <span class="function">readTransactionLog</span>() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> <span class="function">readFile</span>(<span class="string">'transactions.log'</span>, <span class="string">'utf8'</span>);
+    <span class="keyword">const</span> transactions = data.<span class="function">split</span>(<span class="string">'\n'</span>).<span class="function">filter</span>(Boolean);
+    console.log(<span class="string">`Loaded <span class="keyword">${transactions.length}</span> transactions`</span>);
+    <span class="keyword">return</span> transactions;
+  } <span class="keyword">catch</span> (error) {
+    console.error(<span class="string">'Error reading file:'</span>, error);
+    <span class="keyword">throw</span> error;
+  }
+}
+
+<span class="comment">// Write file atomically</span>
+<span class="keyword">async function</span> <span class="function">saveConfig</span>(config) {
+  <span class="keyword">const</span> tempFile = <span class="string">'config.json.tmp'</span>;
+  <span class="keyword">const</span> finalFile = <span class="string">'config.json'</span>;
+  
+  <span class="keyword">await</span> <span class="function">writeFile</span>(tempFile, JSON.<span class="function">stringify</span>(config, <span class="keyword">null</span>, <span class="number">2</span>));
+  <span class="keyword">await</span> fs.<span class="function">rename</span>(tempFile, finalFile); <span class="comment">// Atomic operation</span>
+}
+
+<span class="comment">// Create directory structure</span>
+<span class="keyword">async function</span> <span class="function">ensureLogDirectory</span>() {
+  <span class="keyword">const</span> logDir = <span class="function">join</span>(process.<span class="function">cwd</span>(), <span class="string">'logs'</span>);
+  <span class="keyword">await</span> <span class="function">mkdir</span>(logDir, { recursive: <span class="keyword">true</span> });
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q12-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Audit Log Management</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q12-2">
+<pre><code><span class="keyword">import</span> { appendFile, readdir, stat, unlink } <span class="keyword">from</span> <span class="string">'fs/promises'</span>;
+<span class="keyword">import</span> { createWriteStream } <span class="keyword">from</span> <span class="string">'fs'</span>;
+<span class="keyword">import</span> { join } <span class="keyword">from</span> <span class="string">'path'</span>;
+
+<span class="keyword">class</span> <span class="function">AuditLogger</span> {
+  constructor(logDir = <span class="string">'./audit-logs'</span>) {
+    <span class="keyword">this</span>.logDir = logDir;
+    <span class="keyword">this</span>.maxFileSize = <span class="number">10</span> * <span class="number">1024</span> * <span class="number">1024</span>; <span class="comment">// 10MB</span>
+    <span class="keyword">this</span>.maxAge = <span class="number">90</span> * <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000</span>; <span class="comment">// 90 days</span>
+  }
+
+  <span class="keyword">async</span> <span class="function">log</span>(event, data) {
+    <span class="keyword">const</span> timestamp = <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>();
+    <span class="keyword">const</span> logEntry = JSON.<span class="function">stringify</span>({
+      timestamp,
+      event,
+      data,
+      userId: data.userId,
+      ipAddress: data.ipAddress
+    });
+
+    <span class="keyword">const</span> filename = <span class="keyword">this</span>.<span class="function">getCurrentLogFile</span>();
+    <span class="keyword">await</span> <span class="function">appendFile</span>(filename, logEntry + <span class="string">'\n'</span>);
+    
+    <span class="comment">// Check if rotation needed</span>
+    <span class="keyword">await</span> <span class="keyword">this</span>.<span class="function">rotateIfNeeded</span>(filename);
+  }
+
+  <span class="function">getCurrentLogFile</span>() {
+    <span class="keyword">const</span> date = <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>().<span class="function">split</span>(<span class="string">'T'</span>)[<span class="number">0</span>];
+    <span class="keyword">return</span> <span class="function">join</span>(<span class="keyword">this</span>.logDir, <span class="string">`audit-<span class="keyword">${date}</span>.log`</span>);
+  }
+
+  <span class="keyword">async</span> <span class="function">rotateIfNeeded</span>(filename) {
+    <span class="keyword">const</span> stats = <span class="keyword">await</span> <span class="function">stat</span>(filename);
+    
+    <span class="keyword">if</span> (stats.size > <span class="keyword">this</span>.maxFileSize) {
+      <span class="keyword">const</span> rotated = <span class="string">`<span class="keyword">${filename}</span>.<span class="keyword">${Date.now()}</span>`</span>;
+      <span class="keyword">await</span> fs.<span class="function">rename</span>(filename, rotated);
+      console.log(<span class="string">`Rotated log file: <span class="keyword">${rotated}</span>`</span>);
+    }
+  }
+
+  <span class="comment">// Clean up old logs (compliance: 90 days retention)</span>
+  <span class="keyword">async</span> <span class="function">cleanup</span>() {
+    <span class="keyword">const</span> files = <span class="keyword">await</span> <span class="function">readdir</span>(<span class="keyword">this</span>.logDir);
+    <span class="keyword">const</span> now = Date.<span class="function">now</span>();
+
+    <span class="keyword">for</span> (<span class="keyword">const</span> file <span class="keyword">of</span> files) {
+      <span class="keyword">const</span> filepath = <span class="function">join</span>(<span class="keyword">this</span>.logDir, file);
+      <span class="keyword">const</span> stats = <span class="keyword">await</span> <span class="function">stat</span>(filepath);
+      
+      <span class="keyword">if</span> (now - stats.mtime.<span class="function">getTime</span>() > <span class="keyword">this</span>.maxAge) {
+        <span class="keyword">await</span> <span class="function">unlink</span>(filepath);
+        console.log(<span class="string">`Deleted old log: <span class="keyword">${file}</span>`</span>);
+      }
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Use fs.promises</strong> for modern async/await file operations</li>
+                                <li><strong>Atomic writes</strong> prevent data corruption (write temp → rename)</li>
+                                <li><strong>File rotation</strong> prevents single files from growing too large</li>
+                                <li><strong>Always handle errors</strong> in file operations (disk full, permissions)</li>
+                                <li><strong>Use streams</strong> for large files (>100MB)</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use fs.promises or util.promisify for async operations</li>
+                                    <li>Implement proper error handling and retries</li>
+                                    <li>Use path.join() for cross-platform paths</li>
+                                    <li>Implement log rotation for production systems</li>
+                                    <li>Set appropriate file permissions (0600 for sensitive data)</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't use sync methods in production (blocks event loop)</li>
+                                    <li>Don't ignore ENOENT errors (file not found)</li>
+                                    <li>Don't hardcode file paths (use environment variables)</li>
+                                    <li>Don't forget to close file descriptors (use try-finally)</li>
+                                    <li>Don't write sensitive data without encryption</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 14: HTTP Request Methods -->
+            <div class="question-node" id="q14">
+                <div class="question-header" onclick="toggleQuestion('q14')">
+                    <div>
+                        <span class="question-number">Q14</span>
+                        <span class="question-title">HTTP Request Methods (GET, POST, PUT, DELETE)</span>
+                        <span class="badge badge-beginner">Beginner</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔍 GET Requests</h3>
+                                <p>Retrieve data, idempotent, cacheable</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📝 POST Requests</h3>
+                                <p>Create new resources, not idempotent</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>✏️ PUT Requests</h3>
+                                <p>Update/replace resources, idempotent</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🗑️ DELETE Requests</h3>
+                                <p>Remove resources, idempotent</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q14-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>RESTful API with All HTTP Methods</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q14-1">
+<pre><code><span class="keyword">import</span> http <span class="keyword">from</span> <span class="string">'http'</span>;
+<span class="keyword">import</span> url <span class="keyword">from</span> <span class="string">'url'</span>;
+
+<span class="keyword">const</span> accounts = <span class="keyword">new</span> <span class="function">Map</span>();
+
+<span class="keyword">const</span> server = http.<span class="function">createServer</span>(<span class="keyword">async</span> (req, res) => {
+  <span class="keyword">const</span> parsedUrl = url.<span class="function">parse</span>(req.url, <span class="keyword">true</span>);
+  <span class="keyword">const</span> pathname = parsedUrl.pathname;
+  <span class="keyword">const</span> method = req.method;
+
+  <span class="comment">// GET /accounts - List all accounts</span>
+  <span class="keyword">if</span> (method === <span class="string">'GET'</span> && pathname === <span class="string">'/accounts'</span>) {
+    res.<span class="function">writeHead</span>(<span class="number">200</span>, { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> });
+    res.<span class="function">end</span>(JSON.<span class="function">stringify</span>(<span class="function">Array.from</span>(accounts.<span class="function">values</span>())));
+  }
+
+  <span class="comment">// POST /accounts - Create new account</span>
+  <span class="keyword">else if</span> (method === <span class="string">'POST'</span> && pathname === <span class="string">'/accounts'</span>) {
+    <span class="keyword">const</span> body = <span class="keyword">await</span> <span class="function">getRequestBody</span>(req);
+    <span class="keyword">const</span> { name, balance } = JSON.<span class="function">parse</span>(body);
+    
+    <span class="keyword">const</span> id = <span class="string">'ACC'</span> + Date.<span class="function">now</span>();
+    <span class="keyword">const</span> account = { id, name, balance, createdAt: <span class="keyword">new</span> <span class="function">Date</span>() };
+    accounts.<span class="function">set</span>(id, account);
+    
+    res.<span class="function">writeHead</span>(<span class="number">201</span>, { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> });
+    res.<span class="function">end</span>(JSON.<span class="function">stringify</span>(account));
+  }
+
+  <span class="comment">// PUT /accounts/:id - Update account</span>
+  <span class="keyword">else if</span> (method === <span class="string">'PUT'</span> && pathname.<span class="function">match</span>(/^\/accounts\/[\w-]+$/)) {
+    <span class="keyword">const</span> id = pathname.<span class="function">split</span>(<span class="string">'/'</span>)[<span class="number">2</span>];
+    <span class="keyword">const</span> body = <span class="keyword">await</span> <span class="function">getRequestBody</span>(req);
+    <span class="keyword">const</span> updates = JSON.<span class="function">parse</span>(body);
+    
+    <span class="keyword">if</span> (accounts.<span class="function">has</span>(id)) {
+      <span class="keyword">const</span> account = { ...accounts.<span class="function">get</span>(id), ...updates };
+      accounts.<span class="function">set</span>(id, account);
+      res.<span class="function">writeHead</span>(<span class="number">200</span>, { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> });
+      res.<span class="function">end</span>(JSON.<span class="function">stringify</span>(account));
+    } <span class="keyword">else</span> {
+      res.<span class="function">writeHead</span>(<span class="number">404</span>, { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> });
+      res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({ error: <span class="string">'Account not found'</span> }));
+    }
+  }
+
+  <span class="comment">// DELETE /accounts/:id - Delete account</span>
+  <span class="keyword">else if</span> (method === <span class="string">'DELETE'</span> && pathname.<span class="function">match</span>(/^\/accounts\/[\w-]+$/)) {
+    <span class="keyword">const</span> id = pathname.<span class="function">split</span>(<span class="string">'/'</span>)[<span class="number">2</span>];
+    
+    <span class="keyword">if</span> (accounts.<span class="function">delete</span>(id)) {
+      res.<span class="function">writeHead</span>(<span class="number">204</span>);
+      res.<span class="function">end</span>();
+    } <span class="keyword">else</span> {
+      res.<span class="function">writeHead</span>(<span class="number">404</span>);
+      res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({ error: <span class="string">'Account not found'</span> }));
+    }
+  }
+});
+
+<span class="keyword">function</span> <span class="function">getRequestBody</span>(req) {
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="function">Promise</span>((resolve) => {
+    <span class="keyword">let</span> body = <span class="string">''</span>;
+    req.<span class="function">on</span>(<span class="string">'data'</span>, chunk => body += chunk);
+    req.<span class="function">on</span>(<span class="string">'end'</span>, () => <span class="function">resolve</span>(body));
+  });
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q14-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Transaction Processing API</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q14-2">
+<pre><code><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">'express'</span>;
+
+<span class="keyword">const</span> app = <span class="function">express</span>();
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="keyword">const</span> transactions = [];
+
+<span class="comment">// GET /transactions - Retrieve transaction history</span>
+app.<span class="function">get</span>(<span class="string">'/api/transactions'</span>, (req, res) => {
+  <span class="keyword">const</span> { accountId, limit = <span class="number">10</span> } = req.query;
+  
+  <span class="keyword">let</span> filtered = transactions;
+  <span class="keyword">if</span> (accountId) {
+    filtered = transactions.<span class="function">filter</span>(t => t.accountId === accountId);
+  }
+  
+  res.<span class="function">json</span>({
+    total: filtered.length,
+    data: filtered.<span class="function">slice</span>(<span class="number">0</span>, <span class="function">parseInt</span>(limit))
+  });
+});
+
+<span class="comment">// POST /transactions - Create new transaction</span>
+app.<span class="function">post</span>(<span class="string">'/api/transactions'</span>, (req, res) => {
+  <span class="keyword">const</span> { accountId, amount, type } = req.body;
+  
+  <span class="keyword">if</span> (!accountId || !amount || !type) {
+    <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">400</span>).<span class="function">json</span>({ error: <span class="string">'Missing required fields'</span> });
+  }
+  
+  <span class="keyword">const</span> transaction = {
+    id: <span class="string">'TXN'</span> + Date.<span class="function">now</span>(),
+    accountId,
+    amount,
+    type,
+    status: <span class="string">'pending'</span>,
+    timestamp: <span class="keyword">new</span> <span class="function">Date</span>()
+  };
+  
+  transactions.<span class="function">push</span>(transaction);
+  res.<span class="function">status</span>(<span class="number">201</span>).<span class="function">json</span>(transaction);
+});
+
+<span class="comment">// PUT /transactions/:id - Update transaction status</span>
+app.<span class="function">put</span>(<span class="string">'/api/transactions/:id'</span>, (req, res) => {
+  <span class="keyword">const</span> { id } = req.params;
+  <span class="keyword">const</span> { status } = req.body;
+  
+  <span class="keyword">const</span> transaction = transactions.<span class="function">find</span>(t => t.id === id);
+  
+  <span class="keyword">if</span> (!transaction) {
+    <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Transaction not found'</span> });
+  }
+  
+  transaction.status = status;
+  res.<span class="function">json</span>(transaction);
+});
+
+<span class="comment">// DELETE /transactions/:id - Cancel transaction</span>
+app.<span class="function">delete</span>(<span class="string">'/api/transactions/:id'</span>, (req, res) => {
+  <span class="keyword">const</span> { id } = req.params;
+  <span class="keyword">const</span> index = transactions.<span class="function">findIndex</span>(t => t.id === id);
+  
+  <span class="keyword">if</span> (index === -<span class="number">1</span>) {
+    <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Transaction not found'</span> });
+  }
+  
+  transactions.<span class="function">splice</span>(index, <span class="number">1</span>);
+  res.<span class="function">status</span>(<span class="number">204</span>).<span class="function">send</span>();
+});
+
+app.<span class="function">listen</span>(<span class="number">3000</span>);</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Idempotency</strong>: GET, PUT, DELETE are safe to retry</li>
+                                <li><strong>Status codes</strong>: 200 (OK), 201 (Created), 204 (No Content), 404 (Not Found)</li>
+                                <li><strong>RESTful design</strong>: Use nouns for resources, verbs for actions</li>
+                                <li><strong>POST vs PUT</strong>: POST creates, PUT updates/replaces</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use appropriate HTTP methods for CRUD operations</li>
+                                    <li>Return correct status codes (2xx, 4xx, 5xx)</li>
+                                    <li>Make GET, PUT, DELETE idempotent</li>
+                                    <li>Use Content-Type headers correctly</li>
+                                    <li>Version your APIs (/v1/accounts)</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't use GET for operations that modify data</li>
+                                    <li>Don't ignore request body parsing errors</li>
+                                    <li>Don't return 200 for errors (use 4xx/5xx)</li>
+                                    <li>Don't forget to validate input data</li>
+                                    <li>Don't expose internal error details to clients</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 15: Express.js Basics -->
+            <div class="question-node" id="q15">
+                <div class="question-header" onclick="toggleQuestion('q15')">
+                    <div>
+                        <span class="question-number">Q15</span>
+                        <span class="question-title">Express.js Basics</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🚀 Why Express?</h3>
+                                <p>Simplified routing, automatic parsing, middleware</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🛣️ Routing</h3>
+                                <p>Route parameters, query strings, route handlers</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📝 Request/Response</h3>
+                                <p>Enhanced req/res objects with helper methods</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚙️ Configuration</h3>
+                                <p>App settings, environment variables, ports</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q15-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Express vs Raw HTTP</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q15-1">
+<pre><code><span class="comment">// ❌ Raw HTTP - Verbose and complex</span>
+<span class="keyword">import</span> http <span class="keyword">from</span> <span class="string">'http'</span>;
+<span class="keyword">const</span> server = http.<span class="function">createServer</span>((req, res) => {
+  <span class="keyword">if</span> (req.method === <span class="string">'POST'</span> && req.url === <span class="string">'/api/accounts'</span>) {
+    <span class="keyword">let</span> body = <span class="string">''</span>;
+    req.<span class="function">on</span>(<span class="string">'data'</span>, chunk => body += chunk);
+    req.<span class="function">on</span>(<span class="string">'end'</span>, () => {
+      <span class="keyword">const</span> data = JSON.<span class="function">parse</span>(body);
+      res.<span class="function">writeHead</span>(<span class="number">201</span>, { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> });
+      res.<span class="function">end</span>(JSON.<span class="function">stringify</span>(data));
+    });
+  }
+});
+
+<span class="comment">// ✅ Express - Clean and simple</span>
+<span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">'express'</span>;
+<span class="keyword">const</span> app = <span class="function">express</span>();
+
+app.<span class="function">use</span>(express.<span class="function">json</span>()); <span class="comment">// Automatic body parsing</span>
+
+app.<span class="function">post</span>(<span class="string">'/api/accounts'</span>, (req, res) => {
+  <span class="keyword">const</span> data = req.body; <span class="comment">// Already parsed!</span>
+  res.<span class="function">status</span>(<span class="number">201</span>).<span class="function">json</span>(data); <span class="comment">// Automatic JSON response</span>
+});
+
+app.<span class="function">listen</span>(<span class="number">3000</span>, () => console.log(<span class="string">'Server running'</span>));</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q15-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Complete Banking API</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q15-2">
+<pre><code><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">'express'</span>;
+<span class="keyword">import</span> cors <span class="keyword">from</span> <span class="string">'cors'</span>;
+<span class="keyword">import</span> helmet <span class="keyword">from</span> <span class="string">'helmet'</span>;
+
+<span class="keyword">const</span> app = <span class="function">express</span>();
+
+<span class="comment">// Middleware</span>
+app.<span class="function">use</span>(<span class="function">helmet</span>()); <span class="comment">// Security headers</span>
+app.<span class="function">use</span>(<span class="function">cors</span>()); <span class="comment">// CORS support</span>
+app.<span class="function">use</span>(express.<span class="function">json</span>()); <span class="comment">// JSON body parser</span>
+
+<span class="comment">// In-memory database</span>
+<span class="keyword">const</span> accounts = <span class="keyword">new</span> <span class="function">Map</span>();
+
+<span class="comment">// GET /api/accounts - List all accounts</span>
+app.<span class="function">get</span>(<span class="string">'/api/accounts'</span>, (req, res) => {
+  <span class="keyword">const</span> { status, limit = <span class="number">10</span> } = req.query;
+  
+  <span class="keyword">let</span> accountList = <span class="function">Array.from</span>(accounts.<span class="function">values</span>());
+  
+  <span class="keyword">if</span> (status) {
+    accountList = accountList.<span class="function">filter</span>(a => a.status === status);
+  }
+  
+  res.<span class="function">json</span>({
+    total: accountList.length,
+    data: accountList.<span class="function">slice</span>(<span class="number">0</span>, <span class="function">parseInt</span>(limit))
+  });
+});
+
+<span class="comment">// POST /api/accounts - Create account</span>
+app.<span class="function">post</span>(<span class="string">'/api/accounts'</span>, (req, res) => {
+  <span class="keyword">const</span> { name, email, initialDeposit } = req.body;
+  
+  <span class="comment">// Validation</span>
+  <span class="keyword">if</span> (!name || !email || initialDeposit < <span class="number">100</span>) {
+    <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">400</span>).<span class="function">json</span>({
+      error: <span class="string">'Invalid data. Min deposit: $100'</span>
+    });
+  }
+  
+  <span class="keyword">const</span> account = {
+    id: <span class="string">'ACC'</span> + Date.<span class="function">now</span>(),
+    name,
+    email,
+    balance: initialDeposit,
+    status: <span class="string">'active'</span>,
+    createdAt: <span class="keyword">new</span> <span class="function">Date</span>()
+  };
+  
+  accounts.<span class="function">set</span>(account.id, account);
+  res.<span class="function">status</span>(<span class="number">201</span>).<span class="function">json</span>(account);
+});
+
+<span class="comment">// Error handling</span>
+app.<span class="function">use</span>((err, req, res, next) => {
+  console.error(err.stack);
+  res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Internal server error'</span> });
+});
+
+<span class="keyword">const</span> PORT = process.env.PORT || <span class="number">3000</span>;
+app.<span class="function">listen</span>(PORT, () => console.log(<span class="string">`Server on port <span class="keyword">${PORT}</span>`</span>));</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Express simplifies</strong> routing, body parsing, and response handling</li>
+                                <li><strong>Route parameters</strong> (:id) extract dynamic URL segments automatically</li>
+                                <li><strong>Query strings</strong> accessed via req.query object</li>
+                                <li><strong>Middleware</strong> functions execute before route handlers</li>
+                                <li><strong>Error handling</strong> middleware has 4 parameters (err, req, res, next)</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use express.json() to parse JSON request bodies</li>
+                                    <li>Validate input data before processing</li>
+                                    <li>Use helmet() for security headers</li>
+                                    <li>Implement proper error handling middleware</li>
+                                    <li>Use environment variables for configuration</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't forget to use body parser middleware</li>
+                                    <li>Don't expose stack traces in production</li>
+                                    <li>Don't hardcode port numbers</li>
+                                    <li>Don't skip input validation</li>
+                                    <li>Don't ignore async error handling</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 16: Express Middleware -->
+            <div class="question-node" id="q16">
+                <div class="question-header" onclick="toggleQuestion('q16')">
+                    <div>
+                        <span class="question-number">Q16</span>
+                        <span class="question-title">Express.js Middleware</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔗 Middleware Chain</h3>
+                                <p>Execution order, next() function, middleware types</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔐 Authentication</h3>
+                                <p>JWT verification, role-based access control</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>✅ Validation</h3>
+                                <p>Request validation, schema validation</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚠️ Error Handling</h3>
+                                <p>Centralized error middleware, error responses</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q16-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Custom Middleware Stack</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q16-1">
+<pre><code><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">'express'</span>;
+<span class="keyword">import</span> jwt <span class="keyword">from</span> <span class="string">'jsonwebtoken'</span>;
+
+<span class="keyword">const</span> app = <span class="function">express</span>();
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="comment">// 1. Logging Middleware</span>
+<span class="keyword">const</span> <span class="function">logger</span> = (req, res, next) => {
+  <span class="keyword">const</span> start = Date.<span class="function">now</span>();
+  
+  res.<span class="function">on</span>(<span class="string">'finish'</span>, () => {
+    <span class="keyword">const</span> duration = Date.<span class="function">now</span>() - start;
+    console.log(<span class="string">`<span class="keyword">${req.method}</span> <span class="keyword">${req.url}</span> - <span class="keyword">${res.statusCode}</span> (<span class="keyword">${duration}</span>ms)`</span>);
+  });
+  
+  <span class="function">next</span>(); <span class="comment">// Pass to next middleware</span>
+};
+
+<span class="comment">// 2. Authentication Middleware</span>
+<span class="keyword">const</span> <span class="function">authenticate</span> = (req, res, next) => {
+  <span class="keyword">const</span> token = req.headers.authorization?.split(<span class="string">' '</span>)[<span class="number">1</span>];
+  
+  <span class="keyword">if</span> (!token) {
+    <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">401</span>).<span class="function">json</span>({ error: <span class="string">'No token provided'</span> });
+  }
+  
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> decoded = jwt.<span class="function">verify</span>(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    <span class="function">next</span>();
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">401</span>).<span class="function">json</span>({ error: <span class="string">'Invalid token'</span> });
+  }
+};
+
+<span class="comment">// Protected route</span>
+app.<span class="function">post</span>(<span class="string">'/api/transfer'</span>, 
+  authenticate,
+  (req, res) => {
+    res.<span class="function">json</span>({ message: <span class="string">'Transfer successful'</span> });
+  }
+);</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q16-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Production Middleware Stack</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q16-2">
+<pre><code><span class="keyword">import</span> rateLimit <span class="keyword">from</span> <span class="string">'express-rate-limit'</span>;
+<span class="keyword">import</span> helmet <span class="keyword">from</span> <span class="string">'helmet'</span>;
+
+<span class="comment">// 1. Security Headers</span>
+app.<span class="function">use</span>(<span class="function">helmet</span>());
+
+<span class="comment">// 2. Rate Limiting</span>
+<span class="keyword">const</span> limiter = <span class="function">rateLimit</span>({
+  windowMs: <span class="number">15</span> * <span class="number">60</span> * <span class="number">1000</span>,
+  max: <span class="number">100</span>,
+  message: <span class="string">'Too many requests'</span>
+});
+app.<span class="function">use</span>(<span class="string">'/api/'</span>, limiter);
+
+<span class="comment">// 3. Audit Trail</span>
+<span class="keyword">const</span> <span class="function">auditTrail</span> = <span class="keyword">async</span> (req, res, next) => {
+  <span class="keyword">const</span> audit = {
+    timestamp: <span class="keyword">new</span> <span class="function">Date</span>(),
+    userId: req.user?.id,
+    action: <span class="string">`<span class="keyword">${req.method}</span> <span class="keyword">${req.url}</span>`</span>,
+    ip: req.ip
+  };
+  <span class="keyword">await</span> <span class="function">saveAuditLog</span>(audit);
+  <span class="function">next</span>();
+};
+
+app.<span class="function">use</span>(<span class="string">'/api/transactions'</span>, authenticate, auditTrail);</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Middleware order matters</strong>: Execute in the sequence they're defined</li>
+                                <li><strong>Call next()</strong> to pass control to next middleware</li>
+                                <li><strong>Error middleware</strong> must have 4 parameters (err, req, res, next)</li>
+                                <li><strong>app.use()</strong> applies globally, route-specific for targeted middleware</li>
+                                <li><strong>Return early</strong> when sending responses to prevent further execution</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Always call next() unless sending a response</li>
+                                    <li>Use helmet() for security headers</li>
+                                    <li>Implement rate limiting for API protection</li>
+                                    <li>Create reusable middleware functions</li>
+                                    <li>Place error middleware at the end</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't call next() after sending a response</li>
+                                    <li>Don't forget error handling middleware</li>
+                                    <li>Don't block the event loop in middleware</li>
+                                    <li>Don't expose sensitive errors to clients</li>
+                                    <li>Don't skip authentication on sensitive routes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 17: Timers - setTimeout/setInterval -->
+            <div class="question-node" id="q17">
+                <div class="question-header" onclick="toggleQuestion('q17')">
+                    <div>
+                        <span class="question-number">Q17</span>
+                        <span class="question-title">Timers (setTimeout / setInterval)</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>⏰ setTimeout</h3>
+                                <p>Execute callback once after delay</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔁 setInterval</h3>
+                                <p>Execute callback repeatedly at intervals</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🛑 Clear Timers</h3>
+                                <p>clearTimeout, clearInterval cancellation</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📊 Event Loop</h3>
+                                <p>Timers phase execution in event loop</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q17-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>setTimeout and setInterval Basics</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q17-1">
+<pre><code><span class="comment">// setTimeout - Execute once after delay</span>
+<span class="keyword">const</span> timeoutId = <span class="function">setTimeout</span>(() => {
+  console.log(<span class="string">'Executed after 2 seconds'</span>);
+}, <span class="number">2000</span>);
+
+<span class="comment">// Cancel setTimeout</span>
+<span class="function">clearTimeout</span>(timeoutId);
+
+<span class="comment">// setInterval - Execute repeatedly</span>
+<span class="keyword">let</span> count = <span class="number">0</span>;
+<span class="keyword">const</span> intervalId = <span class="function">setInterval</span>(() => {
+  count++;
+  console.log(<span class="string">`Tick <span class="keyword">${count}</span>`</span>);
+  
+  <span class="keyword">if</span> (count === <span class="number">5</span>) {
+    <span class="function">clearInterval</span>(intervalId); <span class="comment">// Stop after 5 ticks</span>
+  }
+}, <span class="number">1000</span>);
+
+<span class="comment">// Pass arguments to callback</span>
+<span class="function">setTimeout</span>((name, amount) => {
+  console.log(<span class="string">`Processing payment of $<span class="keyword">${amount}</span> for <span class="keyword">${name}</span>`</span>);
+}, <span class="number">1000</span>, <span class="string">'John'</span>, <span class="number">500</span>);
+
+<span class="comment">// Timer precision issue</span>
+<span class="keyword">const</span> start = Date.<span class="function">now</span>();
+<span class="function">setTimeout</span>(() => {
+  <span class="keyword">const</span> elapsed = Date.<span class="function">now</span>() - start;
+  console.log(<span class="string">`Elapsed: <span class="keyword">${elapsed}</span>ms`</span>); <span class="comment">// May not be exactly 1000ms</span>
+}, <span class="number">1000</span>);</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q17-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Interest Calculation Scheduler</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q17-2">
+<pre><code><span class="keyword">class</span> <span class="function">InterestScheduler</span> {
+  constructor() {
+    <span class="keyword">this</span>.intervalId = <span class="keyword">null</span>;
+    <span class="keyword">this</span>.accounts = <span class="keyword">new</span> <span class="function">Map</span>();
+  }
+
+  <span class="comment">// Calculate interest monthly</span>
+  <span class="function">start</span>() {
+    console.log(<span class="string">'Interest scheduler started'</span>);
+    
+    <span class="comment">// Run every hour (in production: every 24 hours)</span>
+    <span class="keyword">this</span>.intervalId = <span class="function">setInterval</span>(() => {
+      <span class="keyword">this</span>.<span class="function">calculateInterest</span>();
+    }, <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000</span>); <span class="comment">// 1 hour</span>
+    
+    <span class="comment">// Run immediately on start</span>
+    <span class="keyword">this</span>.<span class="function">calculateInterest</span>();
+  }
+
+  <span class="function">calculateInterest</span>() {
+    <span class="keyword">const</span> rate = <span class="number">0.05</span> / <span class="number">12</span>; <span class="comment">// 5% annual / 12 months</span>
+    
+    <span class="keyword">for</span> (<span class="keyword">const</span> [id, account] <span class="keyword">of</span> <span class="keyword">this</span>.accounts) {
+      <span class="keyword">const</span> interest = account.balance * rate;
+      account.balance += interest;
+      
+      console.log(<span class="string">`Account <span class="keyword">${id}</span>: Interest $<span class="keyword">${interest.toFixed(2)}</span>`</span>);
+      console.log(<span class="string">`New Balance: $<span class="keyword">${account.balance.toFixed(2)}</span>`</span>);
+    }
+  }
+
+  <span class="function">stop</span>() {
+    <span class="keyword">if</span> (<span class="keyword">this</span>.intervalId) {
+      <span class="function">clearInterval</span>(<span class="keyword">this</span>.intervalId);
+      console.log(<span class="string">'Interest scheduler stopped'</span>);
+    }
+  }
+
+  <span class="function">addAccount</span>(id, balance) {
+    <span class="keyword">this</span>.accounts.<span class="function">set</span>(id, { balance });
+  }
+}
+
+<span class="comment">// Session timeout handler</span>
+<span class="keyword">class</span> <span class="function">SessionManager</span> {
+  constructor(timeoutMs = <span class="number">15</span> * <span class="number">60</span> * <span class="number">1000</span>) {
+    <span class="keyword">this</span>.timeoutMs = timeoutMs;
+    <span class="keyword">this</span>.sessions = <span class="keyword">new</span> <span class="function">Map</span>();
+  }
+
+  <span class="function">createSession</span>(userId) {
+    <span class="keyword">const</span> sessionId = <span class="string">'SES'</span> + Date.<span class="function">now</span>();
+    
+    <span class="keyword">const</span> timeoutId = <span class="function">setTimeout</span>(() => {
+      <span class="keyword">this</span>.<span class="function">expireSession</span>(sessionId);
+    }, <span class="keyword">this</span>.timeoutMs);
+    
+    <span class="keyword">this</span>.sessions.<span class="function">set</span>(sessionId, { userId, timeoutId });
+    <span class="keyword">return</span> sessionId;
+  }
+
+  <span class="function">refreshSession</span>(sessionId) {
+    <span class="keyword">const</span> session = <span class="keyword">this</span>.sessions.<span class="function">get</span>(sessionId);
+    
+    <span class="keyword">if</span> (session) {
+      <span class="function">clearTimeout</span>(session.timeoutId);
+      session.timeoutId = <span class="function">setTimeout</span>(() => {
+        <span class="keyword">this</span>.<span class="function">expireSession</span>(sessionId);
+      }, <span class="keyword">this</span>.timeoutMs);
+    }
+  }
+
+  <span class="function">expireSession</span>(sessionId) {
+    console.log(<span class="string">`Session <span class="keyword">${sessionId}</span> expired`</span>);
+    <span class="keyword">this</span>.sessions.<span class="function">delete</span>(sessionId);
+  }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>setTimeout</strong> executes callback once after specified delay</li>
+                                <li><strong>setInterval</strong> executes callback repeatedly at regular intervals</li>
+                                <li><strong>Timer precision</strong> is not guaranteed; delays may vary slightly</li>
+                                <li><strong>Always clean up</strong> timers with clearTimeout/clearInterval</li>
+                                <li><strong>Timers don't block</strong> the event loop; code continues execution</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Clear timers when they're no longer needed</li>
+                                    <li>Store timer IDs to cancel them later</li>
+                                    <li>Use setTimeout for one-time delayed execution</li>
+                                    <li>Use setInterval for recurring tasks</li>
+                                    <li>Consider using cron jobs for scheduled tasks</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't rely on precise timing for critical operations</li>
+                                    <li>Don't create intervals without cleanup</li>
+                                    <li>Don't use setInterval for recursive operations</li>
+                                    <li>Don't forget to handle errors in timer callbacks</li>
+                                    <li>Don't use timers for high-frequency operations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 18: setImmediate vs process.nextTick -->
+            <div class="question-node" id="q18">
+                <div class="question-header" onclick="toggleQuestion('q18')">
+                    <div>
+                        <span class="question-number">Q18</span>
+                        <span class="question-title">setImmediate vs process.nextTick</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>⚡ process.nextTick</h3>
+                                <p>Highest priority, executes before event loop</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⏭️ setImmediate</h3>
+                                <p>Check phase, executes after I/O events</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📊 Execution Order</h3>
+                                <p>nextTick → Promises → Timers → setImmediate</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚠️ Starvation Risk</h3>
+                                <p>Recursive nextTick can block event loop</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q18-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Execution Order Comparison</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q18-1">
+<pre><code>console.log(<span class="string">'1: Script start'</span>);
+
+<span class="function">setTimeout</span>(() => console.log(<span class="string">'2: setTimeout'</span>), <span class="number">0</span>);
+
+<span class="function">setImmediate</span>(() => console.log(<span class="string">'3: setImmediate'</span>));
+
+process.<span class="function">nextTick</span>(() => console.log(<span class="string">'4: nextTick'</span>));
+
+<span class="function">Promise.resolve</span>().<span class="function">then</span>(() => console.log(<span class="string">'5: Promise'</span>));
+
+console.log(<span class="string">'6: Script end'</span>);
+
+<span class="comment">// Output:</span>
+<span class="comment">// 1: Script start</span>
+<span class="comment">// 6: Script end</span>
+<span class="comment">// 4: nextTick          ← Executes FIRST (highest priority)</span>
+<span class="comment">// 5: Promise           ← Then microtasks</span>
+<span class="comment">// 2: setTimeout        ← Then timers</span>
+<span class="comment">// 3: setImmediate      ← Finally check phase</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q18-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Priority Transaction Processing</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q18-2">
+<pre><code><span class="keyword">class</span> <span class="function">TransactionProcessor</span> {
+  <span class="comment">// High-priority (use nextTick)</span>
+  <span class="function">processUrgent</span>(transaction) {
+    process.<span class="function">nextTick</span>(() => {
+      <span class="keyword">this</span>.<span class="function">validateTransaction</span>(transaction);
+      <span class="keyword">this</span>.<span class="function">executeTransaction</span>(transaction);
+    });
+  }
+
+  <span class="comment">// Normal-priority (use setImmediate)</span>
+  <span class="function">processNormal</span>(transaction) {
+    <span class="function">setImmediate</span>(() => {
+      <span class="keyword">this</span>.<span class="function">validateTransaction</span>(transaction);
+      <span class="keyword">this</span>.<span class="function">executeTransaction</span>(transaction);
+    });
+  }
+
+  <span class="comment">// Batch processing (safe recursion)</span>
+  <span class="function">processBatch</span>(transactions) {
+    <span class="keyword">if</span> (transactions.length === <span class="number">0</span>) <span class="keyword">return</span>;
+    
+    <span class="keyword">const</span> txn = transactions.<span class="function">shift</span>();
+    <span class="function">setImmediate</span>(() => {
+      <span class="keyword">this</span>.<span class="function">executeTransaction</span>(txn);
+      <span class="keyword">this</span>.<span class="function">processBatch</span>(transactions);
+    });
+  }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>process.nextTick</strong> has highest priority, executes before event loop continues</li>
+                                <li><strong>setImmediate</strong> executes in Check phase, after I/O events</li>
+                                <li><strong>Use nextTick</strong> for emitting events, error callbacks, cleanup</li>
+                                <li><strong>Use setImmediate</strong> for deferring work, recursive operations</li>
+                                <li><strong>Avoid nextTick recursion</strong> - can starve the event loop</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use process.nextTick for event emissions</li>
+                                    <li>Use setImmediate for breaking up CPU-intensive work</li>
+                                    <li>Prefer setImmediate for recursive operations</li>
+                                    <li>Use nextTick to ensure callbacks run after construction</li>
+                                    <li>Use setImmediate when you need to yield to I/O</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't use recursive nextTick (causes starvation)</li>
+                                    <li>Don't use nextTick for long-running operations</li>
+                                    <li>Don't confuse setTimeout(fn, 0) with setImmediate</li>
+                                    <li>Don't overuse nextTick (impacts performance)</li>
+                                    <li>Don't use nextTick when setImmediate is more appropriate</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 19: Process Management - process object -->
+            <div class="question-node" id="q19">
+                <div class="question-header" onclick="toggleQuestion('q19')">
+                    <div>
+                        <span class="question-number">Q19</span>
+                        <span class="question-title">Process Management (process object)</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🌍 process.env</h3>
+                                <p>Environment variables for configuration</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚙️ process.argv</h3>
+                                <p>Command-line arguments parsing</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📂 process.cwd()</h3>
+                                <p>Current working directory operations</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🚪 Exit Codes</h3>
+                                <p>Process termination and exit codes</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q19-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Process Object Basics</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q19-1">
+<pre><code><span class="comment">// Environment variables</span>
+<span class="keyword">const</span> env = process.env.NODE_ENV || <span class="string">'development'</span>;
+<span class="keyword">const</span> port = process.env.PORT || <span class="number">3000</span>;
+<span class="keyword">const</span> dbHost = process.env.DB_HOST || <span class="string">'localhost'</span>;
+
+console.log(<span class="string">`Running in <span class="keyword">${env}</span> mode on port <span class="keyword">${port}</span>`</span>);
+
+<span class="comment">// Command-line arguments</span>
+<span class="comment">// node app.js --port 8080 --env production</span>
+console.log(process.argv);
+<span class="comment">// ['node', '/path/to/app.js', '--port', '8080', '--env', 'production']</span>
+
+<span class="keyword">const</span> args = process.argv.<span class="function">slice</span>(<span class="number">2</span>);
+<span class="keyword">const</span> <span class="function">getArg</span> = (flag) => {
+  <span class="keyword">const</span> index = args.<span class="function">indexOf</span>(flag);
+  <span class="keyword">return</span> index !== -<span class="number">1</span> && args[index + <span class="number">1</span>] ? args[index + <span class="number">1</span>] : <span class="keyword">null</span>;
+};
+
+<span class="keyword">const</span> cliPort = <span class="function">getArg</span>(<span class="string">'--port'</span>);
+
+<span class="comment">// Current working directory</span>
+console.log(<span class="string">'CWD:'</span>, process.<span class="function">cwd</span>());
+
+<span class="comment">// Process info</span>
+console.log(<span class="string">'PID:'</span>, process.pid);
+console.log(<span class="string">'Platform:'</span>, process.platform); <span class="comment">// 'win32', 'linux', 'darwin'</span>
+console.log(<span class="string">'Node version:'</span>, process.version);
+
+<span class="comment">// Exit codes</span>
+<span class="comment">// 0 = success, 1 = failure</span>
+process.<span class="function">exit</span>(<span class="number">0</span>);</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q19-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Multi-Environment Configuration</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q19-2">
+<pre><code><span class="keyword">import</span> { config } <span class="keyword">from</span> <span class="string">'dotenv'</span>;
+config(); <span class="comment">// Load .env file</span>
+
+<span class="keyword">class</span> <span class="function">ConfigManager</span> {
+  constructor() {
+    <span class="keyword">this</span>.env = process.env.NODE_ENV || <span class="string">'development'</span>;
+    <span class="keyword">this</span>.config = <span class="keyword">this</span>.<span class="function">loadConfig</span>();
+  }
+
+  <span class="function">loadConfig</span>() {
+    <span class="keyword">const</span> configs = {
+      development: {
+        port: <span class="number">3000</span>,
+        db: {
+          host: <span class="string">'localhost'</span>,
+          port: <span class="number">5432</span>,
+          name: <span class="string">'bank_dev'</span>
+        },
+        jwt: { expiresIn: <span class="string">'1h'</span> },
+        logging: <span class="string">'debug'</span>
+      },
+      production: {
+        port: process.env.PORT || <span class="number">8080</span>,
+        db: {
+          host: process.env.DB_HOST,
+          port: process.env.DB_PORT,
+          name: process.env.DB_NAME,
+          ssl: <span class="keyword">true</span>
+        },
+        jwt: { 
+          secret: process.env.JWT_SECRET,
+          expiresIn: <span class="string">'15m'</span>
+        },
+        logging: <span class="string">'error'</span>
+      }
+    };
+
+    <span class="keyword">const</span> config = configs[<span class="keyword">this</span>.env];
+    
+    <span class="keyword">if</span> (!config) {
+      console.error(<span class="string">`Invalid environment: <span class="keyword">${this.env}</span>`</span>);
+      process.<span class="function">exit</span>(<span class="number">1</span>);
+    }
+
+    <span class="keyword">return</span> config;
+  }
+
+  <span class="function">get</span>(key) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.config[key];
+  }
+}
+
+<span class="comment">// CLI Tool for database migration</span>
+<span class="keyword">class</span> <span class="function">MigrationCLI</span> {
+  <span class="function">run</span>() {
+    <span class="keyword">const</span> args = process.argv.<span class="function">slice</span>(<span class="number">2</span>);
+    <span class="keyword">const</span> command = args[<span class="number">0</span>];
+
+    <span class="keyword">switch</span> (command) {
+      <span class="keyword">case</span> <span class="string">'up'</span>:
+        <span class="keyword">this</span>.<span class="function">migrateUp</span>();
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="string">'down'</span>:
+        <span class="keyword">this</span>.<span class="function">migrateDown</span>();
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="string">'status'</span>:
+        <span class="keyword">this</span>.<span class="function">showStatus</span>();
+        <span class="keyword">break</span>;
+      <span class="keyword">default</span>:
+        console.error(<span class="string">'Unknown command. Use: up, down, status'</span>);
+        process.<span class="function">exit</span>(<span class="number">1</span>);
+    }
+  }
+
+  <span class="keyword">async</span> <span class="function">migrateUp</span>() {
+    <span class="keyword">try</span> {
+      console.log(<span class="string">'Running migrations...'</span>);
+      <span class="comment">// Migration logic</span>
+      console.log(<span class="string">'✓ Migrations complete'</span>);
+      process.<span class="function">exit</span>(<span class="number">0</span>);
+    } <span class="keyword">catch</span> (error) {
+      console.error(<span class="string">'✗ Migration failed:'</span>, error.message);
+      process.<span class="function">exit</span>(<span class="number">1</span>);
+    }
+  }
+}
+
+<span class="comment">// Usage: node migrate.js up</span>
+<span class="keyword">const</span> cli = <span class="keyword">new</span> <span class="function">MigrationCLI</span>();
+cli.<span class="function">run</span>();</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>process.env</strong> stores environment variables for configuration</li>
+                                <li><strong>process.argv</strong> contains command-line arguments array</li>
+                                <li><strong>process.cwd()</strong> returns current working directory</li>
+                                <li><strong>Exit codes</strong>: 0 = success, non-zero = error</li>
+                                <li><strong>Never hardcode</strong> sensitive data; use environment variables</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use dotenv for development environment variables</li>
+                                    <li>Validate required environment variables on startup</li>
+                                    <li>Use commander/yargs for complex CLI arguments</li>
+                                    <li>Exit with appropriate codes (0 success, 1 error)</li>
+                                    <li>Use process.env for different environments</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't hardcode credentials in source code</li>
+                                    <li>Don't commit .env files to version control</li>
+                                    <li>Don't use process.exit() in libraries</li>
+                                    <li>Don't forget to provide default values</li>
+                                    <li>Don't parse argv manually for complex CLIs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 20: Process Signals & Graceful Shutdown -->
+            <div class="question-node" id="q20">
+                <div class="question-header" onclick="toggleQuestion('q20')">
+                    <div>
+                        <span class="question-number">Q20</span>
+                        <span class="question-title">Process Signals & Graceful Shutdown</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📡 SIGTERM</h3>
+                                <p>Graceful termination signal from OS</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚡ SIGINT</h3>
+                                <p>Interrupt signal (Ctrl+C)</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🛑 Graceful Shutdown</h3>
+                                <p>Close connections, complete requests</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔄 Zero Downtime</h3>
+                                <p>Deploy without dropping connections</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q20-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Signal Handling Basics</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q20-1">
+<pre><code><span class="comment">// SIGTERM - Graceful termination (from OS/Docker/K8s)</span>
+process.<span class="function">on</span>(<span class="string">'SIGTERM'</span>, () => {
+  console.log(<span class="string">'SIGTERM received, shutting down gracefully'</span>);
+  server.<span class="function">close</span>(() => {
+    console.log(<span class="string">'Server closed'</span>);
+    process.<span class="function">exit</span>(<span class="number">0</span>);
+  });
+});
+
+<span class="comment">// SIGINT - Interrupt (Ctrl+C)</span>
+process.<span class="function">on</span>(<span class="string">'SIGINT'</span>, () => {
+  console.log(<span class="string">'\nSIGINT received (Ctrl+C)'</span>);
+  <span class="function">gracefulShutdown</span>(<span class="string">'SIGINT'</span>);
+});
+
+<span class="comment">// Custom signals</span>
+process.<span class="function">on</span>(<span class="string">'SIGUSR1'</span>, () => {
+  console.log(<span class="string">'SIGUSR1: Dumping memory stats'</span>);
+  console.log(process.<span class="function">memoryUsage</span>());
+});
+
+<span class="comment">// Uncaught exceptions</span>
+process.<span class="function">on</span>(<span class="string">'uncaughtException'</span>, (error) => {
+  console.error(<span class="string">'Uncaught Exception:'</span>, error);
+  process.<span class="function">exit</span>(<span class="number">1</span>);
+});
+
+<span class="comment">// Unhandled promise rejections</span>
+process.<span class="function">on</span>(<span class="string">'unhandledRejection'</span>, (reason, promise) => {
+  console.error(<span class="string">'Unhandled Rejection at:'</span>, promise, <span class="string">'reason:'</span>, reason);
+  process.<span class="function">exit</span>(<span class="number">1</span>);
+});</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q20-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Production Graceful Shutdown</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q20-2">
+<pre><code><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">'express'</span>;
+<span class="keyword">import</span> { createPool } <span class="keyword">from</span> <span class="string">'mysql2/promise'</span>;
+
+<span class="keyword">const</span> app = <span class="function">express</span>();
+<span class="keyword">const</span> dbPool = <span class="function">createPool</span>({ <span class="comment">/* config */</span> });
+
+<span class="keyword">let</span> isShuttingDown = <span class="keyword">false</span>;
+<span class="keyword">const</span> activeTransactions = <span class="keyword">new</span> <span class="function">Set</span>();
+
+<span class="comment">// Track active transactions</span>
+app.<span class="function">use</span>((req, res, next) => {
+  <span class="keyword">if</span> (isShuttingDown) {
+    <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">503</span>).<span class="function">send</span>(<span class="string">'Server shutting down'</span>);
+  }
+  
+  <span class="keyword">const</span> transactionId = <span class="string">`TXN-<span class="keyword">${Date.now()}</span>`</span>;
+  activeTransactions.<span class="function">add</span>(transactionId);
+  
+  res.<span class="function">on</span>(<span class="string">'finish'</span>, () => {
+    activeTransactions.<span class="function">delete</span>(transactionId);
+  });
+  
+  <span class="function">next</span>();
+});
+
+<span class="comment">// Graceful shutdown handler</span>
+<span class="keyword">async function</span> <span class="function">gracefulShutdown</span>(signal) {
+  console.log(<span class="string">`<span class="keyword">${signal}</span> received, starting graceful shutdown`</span>);
+  isShuttingDown = <span class="keyword">true</span>;
+
+  <span class="comment">// Step 1: Stop accepting new requests</span>
+  server.<span class="function">close</span>(<span class="keyword">async</span> () => {
+    console.log(<span class="string">'✓ HTTP server closed'</span>);
+
+    <span class="comment">// Step 2: Wait for active transactions</span>
+    console.log(<span class="string">`Waiting for <span class="keyword">${activeTransactions.size}</span> active transactions...`</span>);
+    <span class="keyword">while</span> (activeTransactions.size > <span class="number">0</span>) {
+      <span class="keyword">await</span> <span class="keyword">new</span> <span class="function">Promise</span>(resolve => <span class="function">setTimeout</span>(resolve, <span class="number">100</span>));
+    }
+    console.log(<span class="string">'✓ All transactions completed'</span>);
+
+    <span class="comment">// Step 3: Close database connections</span>
+    <span class="keyword">await</span> dbPool.<span class="function">end</span>();
+    console.log(<span class="string">'✓ Database connections closed'</span>);
+
+    <span class="comment">// Step 4: Close other resources (Redis, queues, etc.)</span>
+    <span class="keyword">await</span> <span class="function">closeRedis</span>();
+    <span class="keyword">await</span> <span class="function">closeMessageQueue</span>();
+    console.log(<span class="string">'✓ All resources closed'</span>);
+
+    console.log(<span class="string">'✓ Graceful shutdown complete'</span>);
+    process.<span class="function">exit</span>(<span class="number">0</span>);
+  });
+
+  <span class="comment">// Timeout: Force shutdown after 30 seconds</span>
+  <span class="function">setTimeout</span>(() => {
+    console.error(<span class="string">'⚠️ Forced shutdown after timeout'</span>);
+    process.<span class="function">exit</span>(<span class="number">1</span>);
+  }, <span class="number">30000</span>);
+}
+
+<span class="comment">// Register signal handlers</span>
+process.<span class="function">on</span>(<span class="string">'SIGTERM'</span>, () => <span class="function">gracefulShutdown</span>(<span class="string">'SIGTERM'</span>));
+process.<span class="function">on</span>(<span class="string">'SIGINT'</span>, () => <span class="function">gracefulShutdown</span>(<span class="string">'SIGINT'</span>));
+
+<span class="comment">// Health check endpoint (for load balancer)</span>
+app.<span class="function">get</span>(<span class="string">'/health'</span>, (req, res) => {
+  <span class="keyword">if</span> (isShuttingDown) {
+    <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">503</span>).<span class="function">json</span>({ status: <span class="string">'shutting down'</span> });
+  }
+  res.<span class="function">json</span>({ status: <span class="string">'ok'</span> });
+});
+
+<span class="keyword">const</span> server = app.<span class="function">listen</span>(<span class="number">3000</span>, () => {
+  console.log(<span class="string">'Banking API running on port 3000'</span>);
+});</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>SIGTERM</strong> for graceful termination from Docker/K8s</li>
+                                <li><strong>SIGINT</strong> for keyboard interrupt (Ctrl+C)</li>
+                                <li><strong>Graceful shutdown</strong>: Stop accepting → Complete requests → Close connections</li>
+                                <li><strong>Timeout</strong> forced shutdown to prevent hanging</li>
+                                <li><strong>Health checks</strong> inform load balancers of shutdown status</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Handle both SIGTERM and SIGINT signals</li>
+                                    <li>Stop accepting new connections first</li>
+                                    <li>Wait for in-flight requests to complete</li>
+                                    <li>Close database connections gracefully</li>
+                                    <li>Implement timeout for forced shutdown (30s)</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't use process.exit() immediately on signal</li>
+                                    <li>Don't leave database connections open</li>
+                                    <li>Don't forget to drain message queues</li>
+                                    <li>Don't ignore in-flight transactions</li>
+                                    <li>Don't skip health check endpoint updates</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>Node.js Interview Questions - Interactive Mind Map</p>
+            <p>Click on question headers to expand/collapse | Click on code headers to view code examples</p>
+        </div>
+    </div>
+
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        ▲
+    </div>
+
+    <script>
+        function toggleQuestion(id) {
+            const node = document.getElementById(id);
+            node.classList.toggle('active');
+        }
+
+        function toggleCode(id) {
+            const codeBlock = document.getElementById(id);
+            codeBlock.classList.toggle('active');
+        }
+
+        // Scroll to top functionality
+        const scrollTopBtn = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Optional: Auto-expand first question on load
+        window.addEventListener('load', () => {
+            document.getElementById('q12').classList.add('active');
+        });
+    </script>
+</body>
+</html>

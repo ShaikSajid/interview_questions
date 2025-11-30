@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Interview Mind Map - Q51-Q60</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .mind-map {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .question-node {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .question-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .question-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .question-header:hover {
+            background: linear-gradient(135deg, #7c8ef0 0%, #8659b0 100%);
+        }
+
+        .question-number {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .question-title {
+            flex: 1;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge-advanced {
+            background: rgba(231, 76, 60, 0.9);
+        }
+
+        .badge-intermediate {
+            background: rgba(241, 196, 15, 0.9);
+        }
+
+        .toggle-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .question-node.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .question-content {
+            max-height: 3000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .question-node.collapsed .question-content {
+            max-height: 0;
+        }
+
+        .content-inner {
+            padding: 30px;
+        }
+
+        .sub-topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .sub-topic {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .sub-topic h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .sub-topic p {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .code-section {
+            margin: 20px 0;
+            background: #282c34;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: #21252b;
+            padding: 10px 20px;
+            color: #abb2bf;
+            font-weight: 600;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .code-section pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .code-section code {
+            color: #abb2bf;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .key-points {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .key-points h3 {
+            color: #2d3436;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .key-points ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .key-points li {
+            color: #2d3436;
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .key-points li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #d63031;
+            font-weight: bold;
+        }
+
+        .key-points strong {
+            color: #d63031;
+        }
+
+        .dos-donts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .dos, .donts {
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .dos {
+            background: linear-gradient(135deg, #a8e6cf 0%, #56ab2f 100%);
+        }
+
+        .donts {
+            background: linear-gradient(135deg, #ffb3b3 0%, #e74c3c 100%);
+        }
+
+        .dos h4, .donts h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .dos ul, .donts ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .dos li, .donts li {
+            color: white;
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .dos li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .donts li:before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .question-title {
+                font-size: 1em;
+            }
+
+            .sub-topics {
+                grid-template-columns: 1fr;
+            }
+
+            .dos-donts {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Node.js Interview Mind Map</h1>
+            <p>Advanced Topics: Q51-Q60 (CI/CD, TypeScript, Monitoring, Native Addons, Production)</p>
+        </div>
+
+        <div class="mind-map">
+
+            <!-- Q51: CI/CD GitHub Actions -->
+            <div class="question-node" id="q51">
+                <div class="question-header" onclick="toggleQuestion('q51')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q51</span>
+                        <span class="question-title">CI/CD - GitHub Actions for Node.js</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔄 Workflow Fundamentals</h3>
+                                <p>GitHub Actions automates CI/CD pipelines with YAML workflows. Triggers: push, PR, schedule, manual. Jobs run in parallel, steps sequential. Runners: GitHub-hosted or self-hosted. Secrets for credentials.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🧪 Automated Testing</h3>
+                                <p>Run unit, integration, E2E tests on every commit. Setup services (PostgreSQL, Redis) in workflow. Coverage thresholds enforce quality. Parallel matrix testing across Node versions. Cache dependencies for speed.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🐳 Docker Build & Push</h3>
+                                <p>Build Docker images in pipeline. Multi-stage builds for optimization. Push to GHCR, ECR, or DockerHub. Scan images with Trivy for vulnerabilities. Tag with branch, SHA, semantic version.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🚀 Multi-Environment Deployment</h3>
+                                <p>Deploy to dev/staging/prod environments. Environment protection rules for prod. AWS ECS/Lambda deployment. Smoke tests after deployment. Rollback on failure. Slack/email notifications.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Workflows:</strong> YAML files in .github/workflows/, triggered by repo events</li>
+                                <li><strong>Jobs:</strong> Run in parallel by default. Use needs: [job] for dependencies</li>
+                                <li><strong>Caching:</strong> Cache node_modules with actions/setup-node cache: 'npm'</li>
+                                <li><strong>Secrets:</strong> Store in repo settings, access via ${{ secrets.NAME }}</li>
+                                <li><strong>Services:</strong> Run databases/Redis as service containers for testing</li>
+                                <li><strong>Matrix:</strong> Test across multiple Node versions, OS platforms in parallel</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Cache dependencies for faster builds</li>
+                                    <li>Use environment protection for production</li>
+                                    <li>Run security scanning (Snyk, CodeQL)</li>
+                                    <li>Implement rollback mechanisms</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't hardcode secrets in workflows</li>
+                                    <li>Don't skip tests for faster deployment</li>
+                                    <li>Don't deploy without health checks</li>
+                                    <li>Don't ignore failed builds</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q52: Blue-Green Deployment -->
+            <div class="question-node" id="q52">
+                <div class="question-header" onclick="toggleQuestion('q52')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q52</span>
+                        <span class="question-title">CI/CD - Blue-Green Deployment</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔵🟢 Blue-Green Pattern</h3>
+                                <p>Two identical environments (blue=current, green=new). Deploy to green, test, switch traffic instantly. Zero downtime. Instant rollback if issues. Both environments share database. Higher cost (2x resources).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔄 Traffic Switching</h3>
+                                <p>Load balancer switches traffic between environments. AWS ALB target groups, Kubernetes service selectors. Test green in production before switch. Monitor metrics after switch. Keep blue warm for rollback.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>💾 Database Strategy</h3>
+                                <p>Backward-compatible migrations. Add nullable columns, never drop immediately. Multi-phase migrations. Feature flags hide new features. Shared database between blue/green. Test rollback scenarios.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📊 Health Checks</h3>
+                                <p>/health endpoint for liveness. /ready for readiness (DB checks). ALB health checks route traffic only to healthy targets. Graceful shutdown on SIGTERM. Drain connections before termination.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Zero Downtime:</strong> Traffic switches instantly, no service interruption</li>
+                                <li><strong>Instant Rollback:</strong> Switch back to blue in seconds if issues detected</li>
+                                <li><strong>Testing:</strong> Test green in production environment before switching traffic</li>
+                                <li><strong>Cost:</strong> Requires 2x resources during deployment (blue + green running)</li>
+                                <li><strong>Migrations:</strong> Must be backward-compatible for both versions</li>
+                                <li><strong>Monitoring:</strong> Watch error rates, latency for 5-10 min after switch</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Run comprehensive health checks on green</li>
+                                    <li>Keep blue running during monitoring period</li>
+                                    <li>Use feature flags for gradual rollouts</li>
+                                    <li>Automate rollback based on metrics</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't make breaking database changes</li>
+                                    <li>Don't scale down blue immediately after switch</li>
+                                    <li>Don't skip smoke tests on green</li>
+                                    <li>Don't forget graceful shutdown handling</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q53: TypeScript Basics -->
+            <div class="question-node" id="q53">
+                <div class="question-header" onclick="toggleQuestion('q53')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q53</span>
+                        <span class="question-title">TypeScript - Basics with Node.js</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📘 Type System</h3>
+                                <p>Static typing catches errors at compile-time. Basic types: string, number, boolean, array. Interfaces define object shapes. Enums for constants. Type aliases for complex types. Avoid 'any' type.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔧 tsconfig.json</h3>
+                                <p>Configuration file for TypeScript compiler. strict: true enables all checks. target: ES2020, module: commonjs. outDir for compiled JS. sourceMap for debugging. noUnusedLocals, noImplicitReturns for quality.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🏗️ Classes & Interfaces</h3>
+                                <p>Classes with access modifiers (public, private, protected). Interfaces for contracts. Implements keyword for interface implementation. Abstract classes. Readonly properties. Constructor parameter properties.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🎯 Type Guards</h3>
+                                <p>Runtime type checking with type guards. typeof for primitives. instanceof for classes. Custom type guards with 'is' keyword. Union types narrowed by guards. Unknown type safer than any.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Type Safety:</strong> Catch errors at compile-time, not runtime</li>
+                                <li><strong>Interfaces:</strong> Define object shapes, can be extended and merged</li>
+                                <li><strong>Strict Mode:</strong> Enable all strict checks for maximum type safety</li>
+                                <li><strong>Generics:</strong> Write reusable code that works with multiple types</li>
+                                <li><strong>Type Guards:</strong> Narrow union types with runtime checks</li>
+                                <li><strong>Development:</strong> Better IDE support, autocomplete, refactoring</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Enable strict mode in tsconfig.json</li>
+                                    <li>Type all function parameters and returns</li>
+                                    <li>Use interfaces for object shapes</li>
+                                    <li>Prefer unknown over any type</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't use 'any' type (defeats purpose)</li>
+                                    <li>Don't ignore compiler errors</li>
+                                    <li>Don't skip type annotations</li>
+                                    <li>Don't disable strict checks</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q54: TypeScript Advanced Types -->
+            <div class="question-node" id="q54">
+                <div class="question-header" onclick="toggleQuestion('q54')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q54</span>
+                        <span class="question-title">TypeScript - Advanced Types</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔀 Union & Intersection</h3>
+                                <p>Union types (A | B): value can be either type. Intersection (A & B): combine multiple types. Discriminated unions with literal types. Type narrowing in conditionals. Exhaustiveness checking with never.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🎭 Utility Types</h3>
+                                <p>Partial<T> makes all properties optional. Required<T> makes all required. Pick<T, K> selects properties. Omit<T, K> excludes properties. Record<K, V> for key-value maps. ReturnType<T> extracts return type.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔑 Mapped Types</h3>
+                                <p>Transform properties of existing types. Readonly<T>, Partial<T> are built-in mapped types. Create custom mapped types with [K in keyof T]. Conditional types with extends. Template literal types for string manipulation.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🧬 Generics Advanced</h3>
+                                <p>Generic constraints with extends. Multiple type parameters. Default generic types. Generic classes and interfaces. Conditional types. infer keyword for type extraction. Variance in generics.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Union Types:</strong> Value can be one of several types (string | number)</li>
+                                <li><strong>Utility Types:</strong> Built-in helpers like Partial, Pick, Omit, Record</li>
+                                <li><strong>Mapped Types:</strong> Transform existing types by mapping over properties</li>
+                                <li><strong>Conditional Types:</strong> T extends U ? X : Y for type-level logic</li>
+                                <li><strong>Template Literals:</strong> String manipulation at type level</li>
+                                <li><strong>Type Inference:</strong> Let TypeScript infer types when possible</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use utility types instead of rewriting logic</li>
+                                    <li>Leverage type inference when clear</li>
+                                    <li>Use discriminated unions for variants</li>
+                                    <li>Constrain generics appropriately</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't over-complicate with complex types</li>
+                                    <li>Don't ignore type errors with any</li>
+                                    <li>Don't nest conditionals too deeply</li>
+                                    <li>Don't create unreadable type aliases</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q55: Monitoring APM Tools -->
+            <div class="question-node" id="q55">
+                <div class="question-header" onclick="toggleQuestion('q55')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q55</span>
+                        <span class="question-title">Monitoring - APM Tools</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📊 Application Performance Monitoring</h3>
+                                <p>APM tools track app performance in production. Distributed tracing across microservices. Request-level metrics (latency, throughput). Error tracking with stack traces. Popular: New Relic, DataDog, Dynatrace, AppDynamics.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔍 Distributed Tracing</h3>
+                                <p>Track requests across multiple services. OpenTelemetry standard for instrumentation. Trace IDs propagate through headers. Spans represent operations. Flame graphs visualize latency. Identify bottlenecks.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📈 Metrics & Dashboards</h3>
+                                <p>RED metrics: Rate, Errors, Duration. Apdex score for user satisfaction. Custom business metrics. Real-time dashboards. Historical trends. Percentiles (p50, p95, p99) for latency. Memory, CPU usage.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🚨 Error Tracking</h3>
+                                <p>Capture uncaught exceptions. Stack traces with source maps. Error grouping by similarity. Impact analysis (affected users). Sentry, Rollbar for error tracking. Breadcrumbs for debugging context.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>APM:</strong> End-to-end visibility into application performance</li>
+                                <li><strong>Tracing:</strong> Follow requests through microservices with trace IDs</li>
+                                <li><strong>Metrics:</strong> Track rate, errors, duration (RED), response times</li>
+                                <li><strong>Alerting:</strong> Proactive notifications on threshold breaches</li>
+                                <li><strong>Tools:</strong> DataDog, New Relic, OpenTelemetry, Prometheus</li>
+                                <li><strong>Overhead:</strong> APM adds 1-5% overhead, acceptable for value gained</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Instrument critical paths early</li>
+                                    <li>Set up dashboards for key metrics</li>
+                                    <li>Use distributed tracing for microservices</li>
+                                    <li>Track business metrics alongside technical</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't wait for issues to add monitoring</li>
+                                    <li>Don't ignore APM overhead in performance</li>
+                                    <li>Don't track too many custom metrics</li>
+                                    <li>Don't forget to sanitize sensitive data</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q56: Monitoring Alerting -->
+            <div class="question-node" id="q56">
+                <div class="question-header" onclick="toggleQuestion('q56')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q56</span>
+                        <span class="question-title">Monitoring - Alerting Strategies</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔔 Alert Types</h3>
+                                <p>Threshold alerts (CPU > 80%). Anomaly detection (ML-based). Rate of change alerts (traffic spike). Composite alerts (multiple conditions). SLO-based alerts (error budget burn). Dead man's switch (heartbeat).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚠️ Alert Severity</h3>
+                                <p>Critical: immediate action, page on-call. High: investigate within 30 min. Medium: check next business day. Low: informational. Escalation policies. Alert fatigue prevention. Group related alerts.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📞 Notification Channels</h3>
+                                <p>PagerDuty, OpsGenie for on-call. Slack for team notifications. Email for non-urgent. SMS for critical. Webhooks for custom integrations. Runbooks attached to alerts. Context in notifications.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🎯 Best Practices</h3>
+                                <p>Alert on symptoms, not causes. Actionable alerts only. Include relevant context (service, region). Define SLOs (99.9% uptime). Alert on SLO violations. Test alerts regularly. Review and tune thresholds.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Symptoms vs Causes:</strong> Alert on user-impacting issues, not internal metrics</li>
+                                <li><strong>Severity Levels:</strong> Critical (page), High (30min), Medium (next day)</li>
+                                <li><strong>Alert Fatigue:</strong> Too many alerts = ignored alerts. Keep signal high</li>
+                                <li><strong>SLO-Based:</strong> Alert on error budget burn rate, not arbitrary thresholds</li>
+                                <li><strong>Runbooks:</strong> Every alert should have action steps attached</li>
+                                <li><strong>Testing:</strong> Regularly test alert delivery and escalation paths</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Alert on user-impacting issues</li>
+                                    <li>Include context in alert messages</li>
+                                    <li>Define clear escalation policies</li>
+                                    <li>Review and tune alerts regularly</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't alert on every metric spike</li>
+                                    <li>Don't create alerts without actions</li>
+                                    <li>Don't ignore alert fatigue</li>
+                                    <li>Don't forget to test alert delivery</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q57: Native Addons C++ Integration -->
+            <div class="question-node" id="q57">
+                <div class="question-header" onclick="toggleQuestion('q57')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q57</span>
+                        <span class="question-title">Native Addons - C++ Integration</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>⚙️ N-API Basics</h3>
+                                <p>Node-API (N-API) stable ABI for native modules. Write C/C++ code callable from Node.js. Use for CPU-intensive tasks, existing C++ libraries. node-gyp builds native modules. Works across Node versions.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔧 Build Configuration</h3>
+                                <p>binding.gyp defines build config. Include directories, libraries. Cross-platform builds (Windows, Linux, Mac). node-addon-api C++ wrapper over N-API. Prebuilds for distribution. node-pre-gyp for binaries.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔄 Data Conversion</h3>
+                                <p>Convert between JS and C++ types. Numbers, strings, objects, arrays. Buffer for binary data. Callbacks, promises from C++. Reference counting for memory management. Handle scope for GC.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚡ Use Cases</h3>
+                                <p>Cryptography (fast hashing, encryption). Image processing (resize, filters). Financial calculations (high precision). Legacy C++ library integration. Hardware access. Performance-critical algorithms.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>N-API:</strong> Stable ABI for native modules, works across Node versions</li>
+                                <li><strong>Performance:</strong> 10-100x faster for CPU-intensive operations</li>
+                                <li><strong>Use Cases:</strong> Crypto, image processing, math, legacy C++ integration</li>
+                                <li><strong>Build:</strong> node-gyp compiles C++ to .node binary addon</li>
+                                <li><strong>Memory:</strong> Manual memory management required in C++ code</li>
+                                <li><strong>Complexity:</strong> Harder to debug, platform-specific builds</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use N-API for version compatibility</li>
+                                    <li>Profile before optimizing with C++</li>
+                                    <li>Handle errors gracefully</li>
+                                    <li>Provide prebuilt binaries</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't use for I/O-bound tasks</li>
+                                    <li>Don't forget memory cleanup</li>
+                                    <li>Don't block event loop in C++</li>
+                                    <li>Don't ignore cross-platform issues</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q58: Native Addons Performance -->
+            <div class="question-node" id="q58">
+                <div class="question-header" onclick="toggleQuestion('q58')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q58</span>
+                        <span class="question-title">Native Addons - Performance Optimization</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🚀 Async Execution</h3>
+                                <p>Use AsyncWorker to avoid blocking event loop. libuv thread pool for background work. Return promises to JS. Progress callbacks for long operations. Cancel long-running tasks. ThreadSafeFunction for callbacks.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>💾 Memory Optimization</h3>
+                                <p>Use Buffer for zero-copy data sharing. Avoid copying large objects. External ArrayBuffer for binary data. HandleScope for local references. Persistent handles for long-lived objects. Weak references for caches.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚡ Algorithm Optimization</h3>
+                                <p>SIMD for parallel operations. OpenMP for multi-threading. Avoid frequent JS ↔ C++ crossings. Batch operations. Use native data structures. Profile with perf, valgrind. Compiler optimizations (-O3).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔍 Profiling & Debugging</h3>
+                                <p>node --inspect for debugging. Chrome DevTools for C++ code. Valgrind for memory leaks. perf for CPU profiling. Address sanitizer for buffer overflows. Benchmark.js for performance tests.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>AsyncWorker:</strong> Run C++ code off event loop with libuv threads</li>
+                                <li><strong>Zero-Copy:</strong> Use Buffer.from() to avoid data copying between JS/C++</li>
+                                <li><strong>Threading:</strong> OpenMP, std::thread for CPU parallelism in C++</li>
+                                <li><strong>Memory:</strong> Manual cleanup required, use RAII patterns</li>
+                                <li><strong>Profiling:</strong> Use perf, valgrind to find bottlenecks</li>
+                                <li><strong>Benchmarks:</strong> Always measure before/after optimization</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use AsyncWorker for long operations</li>
+                                    <li>Leverage Buffer for binary data</li>
+                                    <li>Profile before optimizing</li>
+                                    <li>Test on all target platforms</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't block event loop with sync C++ calls</li>
+                                    <li>Don't copy large data between JS/C++</li>
+                                    <li>Don't forget to test memory leaks</li>
+                                    <li>Don't optimize without profiling first</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q59: Production Best Practices -->
+            <div class="question-node" id="q59">
+                <div class="question-header" onclick="toggleQuestion('q59')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q59</span>
+                        <span class="question-title">Production - Best Practices</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔐 Security Hardening</h3>
+                                <p>Run as non-root user. Helmet.js for headers. Rate limiting with express-rate-limit. Input validation with Joi. Dependency scanning (npm audit, Snyk). Environment variable secrets. HTTPS only. JWT with short expiry.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📊 Observability</h3>
+                                <p>Structured logging (JSON format). Correlation IDs for requests. Metrics (Prometheus). Distributed tracing (OpenTelemetry). Health checks (/health, /ready). APM tools (DataDog). Log aggregation (ELK, CloudWatch).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚡ Performance</h3>
+                                <p>Clustering for multi-core. PM2 for process management. Caching (Redis, in-memory). Database connection pooling. Compression (gzip). CDN for static assets. Optimize database queries. Index frequently queried fields.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🛡️ Reliability</h3>
+                                <p>Graceful shutdown (SIGTERM handling). Circuit breakers for external calls. Retry with exponential backoff. Timeouts on all requests. Health checks for dependencies. Auto-restart on crashes (PM2). Blue-green deployments.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Security:</strong> Helmet, rate limiting, input validation, dependency scanning</li>
+                                <li><strong>Logging:</strong> Structured JSON logs with correlation IDs, sanitize sensitive data</li>
+                                <li><strong>Clustering:</strong> Use all CPU cores with cluster module or PM2</li>
+                                <li><strong>Graceful Shutdown:</strong> Handle SIGTERM, close connections, drain requests</li>
+                                <li><strong>Health Checks:</strong> /health for liveness, /ready for readiness</li>
+                                <li><strong>Monitoring:</strong> APM, metrics, alerts on SLO violations</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use PM2 or cluster for multiple instances</li>
+                                    <li>Implement graceful shutdown</li>
+                                    <li>Monitor error rates, latency</li>
+                                    <li>Use environment variables for config</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't run as root user</li>
+                                    <li>Don't log sensitive data (passwords, tokens)</li>
+                                    <li>Don't skip dependency updates</li>
+                                    <li>Don't ignore memory leaks</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q60: Production Scalability -->
+            <div class="question-node" id="q60">
+                <div class="question-header" onclick="toggleQuestion('q60')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q60</span>
+                        <span class="question-title">Production - Scalability Strategies</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📈 Horizontal Scaling</h3>
+                                <p>Add more servers to handle load. Load balancer (ALB, NGINX) distributes traffic. Stateless services scale easily. Session in Redis, not memory. Auto-scaling based on CPU/memory. ECS, Kubernetes for orchestration.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚡ Vertical Scaling</h3>
+                                <p>Increase server resources (CPU, RAM). Easier but has limits. Use clustering for multi-core. Less complex than horizontal. Cost increases linearly. Use for databases (RDS, Aurora).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🗄️ Database Scaling</h3>
+                                <p>Read replicas for read-heavy workloads. Sharding for write scaling. Connection pooling (pg.Pool). Database indexing for queries. Caching frequently accessed data. Materialized views. Partition large tables.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔄 Caching Strategy</h3>
+                                <p>Redis for distributed cache. Cache-aside pattern. Write-through caching. TTL for expiration. Cache invalidation strategy. CDN for static assets. In-memory cache for hot data. Avoid over-caching.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Horizontal:</strong> Add more servers, easier to scale infinitely</li>
+                                <li><strong>Vertical:</strong> Bigger servers, simpler but limited scaling</li>
+                                <li><strong>Stateless:</strong> No session in server memory = easy horizontal scaling</li>
+                                <li><strong>Caching:</strong> Redis for distributed cache, reduces database load</li>
+                                <li><strong>Database:</strong> Read replicas, sharding, connection pooling</li>
+                                <li><strong>Load Balancing:</strong> Distribute traffic, health checks, sticky sessions</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Design stateless services for horizontal scaling</li>
+                                    <li>Use Redis for session management</li>
+                                    <li>Implement caching at multiple layers</li>
+                                    <li>Monitor and auto-scale based on metrics</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't store session in server memory</li>
+                                    <li>Don't over-cache (memory limits)</li>
+                                    <li>Don't ignore database query optimization</li>
+                                    <li>Don't forget cache invalidation strategy</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>💡 Master these topics to ace your Node.js interviews!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Advanced Level Questions (51-60)</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleQuestion(id) {
+            const node = document.getElementById(id);
+            node.classList.toggle('collapsed');
+        }
+
+        // Initialize all questions as expanded
+        document.addEventListener('DOMContentLoaded', function() {
+            // All questions start expanded by default
+        });
+    </script>
+</body>
+</html>

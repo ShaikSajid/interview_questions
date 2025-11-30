@@ -1,0 +1,2407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Interview Questions - Mind Map (Q01-Q10)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .mindmap {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .central-node {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .question-node {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .question-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .question-header:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .question-title {
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .question-number {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .question-node.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .question-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .question-node.active .question-content {
+            max-height: 5000px;
+        }
+
+        .content-inner {
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .sub-topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .sub-topic {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sub-topic h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .sub-topic ul {
+            list-style-position: inside;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .code-section {
+            margin-top: 20px;
+        }
+
+        .code-header {
+            background: #2d3748;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .code-header:hover {
+            background: #1a202c;
+        }
+
+        .code-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-icon {
+            font-size: 1.2em;
+        }
+
+        .code-block {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: #1a202c;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .code-block.active {
+            max-height: 800px;
+            overflow-y: auto;
+        }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            color: #e2e8f0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .keyword { color: #ff79c6; }
+        .string { color: #50fa7b; }
+        .comment { color: #6272a4; }
+        .function { color: #8be9fd; }
+        .number { color: #bd93f9; }
+
+        .key-points {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .key-points h3 {
+            color: #c53030;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .key-points ul {
+            list-style-position: inside;
+            line-height: 2;
+            color: #2d3748;
+        }
+
+        .dos-donts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .dos, .donts {
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .dos {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            border-left: 5px solid #48bb78;
+        }
+
+        .donts {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left: 5px solid #e53e3e;
+        }
+
+        .dos h4, .donts h4 {
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+
+        .dos h4 {
+            color: #2f855a;
+        }
+
+        .donts h4 {
+            color: #c53030;
+        }
+
+        .dos ul, .donts ul {
+            list-style-position: inside;
+            line-height: 1.8;
+            color: #2d3748;
+        }
+
+        @media (max-width: 768px) {
+            .dos-donts {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge-beginner { background: #48bb78; color: white; }
+        .badge-intermediate { background: #ed8936; color: white; }
+        .badge-advanced { background: #e53e3e; color: white; }
+
+        .footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .sub-topics {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .question-title {
+                font-size: 1.1em;
+            }
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            background: #764ba2;
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Node.js Interview Questions</h1>
+            <p>Interactive Mind Map - Core Fundamentals (Q01-Q10)</p>
+        </div>
+
+        <div class="mindmap">
+            <div class="central-node">
+                📚 Node.js Core Fundamentals - First 10 Questions
+            </div>
+
+            <!-- Question 1: Event Loop Basics -->
+            <div class="question-node" id="q1">
+                <div class="question-header" onclick="toggleQuestion('q1')">
+                    <div>
+                        <span class="question-number">Q1</span>
+                        <span class="question-title">Event Loop Basics</span>
+                        <span class="badge badge-beginner">Beginner</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h4>🎯 Core Concept</h4>
+                                <ul>
+                                    <li>Single-threaded architecture</li>
+                                    <li>Non-blocking I/O operations</li>
+                                    <li>Event-driven programming</li>
+                                    <li>Call stack and callback queue</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>⚡ Key Benefits</h4>
+                                <ul>
+                                    <li>Handles thousands of connections</li>
+                                    <li>Low memory footprint</li>
+                                    <li>No context switching overhead</li>
+                                    <li>Efficient for I/O-heavy apps</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>🏦 Banking Use Case</h4>
+                                <ul>
+                                    <li>Process transaction queue</li>
+                                    <li>Handle concurrent requests</li>
+                                    <li>Real-time notifications</li>
+                                    <li>API gateway processing</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q1-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>Example: Non-Blocking I/O</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q1-1">
+<pre><code><span class="comment">// ❌ BAD: Blocking (Synchronous)</span>
+<span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>);
+
+console.log(<span class="string">'Start'</span>);
+<span class="keyword">const</span> data = fs.<span class="function">readFileSync</span>(<span class="string">'large-file.txt'</span>);
+console.log(<span class="string">'File read complete'</span>);
+console.log(<span class="string">'End'</span>);
+
+<span class="comment">// Output: Start → File read complete → End
+// Problem: Blocks for entire file read (5 seconds!)</span>
+
+<span class="comment">// ✅ GOOD: Non-Blocking (Asynchronous)</span>
+console.log(<span class="string">'Start'</span>);
+fs.<span class="function">readFile</span>(<span class="string">'large-file.txt'</span>, (err, data) => {
+  console.log(<span class="string">'File read complete'</span>);
+});
+console.log(<span class="string">'End'</span>);
+
+<span class="comment">// Output: Start → End → File read complete
+// Benefit: Doesn't block! Other operations continue</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q1-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking Example: Transaction Processing</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q1-2">
+<pre><code><span class="comment">// Processing multiple transactions without blocking</span>
+<span class="keyword">const</span> <span class="function">processTransaction</span> = (txnId, callback) => {
+  <span class="comment">// Simulate database query (non-blocking)</span>
+  <span class="function">setTimeout</span>(() => {
+    console.log(<span class="string">`Processing transaction: </span><span class="keyword">${txnId}</span><span class="string">`</span>);
+    <span class="function">callback</span>(<span class="keyword">null</span>, { txnId, status: <span class="string">'completed'</span> });
+  }, <span class="number">1000</span>);
+};
+
+<span class="comment">// Process 3 transactions concurrently</span>
+console.log(<span class="string">'Start processing queue'</span>);
+
+<span class="function">processTransaction</span>(<span class="string">'TXN001'</span>, (err, result) => {
+  console.log(<span class="string">'✅'</span>, result);
+});
+
+<span class="function">processTransaction</span>(<span class="string">'TXN002'</span>, (err, result) => {
+  console.log(<span class="string">'✅'</span>, result);
+});
+
+<span class="function">processTransaction</span>(<span class="string">'TXN003'</span>, (err, result) => {
+  console.log(<span class="string">'✅'</span>, result);
+});
+
+console.log(<span class="string">'All transactions queued'</span>);
+
+<span class="comment">// Output:
+// Start processing queue
+// All transactions queued
+// Processing transaction: TXN001
+// Processing transaction: TXN002
+// Processing transaction: TXN003
+// ✅ { txnId: 'TXN001', status: 'completed' }
+// ✅ { txnId: 'TXN002', status: 'completed' }
+// ✅ { txnId: 'TXN003', status: 'completed' }</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Single thread handles all requests</strong> via event loop</li>
+                                <li><strong>Non-blocking I/O</strong> allows concurrent operations</li>
+                                <li><strong>Callbacks execute</strong> when I/O completes</li>
+                                <li><strong>Best for I/O-heavy</strong> applications (APIs, real-time apps)</li>
+                                <li><strong>Not ideal for CPU-intensive</strong> tasks (use worker threads)</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                <li>Use async/await or promises for I/O operations</li>
+                                    <li>Leverage Node.js for I/O-bound tasks (APIs, databases)</li>
+                                    <li>Use worker threads for CPU-intensive operations</li>
+                                    <li>Monitor event loop lag in production</li>
+                                    <li>Design APIs with non-blocking patterns</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't perform blocking operations (long loops) in main thread</li>
+                                    <li>Don't use sync methods (fs.readFileSync) in production</li>
+                                    <li>Don't run heavy computations without worker threads</li>
+                                    <li>Don't ignore event loop blocking warnings</li>
+                                    <li>Don't use Node.js for pure CPU tasks without optimization</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2: Event Loop Phases -->
+            <div class="question-node" id="q2">
+                <div class="question-header" onclick="toggleQuestion('q2')">
+                    <div>
+                        <span class="question-number">Q2</span>
+                        <span class="question-title">Event Loop Phases</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h4>⏰ Phase 1: Timers</h4>
+                                <ul>
+                                    <li>setTimeout callbacks</li>
+                                    <li>setInterval callbacks</li>
+                                    <li>Executes after threshold</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>📋 Phase 2: Pending Callbacks</h4>
+                                <ul>
+                                    <li>Deferred I/O callbacks</li>
+                                    <li>TCP errors</li>
+                                    <li>System operations</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>🔄 Phase 3: Poll</h4>
+                                <ul>
+                                    <li>Retrieve new I/O events</li>
+                                    <li>Execute I/O callbacks</li>
+                                    <li>Most time spent here</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>✅ Phase 4: Check</h4>
+                                <ul>
+                                    <li>setImmediate callbacks</li>
+                                    <li>Runs after poll phase</li>
+                                    <li>Higher priority than timers</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>🚫 Phase 5: Close Callbacks</h4>
+                                <ul>
+                                    <li>socket.on('close')</li>
+                                    <li>Cleanup operations</li>
+                                    <li>Resource deallocation</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>⚡ Microtasks</h4>
+                                <ul>
+                                    <li>process.nextTick()</li>
+                                    <li>Promise callbacks</li>
+                                    <li>Runs between phases</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q2-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>Example: Phase Execution Order</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q2-1">
+<pre><code><span class="comment">// Demonstrating execution order across phases</span>
+<span class="function">setTimeout</span>(() => {
+  console.log(<span class="string">'1. setTimeout (Timers phase)'</span>);
+}, <span class="number">0</span>);
+
+<span class="function">setImmediate</span>(() => {
+  console.log(<span class="string">'2. setImmediate (Check phase)'</span>);
+});
+
+process.<span class="function">nextTick</span>(() => {
+  console.log(<span class="string">'3. process.nextTick (Microtask)'</span>);
+});
+
+Promise.<span class="function">resolve</span>().<span class="function">then</span>(() => {
+  console.log(<span class="string">'4. Promise (Microtask)'</span>);
+});
+
+console.log(<span class="string">'5. Synchronous code'</span>);
+
+<span class="comment">// Output order:
+// 5. Synchronous code (Call stack first)
+// 3. process.nextTick (Microtask - highest priority)
+// 4. Promise (Microtask - after nextTick)
+// 2. setImmediate (Check phase)
+// 1. setTimeout (Timers phase)
+
+// Explanation:
+// 1. Sync code runs first (call stack)
+// 2. Microtasks run before any phase
+// 3. setImmediate usually runs before setTimeout(0)
+//    when not inside I/O cycle</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q2-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Payment Processing Priority</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q2-2">
+<pre><code><span class="comment">// Priority-based payment processing using phases</span>
+<span class="keyword">const</span> <span class="function">processPayment</span> = (payment, priority) => {
+  <span class="keyword">if</span> (priority === <span class="string">'urgent'</span>) {
+    <span class="comment">// Highest priority: process immediately after current operation</span>
+    process.<span class="function">nextTick</span>(() => {
+      console.log(<span class="string">`⚡ URGENT: </span><span class="keyword">${payment.id}</span><span class="string"> - $</span><span class="keyword">${payment.amount}</span><span class="string">`</span>);
+    });
+  } <span class="keyword">else if</span> (priority === <span class="string">'high'</span>) {
+    <span class="comment">// High priority: process in check phase</span>
+    <span class="function">setImmediate</span>(() => {
+      console.log(<span class="string">`🔥 HIGH: </span><span class="keyword">${payment.id}</span><span class="string"> - $</span><span class="keyword">${payment.amount}</span><span class="string">`</span>);
+    });
+  } <span class="keyword">else</span> {
+    <span class="comment">// Normal priority: process after timer threshold</span>
+    <span class="function">setTimeout</span>(() => {
+      console.log(<span class="string">`📋 NORMAL: </span><span class="keyword">${payment.id}</span><span class="string"> - $</span><span class="keyword">${payment.amount}</span><span class="string">`</span>);
+    }, <span class="number">0</span>);
+  }
+};
+
+<span class="comment">// Queue payments with different priorities</span>
+<span class="function">processPayment</span>({ id: <span class="string">'PAY001'</span>, amount: <span class="number">1000</span> }, <span class="string">'normal'</span>);
+<span class="function">processPayment</span>({ id: <span class="string">'PAY002'</span>, amount: <span class="number">5000</span> }, <span class="string">'urgent'</span>);
+<span class="function">processPayment</span>({ id: <span class="string">'PAY003'</span>, amount: <span class="number">2000</span> }, <span class="string">'high'</span>);
+
+console.log(<span class="string">'All payments queued'</span>);
+
+<span class="comment">// Output:
+// All payments queued
+// ⚡ URGENT: PAY002 - $5000 (nextTick - first!)
+// 🔥 HIGH: PAY003 - $2000 (setImmediate - second)
+// 📋 NORMAL: PAY001 - $1000 (setTimeout - last)</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>6 Phases:</strong> Timers → Pending → Poll → Check → Close</li>
+                                <li><strong>Microtasks</strong> execute between every phase</li>
+                                <li><strong>process.nextTick()</strong> has highest priority</li>
+                                <li><strong>setImmediate()</strong> runs before setTimeout(0) in I/O</li>
+                                <li><strong>Poll phase</strong> spends most time waiting for I/O</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use setImmediate() for deferring work after I/O callbacks</li>
+                                    <li>Use process.nextTick() sparingly for highest priority tasks</li>
+                                    <li>Understand phase execution order for debugging</li>
+                                    <li>Use Promise microtasks for async flow control</li>
+                                    <li>Profile event loop phases in production</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't overuse process.nextTick() (can starve I/O)</li>
+                                    <li>Don't use setTimeout(0) when you mean setImmediate()</li>
+                                    <li>Don't create recursive nextTick() calls (infinite loop)</li>
+                                    <li>Don't block the poll phase with long computations</li>
+                                    <li>Don't assume setTimeout() timing is exact</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3: Streams Fundamentals -->
+            <div class="question-node" id="q3">
+                <div class="question-header" onclick="toggleQuestion('q3')">
+                    <div>
+                        <span class="question-number">Q3</span>
+                        <span class="question-title">Streams Fundamentals</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h4>📥 Readable Streams</h4>
+                                <ul>
+                                    <li>fs.createReadStream()</li>
+                                    <li>http.IncomingMessage</li>
+                                    <li>Data source (read from)</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>📤 Writable Streams</h4>
+                                <ul>
+                                    <li>fs.createWriteStream()</li>
+                                    <li>http.ServerResponse</li>
+                                    <li>Data destination (write to)</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>🔄 Duplex Streams</h4>
+                                <ul>
+                                    <li>TCP socket</li>
+                                    <li>Read and write</li>
+                                    <li>Independent operations</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>🔀 Transform Streams</h4>
+                                <ul>
+                                    <li>zlib.createGzip()</li>
+                                    <li>crypto.createCipher()</li>
+                                    <li>Modify data in transit</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q3-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>Example: Readable Stream</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q3-1">
+<pre><code><span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>);
+
+<span class="comment">// ❌ BAD: Load entire 10GB file into memory</span>
+fs.<span class="function">readFile</span>(<span class="string">'large-transactions.csv'</span>, (err, data) => {
+  <span class="comment">// data = 10GB buffer in memory!</span>
+  console.log(<span class="string">'File size:'</span>, data.length);
+});
+
+<span class="comment">// ✅ GOOD: Stream in 64KB chunks</span>
+<span class="keyword">const</span> readStream = fs.<span class="function">createReadStream</span>(<span class="string">'large-transactions.csv'</span>, {
+  highWaterMark: <span class="number">64</span> * <span class="number">1024</span> <span class="comment">// 64KB chunks</span>
+});
+
+<span class="keyword">let</span> totalSize = <span class="number">0</span>;
+
+readStream.<span class="function">on</span>(<span class="string">'data'</span>, (chunk) => {
+  totalSize += chunk.length;
+  console.log(<span class="string">`Chunk received: </span><span class="keyword">${chunk.length}</span><span class="string"> bytes`</span>);
+  <span class="comment">// Process chunk immediately, then release memory</span>
+});
+
+readStream.<span class="function">on</span>(<span class="string">'end'</span>, () => {
+  console.log(<span class="string">`Total file size: </span><span class="keyword">${totalSize}</span><span class="string"> bytes`</span>);
+});
+
+readStream.<span class="function">on</span>(<span class="string">'error'</span>, (err) => {
+  console.error(<span class="string">'Stream error:'</span>, err);
+});
+
+<span class="comment">// Memory usage: Only ~64KB at any time!
+// 10GB file uses same memory as 1MB file</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q3-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Processing Large Transaction File</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q3-2">
+<pre><code><span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>);
+<span class="keyword">const</span> readline = <span class="function">require</span>(<span class="string">'readline'</span>);
+
+<span class="comment">// Process millions of transactions from CSV</span>
+<span class="keyword">const</span> <span class="function">processTransactionFile</span> = (filePath) => {
+  <span class="keyword">const</span> readStream = fs.<span class="function">createReadStream</span>(filePath);
+  
+  <span class="keyword">const</span> rl = readline.<span class="function">createInterface</span>({
+    input: readStream,
+    crlfDelay: Infinity
+  });
+
+  <span class="keyword">let</span> totalAmount = <span class="number">0</span>;
+  <span class="keyword">let</span> transactionCount = <span class="number">0</span>;
+  <span class="keyword">let</span> highValueCount = <span class="number">0</span>;
+
+  rl.<span class="function">on</span>(<span class="string">'line'</span>, (line) => {
+    <span class="comment">// Process one transaction at a time</span>
+    <span class="keyword">const</span> [id, amount, account] = line.<span class="function">split</span>(<span class="string">','</span>);
+    <span class="keyword">const</span> numAmount = <span class="function">parseFloat</span>(amount);
+    
+    totalAmount += numAmount;
+    transactionCount++;
+    
+    <span class="keyword">if</span> (numAmount > <span class="number">10000</span>) {
+      highValueCount++;
+      console.log(<span class="string">`🚨 High value: </span><span class="keyword">${id}</span><span class="string"> - $</span><span class="keyword">${numAmount}</span><span class="string">`</span>);
+    }
+  });
+
+  rl.<span class="function">on</span>(<span class="string">'close'</span>, () => {
+    console.log(<span class="string">`\n📊 Summary:`</span>);
+    console.log(<span class="string">`   Total transactions: </span><span class="keyword">${transactionCount}</span><span class="string">`</span>);
+    console.log(<span class="string">`   Total amount: $</span><span class="keyword">${totalAmount.toFixed(2)}</span><span class="string">`</span>);
+    console.log(<span class="string">`   High value (>$10k): </span><span class="keyword">${highValueCount}</span><span class="string">`</span>);
+  });
+};
+
+<span class="function">processTransactionFile</span>(<span class="string">'transactions-2024.csv'</span>);
+
+<span class="comment">// Processes 10 million+ transactions
+// Memory: Constant ~64KB
+// Time: Processes as it reads (no waiting)</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Memory efficient:</strong> Process data in chunks (64KB default)</li>
+                                <li><strong>4 types:</strong> Readable, Writable, Duplex, Transform</li>
+                                <li><strong>Use pipe():</strong> Automatically handles backpressure</li>
+                                <li><strong>Events:</strong> data, end, error, finish, drain</li>
+                                <li><strong>Perfect for:</strong> Large files, real-time data, network I/O</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use streams for large files (>100MB)</li>
+                                    <li>Use pipe() or pipeline() for automatic backpressure handling</li>
+                                    <li>Handle 'error' events on all streams</li>
+                                    <li>Use Transform streams for data processing</li>
+                                    <li>Set highWaterMark based on your use case</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't ignore backpressure (can cause memory leaks)</li>
+                                    <li>Don't read entire large files into memory (use streams)</li>
+                                    <li>Don't forget to handle stream errors</li>
+                                    <li>Don't manually chain streams (use pipe/pipeline)</li>
+                                    <li>Don't create streams for small data (<1MB)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4: Streams Performance -->
+            <div class="question-node" id="q4">
+                <div class="question-header" onclick="toggleQuestion('q4')">
+                    <div>
+                        <span class="question-number">Q4</span>
+                        <span class="question-title">Streams Performance & Backpressure</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h4>📊 Memory Comparison</h4>
+                                <ul>
+                                    <li>Buffer: Full file in memory</li>
+                                    <li>Stream: Fixed 64KB chunks</li>
+                                    <li>10GB file = 10GB vs 64KB</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>⚠️ What is Backpressure?</h4>
+                                <ul>
+                                    <li>Producer faster than consumer</li>
+                                    <li>Data backs up in memory</li>
+                                    <li>Can cause memory overflow</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>✅ Handling Backpressure</h4>
+                                <ul>
+                                    <li>Use pipe() - automatic</li>
+                                    <li>Check write() return value</li>
+                                    <li>Listen to 'drain' event</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>🚀 Performance Tips</h4>
+                                <ul>
+                                    <li>Adjust highWaterMark</li>
+                                    <li>Use Transform streams</li>
+                                    <li>Pipeline for error handling</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q4-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>Example: Backpressure Problem</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q4-1">
+<pre><code><span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>);
+
+<span class="comment">// ❌ BAD: Ignoring backpressure (memory overflow!)</span>
+<span class="keyword">const</span> readable = fs.<span class="function">createReadStream</span>(<span class="string">'input.txt'</span>);
+<span class="keyword">const</span> writable = fs.<span class="function">createWriteStream</span>(<span class="string">'output.txt'</span>);
+
+readable.<span class="function">on</span>(<span class="string">'data'</span>, (chunk) => {
+  <span class="comment">// Writing without checking if buffer is full!</span>
+  writable.<span class="function">write</span>(chunk); <span class="comment">// Dangerous!</span>
+});
+
+<span class="comment">// Problem: If reading is faster than writing,
+// chunks pile up in memory → CRASH!</span>
+
+<span class="comment">// ✅ GOOD: Handling backpressure manually</span>
+readable.<span class="function">on</span>(<span class="string">'data'</span>, (chunk) => {
+  <span class="keyword">const</span> canContinue = writable.<span class="function">write</span>(chunk);
+  
+  <span class="keyword">if</span> (!canContinue) {
+    <span class="comment">// Buffer is full, pause reading!</span>
+    readable.<span class="function">pause</span>();
+    console.log(<span class="string">'⏸️  Paused reading (backpressure)'</span>);
+  }
+});
+
+writable.<span class="function">on</span>(<span class="string">'drain'</span>, () => {
+  <span class="comment">// Buffer drained, resume reading</span>
+  console.log(<span class="string">'▶️  Resumed reading'</span>);
+  readable.<span class="function">resume</span>();
+});
+
+<span class="comment">// ✅ BEST: Use pipe() - handles automatically!</span>
+readable.<span class="function">pipe</span>(writable);
+<span class="comment">// pipe() manages backpressure automatically</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q4-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Generate Monthly Statements (Millions)</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q4-2">
+<pre><code><span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>);
+<span class="keyword">const</span> { Transform, pipeline } = <span class="function">require</span>(<span class="string">'stream'</span>);
+
+<span class="comment">// Generate statements for millions of customers</span>
+<span class="keyword">class</span> StatementGenerator <span class="keyword">extends</span> Transform {
+  <span class="function">constructor</span>() {
+    <span class="keyword">super</span>({ objectMode: <span class="keyword">true</span> });
+  }
+
+  <span class="function">_transform</span>(customer, encoding, callback) {
+    <span class="comment">// Generate statement for one customer</span>
+    <span class="keyword">const</span> statement = <span class="string">`
+=== Statement for </span><span class="keyword">${customer.name}</span><span class="string"> ===
+Account: </span><span class="keyword">${customer.accountId}</span><span class="string">
+Balance: $</span><span class="keyword">${customer.balance}</span><span class="string">
+Transactions: </span><span class="keyword">${customer.transactionCount}</span><span class="string">
+========================\n
+`</span>;
+    
+    <span class="keyword">this</span>.<span class="function">push</span>(statement);
+    <span class="function">callback</span>();
+  }
+}
+
+<span class="comment">// Read customer data, generate statements, write to file</span>
+<span class="keyword">const</span> customerStream = fs.<span class="function">createReadStream</span>(<span class="string">'customers.ndjson'</span>);
+<span class="keyword">const</span> outputStream = fs.<span class="function">createWriteStream</span>(<span class="string">'statements.txt'</span>);
+<span class="keyword">const</span> generator = <span class="keyword">new</span> <span class="function">StatementGenerator</span>();
+
+<span class="comment">// Parse JSON lines</span>
+<span class="keyword">const</span> jsonParser = <span class="keyword">new</span> <span class="function">Transform</span>({
+  <span class="function">transform</span>(chunk, encoding, callback) {
+    <span class="keyword">const</span> lines = chunk.<span class="function">toString</span>().<span class="function">split</span>(<span class="string">'\n'</span>);
+    lines.<span class="function">forEach</span>(line => {
+      <span class="keyword">if</span> (line) {
+        <span class="keyword">this</span>.<span class="function">push</span>(JSON.<span class="function">parse</span>(line));
+      }
+    });
+    <span class="function">callback</span>();
+  },
+  objectMode: <span class="keyword">true</span>
+});
+
+<span class="comment">// Pipeline with automatic error handling</span>
+<span class="function">pipeline</span>(
+  customerStream,
+  jsonParser,
+  generator,
+  outputStream,
+  (err) => {
+    <span class="keyword">if</span> (err) {
+      console.error(<span class="string">'Pipeline failed:'</span>, err);
+    } <span class="keyword">else</span> {
+      console.log(<span class="string">'✅ Generated all statements!'</span>);
+    }
+  }
+);
+
+<span class="comment">// Benefits:
+// - Processes millions of customers
+// - Memory: Constant ~64KB
+// - Automatic backpressure handling
+// - Error propagation handled</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Backpressure:</strong> Occurs when producer > consumer speed</li>
+                                <li><strong>Use pipe():</strong> Automatic backpressure management</li>
+                                <li><strong>Manual handling:</strong> Check write() return, listen to 'drain'</li>
+                                <li><strong>pipeline():</strong> Better error handling than pipe()</li>
+                                <li><strong>Memory savings:</strong> 1000x less memory for large files</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Always handle backpressure with write() return value</li>
+                                    <li>Use pipeline() for better error handling than pipe()</li>
+                                    <li>Listen to 'drain' event before continuing writes</li>
+                                    <li>Set appropriate highWaterMark (default 16KB)</li>
+                                    <li>Use Transform streams for data processing in pipelines</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't ignore write() return value (causes memory bloat)</li>
+                                    <li>Don't load entire large file into memory</li>
+                                    <li>Don't forget to unpipe on errors</li>
+                                    <li>Don't chain pipes without error handlers</li>
+                                    <li>Don't set highWaterMark too high (wastes memory)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5: Module System -->
+            <div class="question-node" id="q5">
+                <div class="question-header" onclick="toggleQuestion('q5')">
+                    <div>
+                        <span class="question-number">Q5</span>
+                        <span class="question-title">Module System - CommonJS</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h4>📦 How require() Works</h4>
+                                <ul>
+                                    <li>Resolves module path</li>
+                                    <li>Checks cache</li>
+                                    <li>Loads and wraps code</li>
+                                    <li>Executes module</li>
+                                    <li>Caches exports</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>💾 Module Caching</h4>
+                                <ul>
+                                    <li>Loaded only once</li>
+                                    <li>Cached in require.cache</li>
+                                    <li>Same instance returned</li>
+                                    <li>Can clear cache</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>🔄 exports vs module.exports</h4>
+                                <ul>
+                                    <li>exports = shortcut reference</li>
+                                    <li>module.exports = actual export</li>
+                                    <li>Reassigning exports breaks link</li>
+                                    <li>Always use module.exports</li>
+                                </ul>
+                            </div>
+                            <div class="sub-topic">
+                                <h4>🔁 Circular Dependencies</h4>
+                                <ul>
+                                    <li>A requires B, B requires A</li>
+                                    <li>Returns partial export</li>
+                                    <li>Can cause undefined</li>
+                                    <li>Refactor to avoid</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q5-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>Example: Module Caching</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q5-1">
+<pre><code><span class="comment">// counter.js - Demonstrates caching</span>
+<span class="keyword">let</span> count = <span class="number">0</span>;
+
+<span class="keyword">function</span> <span class="function">increment</span>() {
+  count++;
+  <span class="keyword">return</span> count;
+}
+
+<span class="keyword">function</span> <span class="function">getCount</span>() {
+  <span class="keyword">return</span> count;
+}
+
+module.exports = { increment, getCount };
+
+<span class="comment">// app.js - Using the module</span>
+<span class="keyword">const</span> counter1 = <span class="function">require</span>(<span class="string">'./counter'</span>);
+<span class="keyword">const</span> counter2 = <span class="function">require</span>(<span class="string">'./counter'</span>); <span class="comment">// From cache!</span>
+
+console.log(counter1.<span class="function">increment</span>()); <span class="comment">// 1</span>
+console.log(counter2.<span class="function">increment</span>()); <span class="comment">// 2 (same instance!)</span>
+console.log(counter1.<span class="function">getCount</span>());  <span class="comment">// 2</span>
+
+<span class="comment">// Both variables point to same cached module
+// Proof:</span>
+console.log(counter1 === counter2); <span class="comment">// true</span>
+
+<span class="comment">// Clear cache (rare, for testing)</span>
+<span class="keyword">delete</span> require.cache[require.<span class="function">resolve</span>(<span class="string">'./counter'</span>)];
+
+<span class="keyword">const</span> counter3 = <span class="function">require</span>(<span class="string">'./counter'</span>); <span class="comment">// Fresh load</span>
+console.log(counter3.<span class="function">getCount</span>()); <span class="comment">// 0 (new instance)</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q5-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Modular Transaction System</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q5-2">
+<pre><code><span class="comment">// validators.js - Transaction validators</span>
+<span class="keyword">function</span> <span class="function">validateAmount</span>(amount) {
+  <span class="keyword">if</span> (<span class="keyword">typeof</span> amount !== <span class="string">'number'</span> || amount <= <span class="number">0</span>) {
+    <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'Invalid amount'</span>);
+  }
+  <span class="keyword">return true</span>;
+}
+
+<span class="keyword">function</span> <span class="function">validateAccount</span>(accountId) {
+  <span class="keyword">if</span> (!/^ACC\d{6}$/.<span class="function">test</span>(accountId)) {
+    <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'Invalid account ID'</span>);
+  }
+  <span class="keyword">return true</span>;
+}
+
+module.exports = {
+  validateAmount,
+  validateAccount
+};
+
+<span class="comment">// transaction-processor.js - Main processor</span>
+<span class="keyword">const</span> { validateAmount, validateAccount } = <span class="function">require</span>(<span class="string">'./validators'</span>);
+
+<span class="keyword">class</span> TransactionProcessor {
+  <span class="function">process</span>(fromAccount, toAccount, amount) {
+    <span class="comment">// Use cached validators (loaded once)</span>
+    <span class="function">validateAccount</span>(fromAccount);
+    <span class="function">validateAccount</span>(toAccount);
+    <span class="function">validateAmount</span>(amount);
+    
+    <span class="keyword">return</span> {
+      status: <span class="string">'SUCCESS'</span>,
+      txnId: <span class="string">`TXN</span><span class="keyword">${Date.now()}</span><span class="string">`</span>,
+      from: fromAccount,
+      to: toAccount,
+      amount: amount
+    };
+  }
+}
+
+module.exports = <span class="keyword">new</span> <span class="function">TransactionProcessor</span>();
+<span class="comment">// Exporting instance (singleton pattern)</span>
+
+<span class="comment">// app.js - Using the system</span>
+<span class="keyword">const</span> processor = <span class="function">require</span>(<span class="string">'./transaction-processor'</span>);
+
+<span class="keyword">const</span> result = processor.<span class="function">process</span>(
+  <span class="string">'ACC123456'</span>,
+  <span class="string">'ACC789012'</span>,
+  <span class="number">1000.00</span>
+);
+
+console.log(result);
+<span class="comment">// { status: 'SUCCESS', txnId: 'TXN...', ... }</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Synchronous loading:</strong> Blocks until module loaded</li>
+                                <li><strong>Cached:</strong> Loaded once, same instance everywhere</li>
+                                <li><strong>Module wrapper:</strong> Provides exports, require, __filename, __dirname</li>
+                                <li><strong>Use module.exports:</strong> Not just exports (can break)</li>
+                                <li><strong>Avoid circular deps:</strong> Can cause undefined exports</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use module.exports for exporting (not just exports)</li>
+                                    <li>Cache expensive computations in modules</li>
+                                    <li>Use require() for CommonJS modules</li>
+                                    <li>Export single responsibility modules</li>
+                                    <li>Understand module caching behavior</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't reassign exports (use module.exports instead)</li>
+                                    <li>Don't create circular dependencies</li>
+                                    <li>Don't mutate cached module state unintentionally</li>
+                                    <li>Don't mix CommonJS and ES Modules without understanding</li>
+                                    <li>Don't forget modules are cached (can cause stale state)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6: ES Modules -->
+            <div class="question-node" id="q6">
+                <div class="question-header" onclick="toggleQuestion('q6')">
+                    <div>
+                        <span class="question-number">Q6</span>
+                        <span class="question-title">ES Modules - import/export</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📦 Named Exports</h3>
+                                <p>Export multiple values by name</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🎯 Default Export</h3>
+                                <p>Single default export per module</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🌳 Tree-Shaking</h3>
+                                <p>Eliminate unused code at build time</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚡ Dynamic Imports</h3>
+                                <p>Load modules conditionally with import()</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q6-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Named vs Default Exports</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q6-1">
+<pre><code><span class="comment">// bankUtils.mjs - Named exports (recommended)</span>
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="function">validateAccount</span> = (accountNumber) => {
+  <span class="keyword">return</span> /^ACC\d{6}$/.test(accountNumber);
+};
+
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="function">formatCurrency</span> = (amount) => {
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="function">Intl.NumberFormat</span>(<span class="string">'en-US'</span>, {
+    style: <span class="string">'currency'</span>,
+    currency: <span class="string">'USD'</span>
+  }).<span class="function">format</span>(amount);
+};
+
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="function">calculateInterest</span> = (principal, rate, years) => {
+  <span class="keyword">return</span> principal * (rate / <span class="number">100</span>) * years;
+};
+
+<span class="comment">// app.mjs - Importing named exports</span>
+<span class="keyword">import</span> { validateAccount, formatCurrency } <span class="keyword">from</span> <span class="string">'./bankUtils.mjs'</span>;
+
+<span class="keyword">const</span> amount = <span class="number">1234.56</span>;
+console.log(<span class="function">formatCurrency</span>(amount)); <span class="comment">// $1,234.56</span>
+console.log(<span class="function">validateAccount</span>(<span class="string">'ACC123456'</span>)); <span class="comment">// true</span>
+
+<span class="comment">// Default export example</span>
+<span class="comment">// account.mjs</span>
+<span class="keyword">export default class</span> <span class="function">Account</span> {
+  constructor(accountNumber, balance) {
+    <span class="keyword">this</span>.accountNumber = accountNumber;
+    <span class="keyword">this</span>.balance = balance;
+  }
+  
+  <span class="function">deposit</span>(amount) {
+    <span class="keyword">this</span>.balance += amount;
+  }
+}
+
+<span class="comment">// Importing default export</span>
+<span class="keyword">import</span> Account <span class="keyword">from</span> <span class="string">'./account.mjs'</span>;
+<span class="keyword">const</span> acc = <span class="keyword">new</span> <span class="function">Account</span>(<span class="string">'ACC123456'</span>, <span class="number">1000</span>);</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q6-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Dynamic Imports & Tree-Shaking</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q6-2">
+<pre><code><span class="comment">// paymentProcessors.mjs - Multiple payment methods</span>
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="function">processCreditCard</span> = <span class="keyword">async</span> (amount, cardDetails) => {
+  <span class="comment">// Heavy credit card processing logic</span>
+  console.log(<span class="string">`💳 Processing credit card: $</span><span class="keyword">${amount}</span><span class="string">`</span>);
+  <span class="keyword">return</span> { success: <span class="keyword">true</span>, txnId: <span class="string">'CC-'</span> + Date.<span class="function">now</span>() };
+};
+
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="function">processDebitCard</span> = <span class="keyword">async</span> (amount, cardDetails) => {
+  console.log(<span class="string">`💰 Processing debit card: $</span><span class="keyword">${amount}</span><span class="string">`</span>);
+  <span class="keyword">return</span> { success: <span class="keyword">true</span>, txnId: <span class="string">'DB-'</span> + Date.<span class="function">now</span>() };
+};
+
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="function">processWireTransfer</span> = <span class="keyword">async</span> (amount, wireDetails) => {
+  console.log(<span class="string">`🏦 Processing wire transfer: $</span><span class="keyword">${amount}</span><span class="string">`</span>);
+  <span class="keyword">return</span> { success: <span class="keyword">true</span>, txnId: <span class="string">'WT-'</span> + Date.<span class="function">now</span>() };
+};
+
+<span class="comment">// app.mjs - Dynamic import based on payment method</span>
+<span class="keyword">const</span> <span class="function">processPayment</span> = <span class="keyword">async</span> (method, amount, details) => {
+  <span class="comment">// Only load the specific payment processor needed</span>
+  <span class="keyword">if</span> (method === <span class="string">'credit_card'</span>) {
+    <span class="keyword">const</span> { processCreditCard } = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">'./paymentProcessors.mjs'</span>);
+    <span class="keyword">return</span> <span class="keyword">await</span> <span class="function">processCreditCard</span>(amount, details);
+  } <span class="keyword">else if</span> (method === <span class="string">'wire_transfer'</span>) {
+    <span class="keyword">const</span> { processWireTransfer } = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">'./paymentProcessors.mjs'</span>);
+    <span class="keyword">return</span> <span class="keyword">await</span> <span class="function">processWireTransfer</span>(amount, details);
+  }
+};
+
+<span class="comment">// Benefits:
+// ✅ Only loads code when needed (code splitting)
+// ✅ Tree-shaking removes unused exports in production
+// ✅ Faster initial load time
+// ✅ Better for large applications</span>
+
+<span class="keyword">await</span> <span class="function">processPayment</span>(<span class="string">'credit_card'</span>, <span class="number">5000</span>, { cardNumber: <span class="string">'****1234'</span> });</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Static analysis:</strong> Imports analyzed at compile time</li>
+                                <li><strong>Tree-shaking:</strong> Unused exports removed in production</li>
+                                <li><strong>Top-level await:</strong> Supported in ES Modules</li>
+                                <li><strong>Dynamic import():</strong> Loads modules conditionally at runtime</li>
+                                <li><strong>Use .mjs extension:</strong> Or "type": "module" in package.json</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Prefer named exports for better refactoring</li>
+                                    <li>Use dynamic import() for code splitting</li>
+                                    <li>Set "type": "module" in package.json for ES Modules</li>
+                                    <li>Use .mjs extension for ES Modules clarity</li>
+                                    <li>Leverage tree-shaking for bundle optimization</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't mix CommonJS and ES Modules in same file</li>
+                                    <li>Don't use require() in ES Modules</li>
+                                    <li>Don't forget file extensions in imports (.js/.mjs)</li>
+                                    <li>Don't overuse default exports (harder to refactor)</li>
+                                    <li>Don't use __dirname/__filename (use import.meta.url)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 7: Buffers & Binary Data -->
+            <div class="question-node" id="q7">
+                <div class="question-header" onclick="toggleQuestion('q7')">
+                    <div>
+                        <span class="question-number">Q7</span>
+                        <span class="question-title">Buffers & Binary Data</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔢 Buffer Creation</h3>
+                                <p>alloc, allocUnsafe, from methods</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔐 Encoding/Decoding</h3>
+                                <p>UTF-8, Base64, Hex conversions</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔒 Crypto Operations</h3>
+                                <p>Encryption and hashing with buffers</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚡ Performance</h3>
+                                <p>Binary data handling efficiency</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q7-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Buffer Creation & Manipulation</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q7-1">
+<pre><code><span class="comment">// Creating buffers (always use safe methods)</span>
+
+<span class="comment">// 1. Buffer.alloc() - Safe, initialized with zeros</span>
+<span class="keyword">const</span> buf1 = Buffer.<span class="function">alloc</span>(<span class="number">10</span>); <span class="comment">// &lt;Buffer 00 00 00 00 00 00 00 00 00 00&gt;</span>
+
+<span class="comment">// 2. Buffer.from() - Create from string/array/buffer</span>
+<span class="keyword">const</span> buf2 = Buffer.<span class="function">from</span>(<span class="string">'Hello Banking'</span>);
+console.log(buf2); <span class="comment">// &lt;Buffer 48 65 6c 6c 6f 20 42 61 6e 6b 69 6e 67&gt;</span>
+console.log(buf2.<span class="function">toString</span>()); <span class="comment">// 'Hello Banking'</span>
+
+<span class="comment">// 3. Encoding conversions</span>
+<span class="keyword">const</span> accountData = <span class="string">'ACC123456'</span>;
+
+<span class="comment">// UTF-8 (default)</span>
+<span class="keyword">const</span> utf8Buf = Buffer.<span class="function">from</span>(accountData, <span class="string">'utf8'</span>);
+console.log(utf8Buf.<span class="function">toString</span>(<span class="string">'utf8'</span>)); <span class="comment">// 'ACC123456'</span>
+
+<span class="comment">// Base64 encoding (for transmission)</span>
+<span class="keyword">const</span> base64 = utf8Buf.<span class="function">toString</span>(<span class="string">'base64'</span>);
+console.log(base64); <span class="comment">// 'QUNDMTIZ0NTY='</span>
+
+<span class="comment">// Hex encoding (for debugging)</span>
+<span class="keyword">const</span> hex = utf8Buf.<span class="function">toString</span>(<span class="string">'hex'</span>);
+console.log(hex); <span class="comment">// '414343313233343536'</span>
+
+<span class="comment">// Buffer concatenation</span>
+<span class="keyword">const</span> buf3 = Buffer.<span class="function">from</span>(<span class="string">'Transaction-'</span>);
+<span class="keyword">const</span> buf4 = Buffer.<span class="function">from</span>(<span class="string">'ID-12345'</span>);
+<span class="keyword">const</span> combined = Buffer.<span class="function">concat</span>([buf3, buf4]);
+console.log(combined.<span class="function">toString</span>()); <span class="comment">// 'Transaction-ID-12345'</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q7-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Encryption & Hashing</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q7-2">
+<pre><code><span class="keyword">const</span> crypto = <span class="function">require</span>(<span class="string">'crypto'</span>);
+
+<span class="comment">// Hash sensitive data (account numbers, PINs)</span>
+<span class="keyword">const</span> <span class="function">hashAccountNumber</span> = (accountNumber) => {
+  <span class="keyword">const</span> hash = crypto.<span class="function">createHash</span>(<span class="string">'sha256'</span>);
+  hash.<span class="function">update</span>(accountNumber); <span class="comment">// Updates with string</span>
+  <span class="keyword">return</span> hash.<span class="function">digest</span>(<span class="string">'hex'</span>); <span class="comment">// Returns buffer as hex string</span>
+};
+
+<span class="keyword">const</span> accountNumber = <span class="string">'ACC123456'</span>;
+<span class="keyword">const</span> hashedAccount = <span class="function">hashAccountNumber</span>(accountNumber);
+console.log(<span class="string">`Original: </span><span class="keyword">${accountNumber}</span><span class="string">`</span>);
+console.log(<span class="string">`Hashed: </span><span class="keyword">${hashedAccount}</span><span class="string">`</span>);
+<span class="comment">// Hashed: 5d41402abc4b2a76b9719d911017c592...</span>
+
+<span class="comment">// Encrypt sensitive transaction data</span>
+<span class="keyword">const</span> <span class="function">encryptTransaction</span> = (data, password) => {
+  <span class="keyword">const</span> algorithm = <span class="string">'aes-256-cbc'</span>;
+  
+  <span class="comment">// Generate key from password (buffer)</span>
+  <span class="keyword">const</span> key = crypto.<span class="function">scryptSync</span>(password, <span class="string">'salt'</span>, <span class="number">32</span>); <span class="comment">// 32-byte key</span>
+  <span class="keyword">const</span> iv = crypto.<span class="function">randomBytes</span>(<span class="number">16</span>); <span class="comment">// Initialization vector</span>
+  
+  <span class="keyword">const</span> cipher = crypto.<span class="function">createCipheriv</span>(algorithm, key, iv);
+  
+  <span class="keyword">let</span> encrypted = cipher.<span class="function">update</span>(data, <span class="string">'utf8'</span>, <span class="string">'hex'</span>);
+  encrypted += cipher.<span class="function">final</span>(<span class="string">'hex'</span>);
+  
+  <span class="keyword">return</span> {
+    encrypted,
+    iv: iv.<span class="function">toString</span>(<span class="string">'hex'</span>) <span class="comment">// Store IV with encrypted data</span>
+  };
+};
+
+<span class="keyword">const</span> transactionData = JSON.<span class="function">stringify</span>({
+  from: <span class="string">'ACC123456'</span>,
+  to: <span class="string">'ACC789012'</span>,
+  amount: <span class="number">5000</span>,
+  timestamp: Date.<span class="function">now</span>()
+});
+
+<span class="keyword">const</span> encrypted = <span class="function">encryptTransaction</span>(transactionData, <span class="string">'mySecretKey123'</span>);
+console.log(<span class="string">`🔐 Encrypted: </span><span class="keyword">${encrypted.encrypted}</span><span class="string">`</span>);
+console.log(<span class="string">`🔑 IV: </span><span class="keyword">${encrypted.iv}</span><span class="string">`</span>);
+
+<span class="comment">// Use Case: Store encrypted transaction logs
+// Benefits:
+// ✅ PCI-DSS compliance for payment data
+// ✅ Buffer-based crypto operations are fast
+// ✅ Secure storage of sensitive information</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Binary data handler:</strong> Fixed-size chunk of memory</li>
+                                <li><strong>Use Buffer.alloc():</strong> Safe, zero-filled allocation</strong></li>
+                                <li><strong>Encoding:</strong> UTF-8, Base64, Hex, ASCII supported</li>
+                                <li><strong>Crypto operations:</strong> Hashing, encryption use buffers</li>
+                                <li><strong>Perfect for:</strong> File I/O, network protocols, crypto</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use Buffer.from() for creating from strings/arrays</li>
+                                    <li>Use Buffer.alloc() for safe zero-filled buffers</li>
+                                    <li>Handle encoding conversions explicitly (UTF-8, Base64)</li>
+                                    <li>Use buffers for crypto operations (hashing, encryption)</li>
+                                    <li>Concatenate buffers with Buffer.concat()</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't use Buffer.allocUnsafe() without filling (security risk)</li>
+                                    <li>Don't assume default encoding (always specify)</li>
+                                    <li>Don't use deprecated new Buffer() constructor</li>
+                                    <li>Don't convert large buffers to strings (memory intensive)</li>
+                                    <li>Don't ignore buffer overflow/underflow errors</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 8: Error Handling -->
+            <div class="question-node" id="q8">
+                <div class="question-header" onclick="toggleQuestion('q8')">
+                    <div>
+                        <span class="question-number">Q8</span>
+                        <span class="question-title">Error Handling & Error-First Callbacks</span>
+                        <span class="badge badge-beginner">Beginner</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔄 Error-First Callbacks</h3>
+                                <p>Node.js callback pattern (err, result)</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚠️ Try-Catch</h3>
+                                <p>Sync errors and async/await</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🎯 Custom Errors</h3>
+                                <p>Extending Error class</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔍 Error Types</h3>
+                                <p>Operational vs programmer errors</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q8-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Error-First Callback Pattern</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q8-1">
+<pre><code><span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>);
+
+<span class="comment">// Error-first callback pattern: (err, result) => {}</span>
+<span class="comment">// ALWAYS check error first!</span>
+
+<span class="keyword">const</span> <span class="function">readTransactionLog</span> = (filename, callback) => {
+  fs.<span class="function">readFile</span>(filename, <span class="string">'utf8'</span>, (err, data) => {
+    <span class="keyword">if</span> (err) {
+      <span class="comment">// Error occurred - pass to callback</span>
+      <span class="keyword">return</span> <span class="function">callback</span>(err, <span class="keyword">null</span>);
+    }
+    
+    <span class="comment">// Success - pass result</span>
+    <span class="keyword">try</span> {
+      <span class="keyword">const</span> transactions = JSON.<span class="function">parse</span>(data);
+      <span class="function">callback</span>(<span class="keyword">null</span>, transactions); <span class="comment">// null = no error</span>
+    } <span class="keyword">catch</span> (parseError) {
+      <span class="comment">// JSON parse error</span>
+      <span class="function">callback</span>(parseError, <span class="keyword">null</span>);
+    }
+  });
+};
+
+<span class="comment">// Using the error-first callback</span>
+<span class="function">readTransactionLog</span>(<span class="string">'transactions.json'</span>, (err, transactions) => {
+  <span class="keyword">if</span> (err) {
+    console.error(<span class="string">'❌ Error reading file:'</span>, err.message);
+    <span class="keyword">return</span>;
+  }
+  
+  console.log(<span class="string">`✅ Loaded </span><span class="keyword">${transactions.length}</span><span class="string"> transactions`</span>);
+});
+
+<span class="comment">// Promise-based alternative (modern approach)</span>
+<span class="keyword">const</span> fsPromises = <span class="function">require</span>(<span class="string">'fs/promises'</span>);
+
+<span class="keyword">const</span> <span class="function">readTransactionLogAsync</span> = <span class="keyword">async</span> (filename) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> fsPromises.<span class="function">readFile</span>(filename, <span class="string">'utf8'</span>);
+    <span class="keyword">return</span> JSON.<span class="function">parse</span>(data);
+  } <span class="keyword">catch</span> (err) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">`Failed to read log: </span><span class="keyword">${err.message}</span><span class="string">`</span>);
+  }
+};
+
+<span class="comment">// Usage with async/await</span>
+(<span class="keyword">async</span> () => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> transactions = <span class="keyword">await</span> <span class="function">readTransactionLogAsync</span>(<span class="string">'transactions.json'</span>);
+    console.log(transactions);
+  } <span class="keyword">catch</span> (err) {
+    console.error(err.message);
+  }
+})();</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q8-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Custom Error Classes</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q8-2">
+<pre><code><span class="comment">// Custom error classes for banking operations</span>
+
+<span class="keyword">class</span> <span class="function">InsufficientFundsError</span> <span class="keyword">extends</span> Error {
+  constructor(accountNumber, balance, attemptedAmount) {
+    <span class="keyword">super</span>(<span class="string">`Insufficient funds in </span><span class="keyword">${accountNumber}</span><span class="string">`</span>);
+    <span class="keyword">this</span>.name = <span class="string">'InsufficientFundsError'</span>;
+    <span class="keyword">this</span>.accountNumber = accountNumber;
+    <span class="keyword">this</span>.balance = balance;
+    <span class="keyword">this</span>.attemptedAmount = attemptedAmount;
+    <span class="keyword">this</span>.statusCode = <span class="number">400</span>;
+  }
+}
+
+<span class="keyword">class</span> <span class="function">AccountNotFoundError</span> <span class="keyword">extends</span> Error {
+  constructor(accountNumber) {
+    <span class="keyword">super</span>(<span class="string">`Account </span><span class="keyword">${accountNumber}</span><span class="string"> not found`</span>);
+    <span class="keyword">this</span>.name = <span class="string">'AccountNotFoundError'</span>;
+    <span class="keyword">this</span>.accountNumber = accountNumber;
+    <span class="keyword">this</span>.statusCode = <span class="number">404</span>;
+  }
+}
+
+<span class="keyword">class</span> <span class="function">InvalidTransactionError</span> <span class="keyword">extends</span> Error {
+  constructor(reason, transactionData) {
+    <span class="keyword">super</span>(<span class="string">`Invalid transaction: </span><span class="keyword">${reason}</span><span class="string">`</span>);
+    <span class="keyword">this</span>.name = <span class="string">'InvalidTransactionError'</span>;
+    <span class="keyword">this</span>.reason = reason;
+    <span class="keyword">this</span>.transactionData = transactionData;
+    <span class="keyword">this</span>.statusCode = <span class="number">400</span>;
+  }
+}
+
+<span class="comment">// Using custom errors in banking operations</span>
+<span class="keyword">class</span> <span class="function">BankingService</span> {
+  constructor() {
+    <span class="keyword">this</span>.accounts = <span class="keyword">new</span> <span class="function">Map</span>([
+      [<span class="string">'ACC123456'</span>, { balance: <span class="number">1000</span> }],
+      [<span class="string">'ACC789012'</span>, { balance: <span class="number">5000</span> }]
+    ]);
+  }
+
+  <span class="keyword">async</span> <span class="function">transfer</span>(from, to, amount) {
+    <span class="comment">// Validation errors</span>
+    <span class="keyword">if</span> (amount <= <span class="number">0</span>) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">InvalidTransactionError</span>(
+        <span class="string">'Amount must be positive'</span>,
+        { from, to, amount }
+      );
+    }
+
+    <span class="comment">// Account not found error</span>
+    <span class="keyword">if</span> (!<span class="keyword">this</span>.accounts.<span class="function">has</span>(from)) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">AccountNotFoundError</span>(from);
+    }
+
+    <span class="keyword">const</span> fromAccount = <span class="keyword">this</span>.accounts.<span class="function">get</span>(from);
+
+    <span class="comment">// Business logic error</span>
+    <span class="keyword">if</span> (fromAccount.balance < amount) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">InsufficientFundsError</span>(from, fromAccount.balance, amount);
+    }
+
+    <span class="comment">// Perform transfer</span>
+    fromAccount.balance -= amount;
+    <span class="keyword">this</span>.accounts.<span class="function">get</span>(to).balance += amount;
+
+    <span class="keyword">return</span> { success: <span class="keyword">true</span>, newBalance: fromAccount.balance };
+  }
+}
+
+<span class="comment">// Error handling with custom errors</span>
+<span class="keyword">const</span> bank = <span class="keyword">new</span> <span class="function">BankingService</span>();
+
+(<span class="keyword">async</span> () => {
+  <span class="keyword">try</span> {
+    <span class="keyword">await</span> bank.<span class="function">transfer</span>(<span class="string">'ACC123456'</span>, <span class="string">'ACC789012'</span>, <span class="number">2000</span>);
+  } <span class="keyword">catch</span> (err) {
+    <span class="keyword">if</span> (err <span class="keyword">instanceof</span> InsufficientFundsError) {
+      console.error(<span class="string">`❌ </span><span class="keyword">${err.message}</span><span class="string">`</span>);
+      console.error(<span class="string">`   Balance: $</span><span class="keyword">${err.balance}</span><span class="string"> | Attempted: $</span><span class="keyword">${err.attemptedAmount}</span><span class="string">`</span>);
+    } <span class="keyword">else if</span> (err <span class="keyword">instanceof</span> AccountNotFoundError) {
+      console.error(<span class="string">`❌ </span><span class="keyword">${err.message}</span><span class="string">`</span>);
+    } <span class="keyword">else</span> {
+      console.error(<span class="string">'❌ Unexpected error:'</span>, err);
+    }
+  }
+})();
+
+<span class="comment">// Benefits:
+// ✅ Type-safe error handling with instanceof
+// ✅ Rich error context (balance, account numbers)
+// ✅ HTTP status codes for API responses
+// ✅ Better debugging and logging</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Error-first callbacks:</strong> (err, result) => {} pattern</li>
+                                <li><strong>Always check errors:</strong> Never ignore error parameter</li>
+                                <li><strong>Try-catch:</strong> For sync code and async/await</li>
+                                <li><strong>Custom errors:</strong> Extend Error for domain-specific errors</li>
+                                <li><strong>Error types:</strong> Operational (recoverable) vs programmer (bugs)</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Always check error parameter in callbacks</li>
+                                    <li>Use try-catch with async/await</li>
+                                    <li>Create custom error classes for business logic</li>
+                                    <li>Include contextual information in errors</li>
+                                    <li>Handle promise rejections (.catch or try-catch)</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't swallow errors silently (empty catch blocks)</li>
+                                    <li>Don't use try-catch with callback-based async code</li>
+                                    <li>Don't throw strings (always throw Error objects)</li>
+                                    <li>Don't forget error handling in promise chains</li>
+                                    <li>Don't expose sensitive information in error messages</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 9: File System -->
+            <div class="question-node" id="q9">
+                <div class="question-header" onclick="toggleQuestion('q9')">
+                    <div>
+                        <span class="question-number">Q9</span>
+                        <span class="question-title">File System - Sync vs Async</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔄 Async Operations</h3>
+                                <p>Non-blocking file I/O with callbacks</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⏸️ Sync Operations</h3>
+                                <p>Blocking file I/O (avoid in production)</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🎯 fs.promises API</h3>
+                                <p>Modern promise-based file operations</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📊 File Streams</h3>
+                                <p>Efficient large file handling</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q9-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Callback vs Promises vs Sync</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q9-1">
+<pre><code><span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>);
+<span class="keyword">const</span> fsPromises = <span class="function">require</span>(<span class="string">'fs/promises'</span>);
+
+<span class="comment">// 1. Callback-based (traditional Node.js)</span>
+fs.<span class="function">readFile</span>(<span class="string">'transaction.json'</span>, <span class="string">'utf8'</span>, (err, data) => {
+  <span class="keyword">if</span> (err) {
+    console.error(<span class="string">'Error:'</span>, err);
+    <span class="keyword">return</span>;
+  }
+  console.log(<span class="string">'Data:'</span>, data);
+});
+console.log(<span class="string">'This runs immediately (non-blocking)'</span>);
+
+<span class="comment">// 2. Promise-based (modern approach - RECOMMENDED)</span>
+fsPromises.<span class="function">readFile</span>(<span class="string">'transaction.json'</span>, <span class="string">'utf8'</span>)
+  .<span class="function">then</span>(data => console.log(<span class="string">'Data:'</span>, data))
+  .<span class="function">catch</span>(err => console.error(<span class="string">'Error:'</span>, err));
+
+<span class="comment">// 3. Async/await (cleanest syntax)</span>
+<span class="keyword">const</span> <span class="function">readTransaction</span> = <span class="keyword">async</span> () => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> fsPromises.<span class="function">readFile</span>(<span class="string">'transaction.json'</span>, <span class="string">'utf8'</span>);
+    console.log(<span class="string">'Data:'</span>, data);
+  } <span class="keyword">catch</span> (err) {
+    console.error(<span class="string">'Error:'</span>, err);
+  }
+};
+
+<span class="comment">// 4. Synchronous (AVOID IN PRODUCTION - blocks event loop!)</span>
+<span class="keyword">try</span> {
+  <span class="keyword">const</span> data = fs.<span class="function">readFileSync</span>(<span class="string">'transaction.json'</span>, <span class="string">'utf8'</span>);
+  console.log(<span class="string">'Data:'</span>, data);
+} <span class="keyword">catch</span> (err) {
+  console.error(<span class="string">'Error:'</span>, err);
+}
+console.log(<span class="string">'This waits for file read (BLOCKING!)'</span>);
+
+<span class="comment">// Performance comparison (100 file reads)
+// Async:  ~50ms (all parallel)
+// Sync:   ~500ms (all sequential, blocks event loop)</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q9-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Audit Log System</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q9-2">
+<pre><code><span class="keyword">const</span> fsPromises = <span class="function">require</span>(<span class="string">'fs/promises'</span>);
+<span class="keyword">const</span> path = <span class="function">require</span>(<span class="string">'path'</span>);
+
+<span class="comment">// Banking audit log system using fs.promises</span>
+<span class="keyword">class</span> <span class="function">AuditLogger</span> {
+  constructor(logDir) {
+    <span class="keyword">this</span>.logDir = logDir;
+  }
+
+  <span class="keyword">async</span> <span class="function">initialize</span>() {
+    <span class="comment">// Create log directory if it doesn't exist</span>
+    <span class="keyword">try</span> {
+      <span class="keyword">await</span> fsPromises.<span class="function">access</span>(<span class="keyword">this</span>.logDir);
+    } <span class="keyword">catch</span> {
+      <span class="keyword">await</span> fsPromises.<span class="function">mkdir</span>(<span class="keyword">this</span>.logDir, { recursive: <span class="keyword">true</span> });
+      console.log(<span class="string">`📁 Created log directory: </span><span class="keyword">${this.logDir}</span><span class="string">`</span>);
+    }
+  }
+
+  <span class="keyword">async</span> <span class="function">logTransaction</span>(transaction) {
+    <span class="keyword">const</span> today = <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>().<span class="function">split</span>(<span class="string">'T'</span>)[<span class="number">0</span>]; <span class="comment">// YYYY-MM-DD</span>
+    <span class="keyword">const</span> logFile = path.<span class="function">join</span>(<span class="keyword">this</span>.logDir, <span class="string">`transactions-</span><span class="keyword">${today}</span><span class="string">.log`</span>);
+
+    <span class="keyword">const</span> logEntry = JSON.<span class="function">stringify</span>({
+      timestamp: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>(),
+      ...transaction
+    }) + <span class="string">'\n'</span>;
+
+    <span class="comment">// Append to log file (creates if doesn't exist)</span>
+    <span class="keyword">await</span> fsPromises.<span class="function">appendFile</span>(logFile, logEntry, <span class="string">'utf8'</span>);
+    console.log(<span class="string">`✅ Logged transaction: </span><span class="keyword">${transaction.txnId}</span><span class="string">`</span>);
+  }
+
+  <span class="keyword">async</span> <span class="function">getTransactions</span>(date) {
+    <span class="keyword">const</span> logFile = path.<span class="function">join</span>(<span class="keyword">this</span>.logDir, <span class="string">`transactions-</span><span class="keyword">${date}</span><span class="string">.log`</span>);
+
+    <span class="keyword">try</span> {
+      <span class="keyword">const</span> content = <span class="keyword">await</span> fsPromises.<span class="function">readFile</span>(logFile, <span class="string">'utf8'</span>);
+      <span class="keyword">const</span> lines = content.<span class="function">trim</span>().<span class="function">split</span>(<span class="string">'\n'</span>);
+      <span class="keyword">return</span> lines.<span class="function">map</span>(line => JSON.<span class="function">parse</span>(line));
+    } <span class="keyword">catch</span> (err) {
+      <span class="keyword">if</span> (err.code === <span class="string">'ENOENT'</span>) {
+        <span class="keyword">return</span> []; <span class="comment">// No transactions for this date</span>
+      }
+      <span class="keyword">throw</span> err;
+    }
+  }
+
+  <span class="keyword">async</span> <span class="function">listLogFiles</span>() {
+    <span class="keyword">const</span> files = <span class="keyword">await</span> fsPromises.<span class="function">readdir</span>(<span class="keyword">this</span>.logDir);
+    <span class="keyword">return</span> files.<span class="function">filter</span>(file => file.<span class="function">endsWith</span>(<span class="string">'.log'</span>));
+  }
+}
+
+<span class="comment">// Usage example</span>
+(<span class="keyword">async</span> () => {
+  <span class="keyword">const</span> logger = <span class="keyword">new</span> <span class="function">AuditLogger</span>(<span class="string">'./logs'</span>);
+  <span class="keyword">await</span> logger.<span class="function">initialize</span>();
+
+  <span class="comment">// Log multiple transactions</span>
+  <span class="keyword">await</span> logger.<span class="function">logTransaction</span>({
+    txnId: <span class="string">'TXN001'</span>,
+    from: <span class="string">'ACC123456'</span>,
+    to: <span class="string">'ACC789012'</span>,
+    amount: <span class="number">5000</span>,
+    status: <span class="string">'SUCCESS'</span>
+  });
+
+  <span class="comment">// Retrieve today's transactions</span>
+  <span class="keyword">const</span> today = <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>().<span class="function">split</span>(<span class="string">'T'</span>)[<span class="number">0</span>];
+  <span class="keyword">const</span> transactions = <span class="keyword">await</span> logger.<span class="function">getTransactions</span>(today);
+  console.log(<span class="string">`📊 Total transactions today: </span><span class="keyword">${transactions.length}</span><span class="string">`</span>);
+
+  <span class="comment">// List all log files</span>
+  <span class="keyword">const</span> logFiles = <span class="keyword">await</span> logger.<span class="function">listLogFiles</span>();
+  console.log(<span class="string">`📁 Log files: </span><span class="keyword">${logFiles.join(', ')}</span><span class="string">`</span>);
+})();
+
+<span class="comment">// Benefits:
+// ✅ Async operations don't block event loop
+// ✅ Promise-based API with clean async/await
+// ✅ Organized daily log files
+// ✅ Append-only for audit trail compliance</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Async preferred:</strong> Callbacks or promises (non-blocking)</li>
+                                <li><strong>fs.promises:</strong> Modern promise-based API (recommended)</li>
+                                <li><strong>Avoid sync methods:</strong> Block event loop in production</li>
+                                <li><strong>Use streams:</strong> For large files (>100MB)</li>
+                                <li><strong>Error handling:</strong> Check ENOENT, EACCES error codes</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use fs.promises or fs with async/await</li>
+                                    <li>Use streams for large files (>100MB)</li>
+                                    <li>Handle ENOENT (file not found) gracefully</li>
+                                    <li>Use path.join() for cross-platform paths</li>
+                                    <li>Set proper file permissions (chmod, access)</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't use sync methods in production (readFileSync, etc.)</li>
+                                    <li>Don't read entire large files into memory</li>
+                                    <li>Don't forget error handling for file operations</li>
+                                    <li>Don't hardcode file paths (use path module)</li>
+                                    <li>Don't ignore file descriptor leaks (close files)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 10: HTTP Module -->
+            <div class="question-node" id="q10">
+                <div class="question-header" onclick="toggleQuestion('q10')">
+                    <div>
+                        <span class="question-number">Q10</span>
+                        <span class="question-title">HTTP Module - Server & REST API</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🌐 HTTP Server</h3>
+                                <p>Creating basic HTTP server</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🛣️ Routing</h3>
+                                <p>Handling different URL paths</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📡 REST API</h3>
+                                <p>GET, POST, PUT, DELETE methods</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📦 JSON Handling</h3>
+                                <p>Parsing and sending JSON data</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q10-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💡</span>
+                                    <span>Basic HTTP Server & Routing</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q10-1">
+<pre><code><span class="keyword">const</span> http = <span class="function">require</span>(<span class="string">'http'</span>);
+<span class="keyword">const</span> url = <span class="function">require</span>(<span class="string">'url'</span>);
+
+<span class="comment">// Create HTTP server</span>
+<span class="keyword">const</span> server = http.<span class="function">createServer</span>((req, res) => {
+  <span class="comment">// Parse URL and method</span>
+  <span class="keyword">const</span> parsedUrl = url.<span class="function">parse</span>(req.url, <span class="keyword">true</span>);
+  <span class="keyword">const</span> pathname = parsedUrl.pathname;
+  <span class="keyword">const</span> method = req.method;
+
+  <span class="comment">// Set common headers</span>
+  res.<span class="function">setHeader</span>(<span class="string">'Content-Type'</span>, <span class="string">'application/json'</span>);
+
+  <span class="comment">// Routing based on path and method</span>
+  <span class="keyword">if</span> (pathname === <span class="string">'/'</span> && method === <span class="string">'GET'</span>) {
+    <span class="comment">// Home route</span>
+    res.<span class="function">writeHead</span>(<span class="number">200</span>);
+    res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({
+      message: <span class="string">'Welcome to Banking API'</span>,
+      version: <span class="string">'1.0.0'</span>
+    }));
+
+  } <span class="keyword">else if</span> (pathname === <span class="string">'/health'</span> && method === <span class="string">'GET'</span>) {
+    <span class="comment">// Health check</span>
+    res.<span class="function">writeHead</span>(<span class="number">200</span>);
+    res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({
+      status: <span class="string">'healthy'</span>,
+      timestamp: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>()
+    }));
+
+  } <span class="keyword">else if</span> (pathname.<span class="function">startsWith</span>(<span class="string">'/api/accounts'</span>)) {
+    <span class="comment">// Account API routes (handled below)</span>
+    <span class="function">handleAccountRoutes</span>(req, res, pathname, method);
+
+  } <span class="keyword">else</span> {
+    <span class="comment">// 404 Not Found</span>
+    res.<span class="function">writeHead</span>(<span class="number">404</span>);
+    res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({
+      error: <span class="string">'Route not found'</span>,
+      path: pathname
+    }));
+  }
+});
+
+<span class="comment">// Start server</span>
+<span class="keyword">const</span> PORT = process.env.PORT || <span class="number">3000</span>;
+server.<span class="function">listen</span>(PORT, () => {
+  console.log(<span class="string">`🚀 Server running on http://localhost:</span><span class="keyword">${PORT}</span><span class="string">`</span>);
+});
+
+<span class="comment">// Graceful shutdown</span>
+process.<span class="function">on</span>(<span class="string">'SIGTERM'</span>, () => {
+  console.log(<span class="string">'SIGTERM received, closing server...'</span>);
+  server.<span class="function">close</span>(() => {
+    console.log(<span class="string">'Server closed'</span>);
+    process.<span class="function">exit</span>(<span class="number">0</span>);
+  });
+});</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q10-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: REST API with JSON</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q10-2">
+<pre><code><span class="keyword">const</span> http = <span class="function">require</span>(<span class="string">'http'</span>);
+
+<span class="comment">// In-memory account database</span>
+<span class="keyword">const</span> accounts = <span class="keyword">new</span> <span class="function">Map</span>([
+  [<span class="string">'ACC123456'</span>, { accountNumber: <span class="string">'ACC123456'</span>, balance: <span class="number">10000</span>, name: <span class="string">'John Doe'</span> }],
+  [<span class="string">'ACC789012'</span>, { accountNumber: <span class="string">'ACC789012'</span>, balance: <span class="number">5000</span>, name: <span class="string">'Jane Smith'</span> }]
+]);
+
+<span class="comment">// Helper: Parse JSON body</span>
+<span class="keyword">const</span> <span class="function">parseBody</span> = (req) => {
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="function">Promise</span>((resolve, reject) => {
+    <span class="keyword">let</span> body = <span class="string">''</span>;
+    req.<span class="function">on</span>(<span class="string">'data'</span>, chunk => body += chunk);
+    req.<span class="function">on</span>(<span class="string">'end'</span>, () => {
+      <span class="keyword">try</span> {
+        resolve(JSON.<span class="function">parse</span>(body));
+      } <span class="keyword">catch</span> (err) {
+        reject(<span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Invalid JSON'</span>));
+      }
+    });
+  });
+};
+
+<span class="comment">// Banking REST API</span>
+<span class="keyword">const</span> server = http.<span class="function">createServer</span>(<span class="keyword">async</span> (req, res) => {
+  <span class="keyword">const</span> { pathname } = <span class="keyword">new</span> <span class="function">URL</span>(req.url, <span class="string">`http://</span><span class="keyword">${req.headers.host}</span><span class="string">`</span>);
+  <span class="keyword">const</span> method = req.method;
+
+  res.<span class="function">setHeader</span>(<span class="string">'Content-Type'</span>, <span class="string">'application/json'</span>);
+
+  <span class="keyword">try</span> {
+    <span class="comment">// GET /api/accounts - List all accounts</span>
+    <span class="keyword">if</span> (pathname === <span class="string">'/api/accounts'</span> && method === <span class="string">'GET'</span>) {
+      res.<span class="function">writeHead</span>(<span class="number">200</span>);
+      res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({
+        accounts: <span class="function">Array.from</span>(accounts.<span class="function">values</span>())
+      }));
+    }
+
+    <span class="comment">// GET /api/accounts/:id - Get account by ID</span>
+    <span class="keyword">else if</span> (pathname.<span class="function">match</span>(/^\/api\/accounts\/[A-Z0-9]+$/) && method === <span class="string">'GET'</span>) {
+      <span class="keyword">const</span> accountNumber = pathname.<span class="function">split</span>(<span class="string">'/'</span>)[<span class="number">3</span>];
+      <span class="keyword">const</span> account = accounts.<span class="function">get</span>(accountNumber);
+
+      <span class="keyword">if</span> (account) {
+        res.<span class="function">writeHead</span>(<span class="number">200</span>);
+        res.<span class="function">end</span>(JSON.<span class="function">stringify</span>(account));
+      } <span class="keyword">else</span> {
+        res.<span class="function">writeHead</span>(<span class="number">404</span>);
+        res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({ error: <span class="string">'Account not found'</span> }));
+      }
+    }
+
+    <span class="comment">// POST /api/accounts - Create new account</span>
+    <span class="keyword">else if</span> (pathname === <span class="string">'/api/accounts'</span> && method === <span class="string">'POST'</span>) {
+      <span class="keyword">const</span> body = <span class="keyword">await</span> <span class="function">parseBody</span>(req);
+      <span class="keyword">const</span> { accountNumber, name, initialBalance } = body;
+
+      <span class="keyword">if</span> (accounts.<span class="function">has</span>(accountNumber)) {
+        res.<span class="function">writeHead</span>(<span class="number">400</span>);
+        res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({ error: <span class="string">'Account already exists'</span> }));
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">const</span> newAccount = {
+        accountNumber,
+        name,
+        balance: initialBalance || <span class="number">0</span>,
+        createdAt: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>()
+      };
+
+      accounts.<span class="function">set</span>(accountNumber, newAccount);
+
+      res.<span class="function">writeHead</span>(<span class="number">201</span>);
+      res.<span class="function">end</span>(JSON.<span class="function">stringify</span>(newAccount));
+    }
+
+    <span class="comment">// POST /api/transfer - Transfer funds</span>
+    <span class="keyword">else if</span> (pathname === <span class="string">'/api/transfer'</span> && method === <span class="string">'POST'</span>) {
+      <span class="keyword">const</span> { from, to, amount } = <span class="keyword">await</span> <span class="function">parseBody</span>(req);
+
+      <span class="keyword">const</span> fromAccount = accounts.<span class="function">get</span>(from);
+      <span class="keyword">const</span> toAccount = accounts.<span class="function">get</span>(to);
+
+      <span class="keyword">if</span> (!fromAccount || !toAccount) {
+        res.<span class="function">writeHead</span>(<span class="number">404</span>);
+        res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({ error: <span class="string">'Account not found'</span> }));
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">if</span> (fromAccount.balance < amount) {
+        res.<span class="function">writeHead</span>(<span class="number">400</span>);
+        res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({ error: <span class="string">'Insufficient funds'</span> }));
+        <span class="keyword">return</span>;
+      }
+
+      <span class="comment">// Perform transfer</span>
+      fromAccount.balance -= amount;
+      toAccount.balance += amount;
+
+      res.<span class="function">writeHead</span>(<span class="number">200</span>);
+      res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({
+        success: <span class="keyword">true</span>,
+        txnId: <span class="string">'TXN-'</span> + Date.<span class="function">now</span>(),
+        from: { account: from, newBalance: fromAccount.balance },
+        to: { account: to, newBalance: toAccount.balance }
+      }));
+    }
+
+    <span class="keyword">else</span> {
+      res.<span class="function">writeHead</span>(<span class="number">404</span>);
+      res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({ error: <span class="string">'Route not found'</span> }));
+    }
+
+  } <span class="keyword">catch</span> (err) {
+    res.<span class="function">writeHead</span>(<span class="number">500</span>);
+    res.<span class="function">end</span>(JSON.<span class="function">stringify</span>({ error: err.message }));
+  }
+});
+
+server.<span class="function">listen</span>(<span class="number">3000</span>, () => console.log(<span class="string">'🏦 Banking API on port 3000'</span>));
+
+<span class="comment">// Test with:
+// curl http://localhost:3000/api/accounts
+// curl -X POST http://localhost:3000/api/transfer \
+//   -H "Content-Type: application/json" \
+//   -d '{"from":"ACC123456","to":"ACC789012","amount":1000}'</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🔑 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>createServer():</strong> Creates HTTP server with req/res</li>
+                                <li><strong>Routing:</strong> Manual URL parsing and method checking</li>
+                                <li><strong>JSON API:</strong> Parse body, send JSON responses</li>
+                                <li><strong>Status codes:</strong> 200 (OK), 201 (Created), 404 (Not Found), 500 (Error)</li>
+                                <li><strong>Production:</strong> Use Express.js instead of raw HTTP module</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use Express.js for production REST APIs</li>
+                                    <li>Set proper HTTP status codes (200, 201, 400, 404, 500)</li>
+                                    <li>Parse request body for POST/PUT requests</li>
+                                    <li>Handle errors with try-catch and 500 responses</li>
+                                    <li>Implement graceful shutdown (SIGTERM handling)</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't use raw HTTP module for complex APIs (use Express)</li>
+                                    <li>Don't forget to set Content-Type headers</li>
+                                    <li>Don't expose sensitive error details in responses</li>
+                                    <li>Don't forget error handling for JSON parsing</li>
+                                    <li>Don't hardcode ports (use environment variables)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Node.js Interview Questions - Interactive Mind Map</p>
+            <p>Click on question headers to expand/collapse | Click on code headers to view code examples</p>
+        </div>
+    </div>
+
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        ↑
+    </div>
+
+    <script>
+        function toggleQuestion(id) {
+            const node = document.getElementById(id);
+            node.classList.toggle('active');
+        }
+
+        function toggleCode(id) {
+            const codeBlock = document.getElementById(id);
+            codeBlock.classList.toggle('active');
+        }
+
+        // Scroll to top functionality
+        const scrollTopBtn = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Optional: Auto-expand first question on load
+        window.addEventListener('load', () => {
+            document.getElementById('q1').classList.add('active');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Interview Questions - Complete Index</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .mind-map-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .section-range {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .question-list {
+            list-style: none;
+        }
+
+        .question-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .question-item:last-child {
+            border-bottom: none;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+            padding: 5px 12px;
+            border-radius: 8px;
+            min-width: 50px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .question-content {
+            flex: 1;
+        }
+
+        .question-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+        }
+
+        .question-desc {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .view-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1em;
+            display: inline-block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            margin-top: 15px;
+        }
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .section-actions {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .footer-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .badge-beginner {
+            background: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+
+        .badge-intermediate {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f39c12;
+            border: 1px solid #f39c12;
+        }
+
+        .badge-advanced {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .mind-map-sections {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Node.js Interview Questions</h1>
+            <p>Complete Collection: From Basics to Advanced Topics</p>
+            <p style="font-size: 1em; opacity: 0.8;">Master all 60 questions to ace your Node.js interviews</p>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <span class="stat-number">60</span>
+                    <span class="stat-label">Questions</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">Mind Maps</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">10</span>
+                    <span class="stat-label">Topics</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mind-map-sections">
+            
+            <!-- Q01-Q10 Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">Fundamentals</div>
+                    <div class="section-range">Q01 - Q10</div>
+                </div>
+                
+                <ul class="question-list">
+                    <li class="question-item">
+                        <div class="question-number">Q01</div>
+                        <div class="question-content">
+                            <div class="question-title">Event Loop Basics <span class="badge badge-beginner">Beginner</span></div>
+                            <div class="question-desc">Understanding Node.js non-blocking architecture, call stack, callback queue, and event loop phases</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q02</div>
+                        <div class="question-content">
+                            <div class="question-title">Event Loop Phases <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Deep dive into timers, I/O callbacks, poll, check, and close callbacks phases</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q03</div>
+                        <div class="question-content">
+                            <div class="question-title">Streams Fundamentals <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Readable, Writable, Duplex, Transform streams with backpressure handling</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q04</div>
+                        <div class="question-content">
+                            <div class="question-title">Streams Performance <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Stream optimization, piping, memory efficiency, and real-world applications</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q05</div>
+                        <div class="question-content">
+                            <div class="question-title">CommonJS Modules <span class="badge badge-beginner">Beginner</span></div>
+                            <div class="question-desc">Module system, require/exports, caching, and circular dependencies</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q06</div>
+                        <div class="question-content">
+                            <div class="question-title">ES Modules <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Import/export syntax, dynamic imports, and ESM vs CommonJS differences</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q07</div>
+                        <div class="question-content">
+                            <div class="question-title">Buffers & Binary Data <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Working with binary data, Buffer API, and memory management</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q08</div>
+                        <div class="question-content">
+                            <div class="question-title">Buffers Encoding <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Character encodings (UTF-8, Base64), string conversions, and encoding strategies</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q09</div>
+                        <div class="question-content">
+                            <div class="question-title">File System Operations <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">fs module, async vs sync, file reading/writing, and stream-based operations</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q10</div>
+                        <div class="question-content">
+                            <div class="question-title">HTTP Module <span class="badge badge-beginner">Beginner</span></div>
+                            <div class="question-desc">Creating HTTP servers, handling requests/responses, and routing basics</div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="section-actions">
+                    <a href="mindmap_Q01-Q10.html" class="view-btn">View Mind Map Q01-Q10</a>
+                </div>
+            </div>
+
+            <!-- Q11-Q20 Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">Core Concepts</div>
+                    <div class="section-range">Q11 - Q20</div>
+                </div>
+                
+                <ul class="question-list">
+                    <li class="question-item">
+                        <div class="question-number">Q11</div>
+                        <div class="question-content">
+                            <div class="question-title">Error Handling Basics <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Try-catch, error-first callbacks, EventEmitter errors, and uncaught exceptions</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q12</div>
+                        <div class="question-content">
+                            <div class="question-title">Advanced Error Handling <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Custom error classes, error middleware, promise rejections, and domain handling</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q13</div>
+                        <div class="question-content">
+                            <div class="question-title">HTTP Request Methods <span class="badge badge-beginner">Beginner</span></div>
+                            <div class="question-desc">GET, POST, PUT, DELETE, PATCH and RESTful API principles</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q14</div>
+                        <div class="question-content">
+                            <div class="question-title">Express Basics <span class="badge badge-beginner">Beginner</span></div>
+                            <div class="question-desc">Express framework, routing, request/response handling, and basic setup</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q15</div>
+                        <div class="question-content">
+                            <div class="question-title">Express Middleware <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Custom middleware, error handling, built-in middleware, and middleware chains</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q16</div>
+                        <div class="question-content">
+                            <div class="question-title">Timers: setTimeout & setInterval <span class="badge badge-beginner">Beginner</span></div>
+                            <div class="question-desc">Scheduling code execution, clearing timers, and timer best practices</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q17</div>
+                        <div class="question-content">
+                            <div class="question-title">setImmediate vs process.nextTick <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Event loop integration, execution order, and use case differences</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q18</div>
+                        <div class="question-content">
+                            <div class="question-title">Process Management <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">process object, environment variables, exit codes, and process events</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q19</div>
+                        <div class="question-content">
+                            <div class="question-title">Process Signals <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">SIGTERM, SIGINT handling, graceful shutdown, and signal management</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q20</div>
+                        <div class="question-content">
+                            <div class="question-title">Clustering <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Cluster module, load balancing, worker processes, and multi-core utilization</div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="section-actions">
+                    <a href="mindmap_Q11-Q20.html" class="view-btn">View Mind Map Q11-Q20</a>
+                </div>
+            </div>
+
+            <!-- Q21-Q30 Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">Performance & Security</div>
+                    <div class="section-range">Q21 - Q30</div>
+                </div>
+                
+                <ul class="question-list">
+                    <li class="question-item">
+                        <div class="question-number">Q21</div>
+                        <div class="question-content">
+                            <div class="question-title">Child Processes <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">spawn, exec, execFile, fork methods and IPC communication</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q22</div>
+                        <div class="question-content">
+                            <div class="question-title">Memory Management: Heap & Stack <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">V8 heap, stack memory, garbage collection, and memory allocation</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q23</div>
+                        <div class="question-content">
+                            <div class="question-title">Memory Leaks Detection <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Identifying leaks, heap snapshots, profiling tools, and prevention strategies</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q24</div>
+                        <div class="question-content">
+                            <div class="question-title">Performance Profiling <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Chrome DevTools, clinic.js, flamegraphs, and performance metrics</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q25</div>
+                        <div class="question-content">
+                            <div class="question-title">Performance Optimization <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Caching strategies, compression, code optimization, and best practices</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q26</div>
+                        <div class="question-content">
+                            <div class="question-title">Security: Authentication <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">JWT, sessions, OAuth, bcrypt password hashing, and auth strategies</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q27</div>
+                        <div class="question-content">
+                            <div class="question-title">Security: Data Protection <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Encryption, HTTPS, helmet.js, input validation, and SQL injection prevention</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q28</div>
+                        <div class="question-content">
+                            <div class="question-title">Database Connection Pooling <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Connection pools, pool sizing, pg.Pool configuration, and optimization</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q29</div>
+                        <div class="question-content">
+                            <div class="question-title">Database Transactions <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">ACID properties, BEGIN/COMMIT/ROLLBACK, isolation levels, and deadlocks</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q30</div>
+                        <div class="question-content">
+                            <div class="question-title">Caching: In-Memory <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Node-cache, Redis, cache strategies, TTL, and invalidation patterns</div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="section-actions">
+                    <a href="mindmap_Q21-Q30.html" class="view-btn">View Mind Map Q21-Q30</a>
+                </div>
+            </div>
+
+            <!-- Q31-Q40 Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">Testing & API Design</div>
+                    <div class="section-range">Q31 - Q40</div>
+                </div>
+                
+                <ul class="question-list">
+                    <li class="question-item">
+                        <div class="question-number">Q31</div>
+                        <div class="question-content">
+                            <div class="question-title">Cache Invalidation <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Cache-aside, write-through, write-back patterns, and invalidation strategies</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q32</div>
+                        <div class="question-content">
+                            <div class="question-title">Testing: Unit Tests <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Jest, Mocha, test structure, mocking, spies, and code coverage</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q33</div>
+                        <div class="question-content">
+                            <div class="question-title">Testing: Integration Tests <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Supertest, database testing, test containers, and E2E testing strategies</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q34</div>
+                        <div class="question-content">
+                            <div class="question-title">Logging Basics <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Winston, Pino, log levels, transports, and structured logging</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q35</div>
+                        <div class="question-content">
+                            <div class="question-title">Structured Logging <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">JSON logs, correlation IDs, ELK stack, CloudWatch, and log aggregation</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q36</div>
+                        <div class="question-content">
+                            <div class="question-title">RESTful API Principles <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">REST constraints, resource design, HTTP methods, status codes, and HATEOAS</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q37</div>
+                        <div class="question-content">
+                            <div class="question-title">API Versioning <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">URI versioning, header versioning, backwards compatibility, and deprecation</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q38</div>
+                        <div class="question-content">
+                            <div class="question-title">Authentication: JWT <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">JSON Web Tokens, token structure, signing, verification, and refresh tokens</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q39</div>
+                        <div class="question-content">
+                            <div class="question-title">Authentication: OAuth2 <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">OAuth2 flows, authorization code, client credentials, and token management</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q40</div>
+                        <div class="question-content">
+                            <div class="question-title">Rate Limiting <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Token bucket, leaky bucket algorithms, express-rate-limit, and Redis-based limiting</div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="section-actions">
+                    <a href="mindmap_Q31-Q40.html" class="view-btn">View Mind Map Q31-Q40</a>
+                </div>
+            </div>
+
+            <!-- Q41-Q50 Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">Microservices & Serverless</div>
+                    <div class="section-range">Q41 - Q50</div>
+                </div>
+                
+                <ul class="question-list">
+                    <li class="question-item">
+                        <div class="question-number">Q41</div>
+                        <div class="question-content">
+                            <div class="question-title">Microservices Architecture <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Service decomposition, API Gateway, service mesh, and inter-service communication</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q42</div>
+                        <div class="question-content">
+                            <div class="question-title">Service Discovery <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Consul, Eureka, service registry, health checks, and dynamic discovery</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q43</div>
+                        <div class="question-content">
+                            <div class="question-title">Event Emitters <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">EventEmitter API, custom events, listeners, error handling, and memory leaks</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q44</div>
+                        <div class="question-content">
+                            <div class="question-title">Message Queues <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">RabbitMQ, Kafka, queue patterns, acknowledgments, and message durability</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q45</div>
+                        <div class="question-content">
+                            <div class="question-title">AWS Lambda <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Serverless functions, cold starts, event sources, layers, and best practices</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q46</div>
+                        <div class="question-content">
+                            <div class="question-title">API Gateway <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Gateway routing, rate limiting, authentication, caching, and Lambda integration</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q47</div>
+                        <div class="question-content">
+                            <div class="question-title">WebSockets <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Socket.io, real-time communication, rooms, broadcasting, and event handling</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q48</div>
+                        <div class="question-content">
+                            <div class="question-title">WebSockets Scaling <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Redis adapter, sticky sessions, horizontal scaling, and multi-server coordination</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q49</div>
+                        <div class="question-content">
+                            <div class="question-title">Docker Containerization <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Dockerfile, multi-stage builds, volumes, networks, and container optimization</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q50</div>
+                        <div class="question-content">
+                            <div class="question-title">Docker Compose <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Multi-container apps, service dependencies, networks, volumes, and orchestration</div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="section-actions">
+                    <a href="mindmap_Q41-Q50.html" class="view-btn">View Mind Map Q41-Q50</a>
+                </div>
+            </div>
+
+            <!-- Q51-Q60 Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">CI/CD & Production</div>
+                    <div class="section-range">Q51 - Q60</div>
+                </div>
+                
+                <ul class="question-list">
+                    <li class="question-item">
+                        <div class="question-number">Q51</div>
+                        <div class="question-content">
+                            <div class="question-title">CI/CD: GitHub Actions <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Automated pipelines, testing, Docker builds, security scanning, and deployments</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q52</div>
+                        <div class="question-content">
+                            <div class="question-title">Blue-Green Deployment <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Zero-downtime deployments, traffic switching, rollback strategies, and AWS implementation</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q53</div>
+                        <div class="question-content">
+                            <div class="question-title">TypeScript Basics <span class="badge badge-intermediate">Intermediate</span></div>
+                            <div class="question-desc">Type system, interfaces, classes, enums, tsconfig, and type guards</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q54</div>
+                        <div class="question-content">
+                            <div class="question-title">TypeScript Advanced Types <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Union types, utility types, mapped types, generics, and conditional types</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q55</div>
+                        <div class="question-content">
+                            <div class="question-title">Monitoring: APM Tools <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Distributed tracing, metrics, error tracking, DataDog, New Relic, and OpenTelemetry</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q56</div>
+                        <div class="question-content">
+                            <div class="question-title">Monitoring: Alerting <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Alert types, severity levels, notification channels, SLO-based alerts, and runbooks</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q57</div>
+                        <div class="question-content">
+                            <div class="question-title">Native Addons: C++ Integration <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">N-API, node-gyp, data conversion, and integrating C++ libraries with Node.js</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q58</div>
+                        <div class="question-content">
+                            <div class="question-title">Native Addons: Performance <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">AsyncWorker, memory optimization, threading, SIMD, and profiling native code</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q59</div>
+                        <div class="question-content">
+                            <div class="question-title">Production Best Practices <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Security hardening, observability, performance optimization, and reliability patterns</div>
+                        </div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-number">Q60</div>
+                        <div class="question-content">
+                            <div class="question-title">Production Scalability <span class="badge badge-advanced">Advanced</span></div>
+                            <div class="question-desc">Horizontal/vertical scaling, database scaling, caching strategies, and load balancing</div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="section-actions">
+                    <a href="mindmap_Q51-Q60.html" class="view-btn">View Mind Map Q51-Q60</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <h2>🎯 Ready to Master Node.js?</h2>
+            <p>Explore each mind map to dive deep into these topics with detailed explanations, code examples, and best practices.</p>
+            
+            <div class="footer-links">
+                <a href="mindmap_Q01-Q10.html" class="footer-link">Q01-Q10: Fundamentals</a>
+                <a href="mindmap_Q11-Q20.html" class="footer-link">Q11-Q20: Core Concepts</a>
+                <a href="mindmap_Q21-Q30.html" class="footer-link">Q21-Q30: Performance & Security</a>
+                <a href="mindmap_Q31-Q40.html" class="footer-link">Q31-Q40: Testing & API Design</a>
+                <a href="mindmap_Q41-Q50.html" class="footer-link">Q41-Q50: Microservices & Serverless</a>
+                <a href="mindmap_Q51-Q60.html" class="footer-link">Q51-Q60: CI/CD & Production</a>
+            </div>
+            
+            <p style="margin-top: 30px; opacity: 0.8;">💡 Each question includes sub-topics, code examples, key takeaways, and DO's/DON'Ts</p>
+        </div>
+    </div>
+</body>
+</html>

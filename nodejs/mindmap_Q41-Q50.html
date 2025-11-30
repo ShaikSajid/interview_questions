@@ -1,0 +1,2994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Interview Mind Map - Q41-Q50</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .mind-map {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .question-node {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .question-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .question-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .question-header:hover {
+            background: linear-gradient(135deg, #7c8ef0 0%, #8659b0 100%);
+        }
+
+        .question-number {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .question-title {
+            flex: 1;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge-beginner {
+            background: #10b981;
+        }
+
+        .badge-intermediate {
+            background: #f59e0b;
+        }
+
+        .badge-advanced {
+            background: #ef4444;
+        }
+
+        .toggle-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .question-node.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .question-content {
+            max-height: 5000px;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .question-node.collapsed .question-content {
+            max-height: 0;
+        }
+
+        .content-inner {
+            padding: 30px;
+        }
+
+        .sub-topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .sub-topic {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.2s ease;
+        }
+
+        .sub-topic:hover {
+            transform: translateX(5px);
+        }
+
+        .sub-topic h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .sub-topic p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .code-section {
+            margin: 25px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #1e1e1e;
+        }
+
+        .code-header {
+            background: #2d2d2d;
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .code-header:hover {
+            background: #3d3d3d;
+        }
+
+        .code-title {
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .code-icon {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .code-block {
+            max-height: 600px;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .code-section.collapsed .code-block {
+            max-height: 0;
+        }
+
+        .code-block pre {
+            margin: 0;
+            padding: 20px;
+            background: #1e1e1e;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #d4d4d4;
+        }
+
+        .keyword {
+            color: #569cd6;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+            font-style: italic;
+        }
+
+        .function {
+            color: #dcdcaa;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .key-points {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid #10b981;
+        }
+
+        .key-points h3 {
+            color: #10b981;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .key-points ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .key-points li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .key-points li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .dos-donts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .dos, .donts {
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .dos {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+        }
+
+        .donts {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+        }
+
+        .dos h4 {
+            color: #10b981;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .donts h4 {
+            color: #ef4444;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .dos ul, .donts ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .dos li, .donts li {
+            padding: 6px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #444;
+        }
+
+        .dos li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .donts li:before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .sub-topics {
+                grid-template-columns: 1fr;
+            }
+
+            .dos-donts {
+                grid-template-columns: 1fr;
+            }
+
+            .content-inner {
+                padding: 20px;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Node.js Interview Mind Map</h1>
+            <p>Questions 41-50: Microservices, Events, Serverless & Docker</p>
+        </div>
+
+        <div class="mind-map">
+
+            <!-- Q41: Microservices Architecture -->
+            <div class="question-node" id="q41">
+                <div class="question-header" onclick="toggleQuestion('q41')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q41</span>
+                        <span class="question-title">Microservices Architecture - Building Distributed Systems</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🏗️ Service Decomposition</h3>
+                                <p>Breaking monoliths into independent services using domain-driven design. Each microservice owns its data, communicates via APIs, and can be deployed independently. Bounded contexts define service boundaries.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🚪 API Gateway Pattern</h3>
+                                <p>Single entry point for client requests that routes to appropriate microservices. Handles authentication, rate limiting, request transformation, and response aggregation. Simplifies client-service communication.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🕸️ Service Mesh</h3>
+                                <p>Infrastructure layer for service-to-service communication with features like load balancing, service discovery, circuit breaking, and observability. Tools: Istio, Linkerd, Consul Connect.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>💬 Inter-Service Communication</h3>
+                                <p>Synchronous (REST, gRPC) and asynchronous (message queues, events) patterns. REST for simple queries, gRPC for performance, events for decoupling. Each pattern has trade-offs in consistency vs. availability.</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q41-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>Basic Microservices Setup with Express</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q41-1">
+                                <pre><code><span class="comment">// User Service (users-service.js)</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="keyword">const</span> users = [
+    { id: <span class="number">1</span>, name: <span class="string">'John Doe'</span>, email: <span class="string">'john@example.com'</span> }
+];
+
+<span class="comment">// User endpoints</span>
+app.<span class="function">get</span>(<span class="string">'/users/:id'</span>, (req, res) => {
+    <span class="keyword">const</span> user = users.<span class="function">find</span>(u => u.id === <span class="function">parseInt</span>(req.params.id));
+    <span class="keyword">if</span> (!user) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'User not found'</span> });
+    res.<span class="function">json</span>(user);
+});
+
+app.<span class="function">listen</span>(<span class="number">3001</span>, () => console.<span class="function">log</span>(<span class="string">'User Service on port 3001'</span>));
+
+<span class="comment">// Order Service (orders-service.js)</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> axios = <span class="function">require</span>(<span class="string">'axios'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="keyword">const</span> orders = [
+    { id: <span class="number">1</span>, userId: <span class="number">1</span>, product: <span class="string">'Laptop'</span>, amount: <span class="number">1200</span> }
+];
+
+<span class="comment">// Fetch user details from User Service</span>
+app.<span class="function">get</span>(<span class="string">'/orders/:id'</span>, <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> order = orders.<span class="function">find</span>(o => o.id === <span class="function">parseInt</span>(req.params.id));
+        <span class="keyword">if</span> (!order) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Order not found'</span> });
+
+        <span class="comment">// Call User Service for user details</span>
+        <span class="keyword">const</span> userResponse = <span class="keyword">await</span> axios.<span class="function">get</span>(<span class="string">`http://localhost:3001/users/${order.userId}`</span>);
+        
+        res.<span class="function">json</span>({
+            ...order,
+            user: userResponse.data
+        });
+    } <span class="keyword">catch</span> (error) {
+        res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Service communication failed'</span> });
+    }
+});
+
+app.<span class="function">listen</span>(<span class="number">3002</span>, () => console.<span class="function">log</span>(<span class="string">'Order Service on port 3002'</span>));</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q41-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Account & Transaction Microservices with API Gateway</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q41-2">
+                                <pre><code><span class="comment">// Account Service (account-service.js) - Port 4001</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="keyword">const</span> accounts = [
+    { accountId: <span class="string">'ACC001'</span>, customerId: <span class="string">'C001'</span>, balance: <span class="number">50000</span>, type: <span class="string">'SAVINGS'</span> },
+    { accountId: <span class="string">'ACC002'</span>, customerId: <span class="string">'C001'</span>, balance: <span class="number">25000</span>, type: <span class="string">'CHECKING'</span> }
+];
+
+app.<span class="function">get</span>(<span class="string">'/accounts/:accountId'</span>, (req, res) => {
+    <span class="keyword">const</span> account = accounts.<span class="function">find</span>(a => a.accountId === req.params.accountId);
+    <span class="keyword">if</span> (!account) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Account not found'</span> });
+    res.<span class="function">json</span>(account);
+});
+
+app.<span class="function">get</span>(<span class="string">'/accounts/customer/:customerId'</span>, (req, res) => {
+    <span class="keyword">const</span> customerAccounts = accounts.<span class="function">filter</span>(a => a.customerId === req.params.customerId);
+    res.<span class="function">json</span>(customerAccounts);
+});
+
+app.<span class="function">listen</span>(<span class="number">4001</span>, () => console.<span class="function">log</span>(<span class="string">'Account Service running on 4001'</span>));
+
+<span class="comment">// Transaction Service (transaction-service.js) - Port 4002</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="keyword">const</span> transactions = [
+    { txnId: <span class="string">'TXN001'</span>, accountId: <span class="string">'ACC001'</span>, amount: <span class="number">5000</span>, type: <span class="string">'CREDIT'</span>, date: <span class="string">'2024-01-15'</span> },
+    { txnId: <span class="string">'TXN002'</span>, accountId: <span class="string">'ACC001'</span>, amount: <span class="number">1500</span>, type: <span class="string">'DEBIT'</span>, date: <span class="string">'2024-01-16'</span> }
+];
+
+app.<span class="function">get</span>(<span class="string">'/transactions/account/:accountId'</span>, (req, res) => {
+    <span class="keyword">const</span> accountTxns = transactions.<span class="function">filter</span>(t => t.accountId === req.params.accountId);
+    res.<span class="function">json</span>(accountTxns);
+});
+
+app.<span class="function">post</span>(<span class="string">'/transactions'</span>, (req, res) => {
+    <span class="keyword">const</span> { accountId, amount, type } = req.body;
+    <span class="keyword">const</span> newTxn = {
+        txnId: <span class="string">`TXN${Date.now()}`</span>,
+        accountId,
+        amount,
+        type,
+        date: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>().<span class="function">split</span>(<span class="string">'T'</span>)[<span class="number">0</span>]
+    };
+    transactions.<span class="function">push</span>(newTxn);
+    res.<span class="function">status</span>(<span class="number">201</span>).<span class="function">json</span>(newTxn);
+});
+
+app.<span class="function">listen</span>(<span class="number">4002</span>, () => console.<span class="function">log</span>(<span class="string">'Transaction Service running on 4002'</span>));
+
+<span class="comment">// API Gateway (api-gateway.js) - Port 4000</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> axios = <span class="function">require</span>(<span class="string">'axios'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="keyword">const</span> ACCOUNT_SERVICE = <span class="string">'http://localhost:4001'</span>;
+<span class="keyword">const</span> TRANSACTION_SERVICE = <span class="string">'http://localhost:4002'</span>;
+
+<span class="comment">// Aggregated endpoint: Get account with transaction history</span>
+app.<span class="function">get</span>(<span class="string">'/api/accounts/:accountId/details'</span>, <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> { accountId } = req.params;
+        
+        <span class="comment">// Parallel calls to both services</span>
+        <span class="keyword">const</span> [accountRes, transactionsRes] = <span class="keyword">await</span> Promise.<span class="function">all</span>([
+            axios.<span class="function">get</span>(<span class="string">`${ACCOUNT_SERVICE}/accounts/${accountId}`</span>),
+            axios.<span class="function">get</span>(<span class="string">`${TRANSACTION_SERVICE}/transactions/account/${accountId}`</span>)
+        ]);
+
+        res.<span class="function">json</span>({
+            account: accountRes.data,
+            transactions: transactionsRes.data,
+            summary: {
+                totalTransactions: transactionsRes.data.length,
+                credits: transactionsRes.data.<span class="function">filter</span>(t => t.type === <span class="string">'CREDIT'</span>).length,
+                debits: transactionsRes.data.<span class="function">filter</span>(t => t.type === <span class="string">'DEBIT'</span>).length
+            }
+        });
+    } <span class="keyword">catch</span> (error) {
+        res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Gateway error'</span>, details: error.message });
+    }
+});
+
+<span class="comment">// Route through to services</span>
+app.<span class="function">use</span>(<span class="string">'/accounts'</span>, <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> response = <span class="keyword">await</span> axios({ 
+            method: req.method, 
+            url: <span class="string">`${ACCOUNT_SERVICE}${req.url}`</span>,
+            data: req.body 
+        });
+        res.<span class="function">json</span>(response.data);
+    } <span class="keyword">catch</span> (error) {
+        res.<span class="function">status</span>(error.response?.status || <span class="number">500</span>).<span class="function">json</span>({ error: error.message });
+    }
+});
+
+app.<span class="function">listen</span>(<span class="number">4000</span>, () => console.<span class="function">log</span>(<span class="string">'API Gateway running on 4000'</span>));</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Single Responsibility:</strong> Each microservice should do one thing well with its own database</li>
+                                <li><strong>API Gateway:</strong> Centralized entry point handles authentication, routing, and response aggregation</li>
+                                <li><strong>Service Independence:</strong> Services can be deployed, scaled, and updated independently</li>
+                                <li><strong>Failure Isolation:</strong> Use circuit breakers to prevent cascade failures across services</li>
+                                <li><strong>Data Consistency:</strong> Embrace eventual consistency with event-driven patterns (Saga pattern)</li>
+                                <li><strong>Service Discovery:</strong> Use tools like Consul, Eureka, or Kubernetes DNS for dynamic service location</li>
+                                <li><strong>Observability:</strong> Implement distributed tracing (Jaeger, Zipkin) and centralized logging (ELK)</li>
+                                <li><strong>Security:</strong> Use JWT tokens, mTLS for service-to-service communication, API Gateway for authentication</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Design services around business domains (DDD)</li>
+                                    <li>Use asynchronous messaging for loose coupling</li>
+                                    <li>Implement health checks and readiness probes</li>
+                                    <li>Version your APIs for backward compatibility</li>
+                                    <li>Use containerization (Docker) for consistency</li>
+                                    <li>Implement circuit breakers and retry logic</li>
+                                    <li>Monitor service dependencies and latencies</li>
+                                    <li>Use API Gateway for cross-cutting concerns</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't share databases between services</li>
+                                    <li>Don't create too fine-grained microservices</li>
+                                    <li>Don't ignore network latency and failures</li>
+                                    <li>Don't use distributed transactions (use Sagas)</li>
+                                    <li>Don't forget about service versioning</li>
+                                    <li>Don't skip implementing correlation IDs</li>
+                                    <li>Don't ignore security between services</li>
+                                    <li>Don't over-engineer initially (start modular)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q42: Microservices Service Discovery -->
+            <div class="question-node" id="q42">
+                <div class="question-header" onclick="toggleQuestion('q42')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q42</span>
+                        <span class="question-title">Microservices Service Discovery - Dynamic Service Location</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📋 Service Registry</h3>
+                                <p>Centralized database of service instances and locations. Services register on startup with metadata (host, port, health URL). Registry tracks available instances and removes unhealthy ones. Tools: Consul, Eureka, etcd, Zookeeper.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>❤️ Health Checks</h3>
+                                <p>Regular heartbeat checks to verify service availability. Services expose /health endpoints returning status. Registry marks services as UP/DOWN based on check results. Failed checks trigger automatic deregistration.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚖️ Client-Side Load Balancing</h3>
+                                <p>Client queries registry for service instances and chooses one using algorithms (round-robin, least connections). Eliminates single point of failure. Libraries: Ribbon (Netflix), Spring Cloud LoadBalancer.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔄 Dynamic Discovery</h3>
+                                <p>Services automatically discover and adapt to topology changes. No hardcoded URLs. Enables auto-scaling and blue-green deployments. Client-side caching with TTL for performance. DNS-based (Kubernetes) or registry-based (Consul).</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q42-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>Consul Service Registration & Discovery</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q42-1">
+                                <pre><code><span class="comment">// npm install consul</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> Consul = <span class="function">require</span>(<span class="string">'consul'</span>);
+
+<span class="keyword">const</span> app = <span class="function">express</span>();
+<span class="keyword">const</span> consul = <span class="keyword">new</span> <span class="function">Consul</span>();
+
+<span class="keyword">const</span> SERVICE_NAME = <span class="string">'user-service'</span>;
+<span class="keyword">const</span> SERVICE_ID = <span class="string">`${SERVICE_NAME}-${process.pid}`</span>;
+<span class="keyword">const</span> PORT = process.env.PORT || <span class="number">3001</span>;
+
+<span class="comment">// Health check endpoint</span>
+app.<span class="function">get</span>(<span class="string">'/health'</span>, (req, res) => {
+    res.<span class="function">json</span>({ status: <span class="string">'UP'</span>, service: SERVICE_NAME });
+});
+
+<span class="comment">// Business endpoints</span>
+app.<span class="function">get</span>(<span class="string">'/users/:id'</span>, (req, res) => {
+    res.<span class="function">json</span>({ id: req.params.id, name: <span class="string">'John Doe'</span> });
+});
+
+<span class="comment">// Register service with Consul</span>
+<span class="keyword">async function</span> <span class="function">registerService</span>() {
+    <span class="keyword">try</span> {
+        <span class="keyword">await</span> consul.agent.service.<span class="function">register</span>({
+            id: SERVICE_ID,
+            name: SERVICE_NAME,
+            address: <span class="string">'localhost'</span>,
+            port: PORT,
+            tags: [<span class="string">'nodejs'</span>, <span class="string">'api'</span>],
+            check: {
+                http: <span class="string">`http://localhost:${PORT}/health`</span>,
+                interval: <span class="string">'10s'</span>,
+                timeout: <span class="string">'5s'</span>,
+                deregistercriticalserviceafter: <span class="string">'30s'</span>
+            }
+        });
+        console.<span class="function">log</span>(<span class="string">`${SERVICE_NAME} registered with Consul`</span>);
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Registration failed:'</span>, error);
+    }
+}
+
+<span class="comment">// Deregister on shutdown</span>
+<span class="keyword">async function</span> <span class="function">deregisterService</span>() {
+    <span class="keyword">try</span> {
+        <span class="keyword">await</span> consul.agent.service.<span class="function">deregister</span>(SERVICE_ID);
+        console.<span class="function">log</span>(<span class="string">`${SERVICE_NAME} deregistered`</span>);
+        process.<span class="function">exit</span>(<span class="number">0</span>);
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Deregistration failed:'</span>, error);
+        process.<span class="function">exit</span>(<span class="number">1</span>);
+    }
+}
+
+process.<span class="function">on</span>(<span class="string">'SIGINT'</span>, deregisterService);
+process.<span class="function">on</span>(<span class="string">'SIGTERM'</span>, deregisterService);
+
+app.<span class="function">listen</span>(PORT, <span class="keyword">async</span> () => {
+    console.<span class="function">log</span>(<span class="string">`${SERVICE_NAME} running on port ${PORT}`</span>);
+    <span class="keyword">await</span> <span class="function">registerService</span>();
+});
+
+<span class="comment">// Client: Discover and call service</span>
+<span class="keyword">async function</span> <span class="function">callUserService</span>(userId) {
+    <span class="keyword">try</span> {
+        <span class="comment">// Get healthy instances from Consul</span>
+        <span class="keyword">const</span> result = <span class="keyword">await</span> consul.health.<span class="function">service</span>({ service: <span class="string">'user-service'</span>, passing: <span class="keyword">true</span> });
+        
+        <span class="keyword">if</span> (result.length === <span class="number">0</span>) {
+            <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'No healthy instances found'</span>);
+        }
+
+        <span class="comment">// Simple round-robin (use index % length)</span>
+        <span class="keyword">const</span> instance = result[<span class="function">Math.floor</span>(<span class="function">Math.random</span>() * result.length)];
+        <span class="keyword">const</span> { Address, Port } = instance.Service;
+        
+        <span class="keyword">const</span> axios = <span class="function">require</span>(<span class="string">'axios'</span>);
+        <span class="keyword">const</span> response = <span class="keyword">await</span> axios.<span class="function">get</span>(<span class="string">`http://${Address}:${Port}/users/${userId}`</span>);
+        
+        <span class="keyword">return</span> response.data;
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Service call failed:'</span>, error.message);
+        <span class="keyword">throw</span> error;
+    }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q42-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Payment Service with Service Discovery & Circuit Breaker</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q42-2">
+                                <pre><code><span class="comment">// npm install consul axios opossum</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> Consul = <span class="function">require</span>(<span class="string">'consul'</span>);
+<span class="keyword">const</span> axios = <span class="function">require</span>(<span class="string">'axios'</span>);
+<span class="keyword">const</span> CircuitBreaker = <span class="function">require</span>(<span class="string">'opossum'</span>);
+
+<span class="keyword">const</span> consul = <span class="keyword">new</span> <span class="function">Consul</span>();
+
+<span class="comment">// Service Discovery Helper</span>
+<span class="keyword">class</span> <span class="function">ServiceDiscovery</span> {
+    <span class="keyword">constructor</span>() {
+        <span class="keyword">this</span>.cache = <span class="keyword">new</span> <span class="function">Map</span>();
+        <span class="keyword">this</span>.cacheTTL = <span class="number">30000</span>; <span class="comment">// 30 seconds</span>
+    }
+
+    <span class="keyword">async</span> <span class="function">getServiceInstance</span>(serviceName) {
+        <span class="comment">// Check cache first</span>
+        <span class="keyword">const</span> cached = <span class="keyword">this</span>.cache.<span class="function">get</span>(serviceName);
+        <span class="keyword">if</span> (cached && Date.<span class="function">now</span>() - cached.timestamp < <span class="keyword">this</span>.cacheTTL) {
+            <span class="keyword">return</span> cached.instances[<span class="function">Math.floor</span>(<span class="function">Math.random</span>() * cached.instances.length)];
+        }
+
+        <span class="comment">// Query Consul for healthy services</span>
+        <span class="keyword">const</span> result = <span class="keyword">await</span> consul.health.<span class="function">service</span>({ service: serviceName, passing: <span class="keyword">true</span> });
+        
+        <span class="keyword">if</span> (result.length === <span class="number">0</span>) {
+            <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">`No healthy instances of ${serviceName} found`</span>);
+        }
+
+        <span class="comment">// Cache instances</span>
+        <span class="keyword">const</span> instances = result.<span class="function">map</span>(r => ({
+            address: r.Service.Address,
+            port: r.Service.Port,
+            id: r.Service.ID
+        }));
+        
+        <span class="keyword">this</span>.cache.<span class="function">set</span>(serviceName, { instances, timestamp: Date.<span class="function">now</span>() });
+        
+        <span class="keyword">return</span> instances[<span class="function">Math.floor</span>(<span class="function">Math.random</span>() * instances.length)];
+    }
+
+    <span class="keyword">async</span> <span class="function">callService</span>(serviceName, path, options = {}) {
+        <span class="keyword">const</span> instance = <span class="keyword">await</span> <span class="keyword">this</span>.<span class="function">getServiceInstance</span>(serviceName);
+        <span class="keyword">const</span> url = <span class="string">`http://${instance.address}:${instance.port}${path}`</span>;
+        
+        <span class="keyword">return</span> axios({ url, ...options });
+    }
+}
+
+<span class="keyword">const</span> discovery = <span class="keyword">new</span> <span class="function">ServiceDiscovery</span>();
+
+<span class="comment">// Payment Service with Circuit Breaker</span>
+<span class="keyword">const</span> app = <span class="function">express</span>();
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="comment">// Circuit breaker for account service calls</span>
+<span class="keyword">const</span> accountServiceCall = <span class="keyword">new</span> <span class="function">CircuitBreaker</span>(
+    <span class="keyword">async</span> (accountId) => {
+        <span class="keyword">const</span> response = <span class="keyword">await</span> discovery.<span class="function">callService</span>(
+            <span class="string">'account-service'</span>,
+            <span class="string">`/accounts/${accountId}`</span>
+        );
+        <span class="keyword">return</span> response.data;
+    },
+    {
+        timeout: <span class="number">5000</span>,
+        errorThresholdPercentage: <span class="number">50</span>,
+        resetTimeout: <span class="number">30000</span>
+    }
+);
+
+<span class="comment">// Process payment with service discovery</span>
+app.<span class="function">post</span>(<span class="string">'/payments'</span>, <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> { fromAccount, toAccount, amount } = req.body;
+
+        <span class="comment">// Discover and call account service via circuit breaker</span>
+        <span class="keyword">const</span> fromAccountData = <span class="keyword">await</span> accountServiceCall.<span class="function">fire</span>(fromAccount);
+        
+        <span class="keyword">if</span> (fromAccountData.balance < amount) {
+            <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">400</span>).<span class="function">json</span>({ error: <span class="string">'Insufficient funds'</span> });
+        }
+
+        <span class="comment">// Call fraud-detection service</span>
+        <span class="keyword">const</span> fraudCheck = <span class="keyword">await</span> discovery.<span class="function">callService</span>(
+            <span class="string">'fraud-service'</span>,
+            <span class="string">'/check'</span>,
+            {
+                method: <span class="string">'POST'</span>,
+                data: { fromAccount, toAccount, amount }
+            }
+        );
+
+        <span class="keyword">if</span> (fraudCheck.data.isFraud) {
+            <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">403</span>).<span class="function">json</span>({ error: <span class="string">'Transaction flagged as fraudulent'</span> });
+        }
+
+        <span class="comment">// Process payment (simplified)</span>
+        <span class="keyword">const</span> paymentId = <span class="string">`PAY${Date.now()}`</span>;
+        
+        res.<span class="function">status</span>(<span class="number">201</span>).<span class="function">json</span>({
+            paymentId,
+            status: <span class="string">'SUCCESS'</span>,
+            fromAccount,
+            toAccount,
+            amount
+        });
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Payment failed:'</span>, error.message);
+        res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ 
+            error: <span class="string">'Payment processing failed'</span>,
+            details: error.message 
+        });
+    }
+});
+
+<span class="comment">// Health check</span>
+app.<span class="function">get</span>(<span class="string">'/health'</span>, (req, res) => {
+    res.<span class="function">json</span>({ 
+        status: <span class="string">'UP'</span>, 
+        service: <span class="string">'payment-service'</span>,
+        circuitBreaker: {
+            accountService: accountServiceCall.opened ? <span class="string">'OPEN'</span> : <span class="string">'CLOSED'</span>
+        }
+    });
+});
+
+<span class="keyword">const</span> PORT = <span class="number">5001</span>;
+app.<span class="function">listen</span>(PORT, <span class="keyword">async</span> () => {
+    console.<span class="function">log</span>(<span class="string">`Payment Service on ${PORT}`</span>);
+    
+    <span class="comment">// Register with Consul</span>
+    <span class="keyword">await</span> consul.agent.service.<span class="function">register</span>({
+        id: <span class="string">`payment-service-${PORT}`</span>,
+        name: <span class="string">'payment-service'</span>,
+        address: <span class="string">'localhost'</span>,
+        port: PORT,
+        check: {
+            http: <span class="string">`http://localhost:${PORT}/health`</span>,
+            interval: <span class="string">'10s'</span>
+        }
+    });
+});</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Service Registry:</strong> Central database (Consul, Eureka) tracking all service instances with metadata</li>
+                                <li><strong>Health Checks:</strong> Regular heartbeats to detect unhealthy instances and remove them automatically</li>
+                                <li><strong>Client-Side Discovery:</strong> Clients query registry and choose instance (better performance, no SPOF)</li>
+                                <li><strong>Server-Side Discovery:</strong> Load balancer queries registry (simpler clients, centralized routing)</li>
+                                <li><strong>Caching:</strong> Cache service locations with TTL (30s-60s) to reduce registry load</li>
+                                <li><strong>Circuit Breaker:</strong> Prevent cascade failures when calling discovered services</li>
+                                <li><strong>DNS Integration:</strong> Kubernetes uses DNS for service discovery (service-name.namespace.svc.cluster.local)</li>
+                                <li><strong>Graceful Shutdown:</strong> Deregister from registry on shutdown to avoid routing to dead instances</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Implement health checks with appropriate intervals</li>
+                                    <li>Cache service locations with short TTL (30s)</li>
+                                    <li>Use unique service IDs (include PID or hostname)</li>
+                                    <li>Deregister services on graceful shutdown</li>
+                                    <li>Implement retry logic with exponential backoff</li>
+                                    <li>Tag services with metadata (version, region)</li>
+                                    <li>Monitor registry health and availability</li>
+                                    <li>Use circuit breakers for discovered services</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't hardcode service URLs in code</li>
+                                    <li>Don't skip health check endpoints</li>
+                                    <li>Don't cache service locations indefinitely</li>
+                                    <li>Don't ignore deregistration on shutdown</li>
+                                    <li>Don't query registry for every request</li>
+                                    <li>Don't forget to handle no healthy instances</li>
+                                    <li>Don't ignore network partitions (split-brain)</li>
+                                    <li>Don't use service discovery for static deps</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q43: Event-Driven Event Emitters -->
+            <div class="question-node" id="q43">
+                <div class="question-header" onclick="toggleQuestion('q43')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q43</span>
+                        <span class="question-title">Event-Driven Architecture - Event Emitters in Node.js</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📡 EventEmitter API</h3>
+                                <p>Core Node.js module for implementing observer pattern. Methods: on/addListener (register), emit (trigger), once (one-time), removeListener/off (unregister). Many Node.js APIs inherit from EventEmitter (Streams, HTTP, ChildProcess).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🎭 Custom Events</h3>
+                                <p>Create custom event emitters by extending EventEmitter class. Emit events with data payloads. Multiple listeners can subscribe to same event. Synchronous execution by default (listeners called in order).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚠️ Error Handling</h3>
+                                <p>Always listen for 'error' events - unhandled errors crash process. Use try-catch in listeners. EventEmitter.captureRejections option for async errors. Process 'uncaughtException' as last resort.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🧠 Memory Leaks</h3>
+                                <p>Each EventEmitter has max listeners limit (default 10) to detect memory leaks. Warning emitted when exceeded. Use removeListener to clean up. Call setMaxListeners to increase limit if legitimate. Always remove listeners when done.</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q43-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>Basic EventEmitter Usage & Custom Events</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q43-1">
+                                <pre><code><span class="keyword">const</span> EventEmitter = <span class="function">require</span>(<span class="string">'events'</span>);
+
+<span class="comment">// Create custom event emitter</span>
+<span class="keyword">class</span> <span class="function">MyEmitter</span> <span class="keyword">extends</span> EventEmitter {}
+
+<span class="keyword">const</span> myEmitter = <span class="keyword">new</span> <span class="function">MyEmitter</span>();
+
+<span class="comment">// Multiple listeners for same event</span>
+myEmitter.<span class="function">on</span>(<span class="string">'data'</span>, (data) => {
+    console.<span class="function">log</span>(<span class="string">'Listener 1:'</span>, data);
+});
+
+myEmitter.<span class="function">on</span>(<span class="string">'data'</span>, (data) => {
+    console.<span class="function">log</span>(<span class="string">'Listener 2:'</span>, data);
+});
+
+<span class="comment">// One-time listener</span>
+myEmitter.<span class="function">once</span>(<span class="string">'connection'</span>, () => {
+    console.<span class="function">log</span>(<span class="string">'Connected! (only fires once)'</span>);
+});
+
+<span class="comment">// Emit events</span>
+myEmitter.<span class="function">emit</span>(<span class="string">'data'</span>, { message: <span class="string">'Hello'</span> });
+<span class="comment">// Output: Listener 1: { message: 'Hello' }</span>
+<span class="comment">//         Listener 2: { message: 'Hello' }</span>
+
+myEmitter.<span class="function">emit</span>(<span class="string">'connection'</span>);
+myEmitter.<span class="function">emit</span>(<span class="string">'connection'</span>); <span class="comment">// Won't trigger listener again</span>
+
+<span class="comment">// Error handling - CRITICAL!</span>
+myEmitter.<span class="function">on</span>(<span class="string">'error'</span>, (err) => {
+    console.<span class="function">error</span>(<span class="string">'Error occurred:'</span>, err.message);
+});
+
+myEmitter.<span class="function">emit</span>(<span class="string">'error'</span>, <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Something went wrong'</span>));
+
+<span class="comment">// Remove listeners to prevent memory leaks</span>
+<span class="keyword">const</span> <span class="function">listener</span> = (data) => console.<span class="function">log</span>(<span class="string">'Temp listener:'</span>, data);
+myEmitter.<span class="function">on</span>(<span class="string">'temp'</span>, listener);
+myEmitter.<span class="function">emit</span>(<span class="string">'temp'</span>, <span class="string">'test'</span>);
+
+<span class="comment">// Clean up</span>
+myEmitter.<span class="function">removeListener</span>(<span class="string">'temp'</span>, listener);
+<span class="comment">// or: myEmitter.off('temp', listener);</span>
+
+<span class="comment">// Check listener count</span>
+console.<span class="function">log</span>(<span class="string">'Listener count:'</span>, myEmitter.<span class="function">listenerCount</span>(<span class="string">'data'</span>)); <span class="comment">// 2</span>
+
+<span class="comment">// Increase max listeners if needed (default 10)</span>
+myEmitter.<span class="function">setMaxListeners</span>(<span class="number">20</span>);
+
+<span class="comment">// Async event handlers with captureRejections</span>
+<span class="keyword">const</span> emitter = <span class="keyword">new</span> <span class="function">EventEmitter</span>({ captureRejections: <span class="keyword">true</span> });
+
+emitter.<span class="function">on</span>(<span class="string">'async-task'</span>, <span class="keyword">async</span> (data) => {
+    <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'Async error'</span>);
+});
+
+emitter.<span class="function">on</span>(<span class="string">'error'</span>, (err) => {
+    console.<span class="function">error</span>(<span class="string">'Caught async error:'</span>, err.message);
+});
+
+emitter.<span class="function">emit</span>(<span class="string">'async-task'</span>, { id: <span class="number">1</span> });</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q43-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Transaction Event System with Notifications</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q43-2">
+                                <pre><code><span class="keyword">const</span> EventEmitter = <span class="function">require</span>(<span class="string">'events'</span>);
+
+<span class="comment">// Banking Transaction Event Emitter</span>
+<span class="keyword">class</span> <span class="function">BankingService</span> <span class="keyword">extends</span> EventEmitter {
+    <span class="keyword">constructor</span>() {
+        <span class="keyword">super</span>();
+        <span class="keyword">this</span>.accounts = <span class="keyword">new</span> <span class="function">Map</span>([
+            [<span class="string">'ACC001'</span>, { balance: <span class="number">50000</span>, holder: <span class="string">'John Doe'</span> }],
+            [<span class="string">'ACC002'</span>, { balance: <span class="number">30000</span>, holder: <span class="string">'Jane Smith'</span> }]
+        ]);
+        <span class="keyword">this</span>.transactionLog = [];
+    }
+
+    <span class="keyword">async</span> <span class="function">deposit</span>(accountId, amount) {
+        <span class="keyword">try</span> {
+            <span class="keyword">const</span> account = <span class="keyword">this</span>.accounts.<span class="function">get</span>(accountId);
+            <span class="keyword">if</span> (!account) {
+                <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">`Account ${accountId} not found`</span>);
+            }
+
+            account.balance += amount;
+            
+            <span class="keyword">const</span> transaction = {
+                id: <span class="string">`TXN${Date.now()}`</span>,
+                type: <span class="string">'DEPOSIT'</span>,
+                accountId,
+                amount,
+                newBalance: account.balance,
+                timestamp: <span class="keyword">new</span> <span class="function">Date</span>()
+            };
+
+            <span class="keyword">this</span>.transactionLog.<span class="function">push</span>(transaction);
+            
+            <span class="comment">// Emit transaction event</span>
+            <span class="keyword">this</span>.<span class="function">emit</span>(<span class="string">'transaction'</span>, transaction);
+            <span class="keyword">this</span>.<span class="function">emit</span>(<span class="string">'deposit'</span>, transaction);
+            
+            <span class="keyword">return</span> transaction;
+        } <span class="keyword">catch</span> (error) {
+            <span class="keyword">this</span>.<span class="function">emit</span>(<span class="string">'error'</span>, error);
+            <span class="keyword">throw</span> error;
+        }
+    }
+
+    <span class="keyword">async</span> <span class="function">withdraw</span>(accountId, amount) {
+        <span class="keyword">try</span> {
+            <span class="keyword">const</span> account = <span class="keyword">this</span>.accounts.<span class="function">get</span>(accountId);
+            <span class="keyword">if</span> (!account) {
+                <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">`Account ${accountId} not found`</span>);
+            }
+
+            <span class="keyword">if</span> (account.balance < amount) {
+                <span class="keyword">const</span> error = <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Insufficient funds'</span>);
+                <span class="keyword">this</span>.<span class="function">emit</span>(<span class="string">'insufficient-funds'</span>, { accountId, amount, balance: account.balance });
+                <span class="keyword">throw</span> error;
+            }
+
+            account.balance -= amount;
+            
+            <span class="keyword">const</span> transaction = {
+                id: <span class="string">`TXN${Date.now()}`</span>,
+                type: <span class="string">'WITHDRAWAL'</span>,
+                accountId,
+                amount,
+                newBalance: account.balance,
+                timestamp: <span class="keyword">new</span> <span class="function">Date</span>()
+            };
+
+            <span class="keyword">this</span>.transactionLog.<span class="function">push</span>(transaction);
+            
+            <span class="keyword">this</span>.<span class="function">emit</span>(<span class="string">'transaction'</span>, transaction);
+            <span class="keyword">this</span>.<span class="function">emit</span>(<span class="string">'withdrawal'</span>, transaction);
+            
+            <span class="comment">// Emit alert for large withdrawals</span>
+            <span class="keyword">if</span> (amount > <span class="number">10000</span>) {
+                <span class="keyword">this</span>.<span class="function">emit</span>(<span class="string">'large-transaction'</span>, transaction);
+            }
+            
+            <span class="keyword">return</span> transaction;
+        } <span class="keyword">catch</span> (error) {
+            <span class="keyword">this</span>.<span class="function">emit</span>(<span class="string">'error'</span>, error);
+            <span class="keyword">throw</span> error;
+        }
+    }
+}
+
+<span class="keyword">const</span> bankingService = <span class="keyword">new</span> <span class="function">BankingService</span>();
+
+<span class="comment">// Notification Service - listens to banking events</span>
+<span class="keyword">class</span> <span class="function">NotificationService</span> {
+    <span class="keyword">constructor</span>(bankingService) {
+        <span class="comment">// Listen to all transactions</span>
+        bankingService.<span class="function">on</span>(<span class="string">'transaction'</span>, <span class="keyword">this</span>.logTransaction);
+        
+        <span class="comment">// Send email for deposits</span>
+        bankingService.<span class="function">on</span>(<span class="string">'deposit'</span>, <span class="keyword">this</span>.sendDepositNotification);
+        
+        <span class="comment">// Send SMS for large transactions</span>
+        bankingService.<span class="function">on</span>(<span class="string">'large-transaction'</span>, <span class="keyword">this</span>.sendLargeTransactionAlert);
+        
+        <span class="comment">// Handle insufficient funds</span>
+        bankingService.<span class="function">on</span>(<span class="string">'insufficient-funds'</span>, <span class="keyword">this</span>.handleInsufficientFunds);
+    }
+
+    <span class="function">logTransaction</span>(transaction) {
+        console.<span class="function">log</span>(<span class="string">`[LOG] ${transaction.type}: ${transaction.amount} - Balance: ${transaction.newBalance}`</span>);
+    }
+
+    <span class="function">sendDepositNotification</span>(transaction) {
+        console.<span class="function">log</span>(<span class="string">`[EMAIL] Deposit of $${transaction.amount} successful to ${transaction.accountId}`</span>);
+    }
+
+    <span class="function">sendLargeTransactionAlert</span>(transaction) {
+        console.<span class="function">log</span>(<span class="string">`[SMS ALERT] Large transaction detected: $${transaction.amount}`</span>);
+    }
+
+    <span class="function">handleInsufficientFunds</span>(data) {
+        console.<span class="function">log</span>(<span class="string">`[ALERT] Insufficient funds for ${data.accountId}. Requested: $${data.amount}, Available: $${data.balance}`</span>);
+    }
+}
+
+<span class="comment">// Audit Service - separate concern</span>
+<span class="keyword">class</span> <span class="function">AuditService</span> {
+    <span class="keyword">constructor</span>(bankingService) {
+        <span class="keyword">this</span>.auditLog = [];
+        bankingService.<span class="function">on</span>(<span class="string">'transaction'</span>, <span class="keyword">this</span>.auditTransaction.<span class="function">bind</span>(<span class="keyword">this</span>));
+    }
+
+    <span class="function">auditTransaction</span>(transaction) {
+        <span class="keyword">const</span> auditEntry = {
+            ...transaction,
+            auditedAt: <span class="keyword">new</span> <span class="function">Date</span>(),
+            auditor: <span class="string">'SYSTEM'</span>
+        };
+        <span class="keyword">this</span>.auditLog.<span class="function">push</span>(auditEntry);
+        console.<span class="function">log</span>(<span class="string">`[AUDIT] Transaction ${transaction.id} recorded`</span>);
+    }
+}
+
+<span class="comment">// Initialize services</span>
+<span class="keyword">const</span> notificationService = <span class="keyword">new</span> <span class="function">NotificationService</span>(bankingService);
+<span class="keyword">const</span> auditService = <span class="keyword">new</span> <span class="function">AuditService</span>(bankingService);
+
+<span class="comment">// Error handler</span>
+bankingService.<span class="function">on</span>(<span class="string">'error'</span>, (err) => {
+    console.<span class="function">error</span>(<span class="string">'[ERROR] Banking error:'</span>, err.message);
+});
+
+<span class="comment">// Test transactions</span>
+(<span class="keyword">async</span> () => {
+    <span class="keyword">await</span> bankingService.<span class="function">deposit</span>(<span class="string">'ACC001'</span>, <span class="number">5000</span>);
+    <span class="keyword">await</span> bankingService.<span class="function">withdraw</span>(<span class="string">'ACC001'</span>, <span class="number">15000</span>); <span class="comment">// Large transaction</span>
+    
+    <span class="keyword">try</span> {
+        <span class="keyword">await</span> bankingService.<span class="function">withdraw</span>(<span class="string">'ACC002'</span>, <span class="number">50000</span>); <span class="comment">// Insufficient funds</span>
+    } <span class="keyword">catch</span> (err) {
+        <span class="comment">// Handled by error event</span>
+    }
+})();</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Observer Pattern:</strong> EventEmitter implements publish-subscribe for decoupled communication</li>
+                                <li><strong>Synchronous Execution:</strong> Listeners called synchronously in registration order (use setImmediate for async)</li>
+                                <li><strong>Error Events:</strong> Always listen for 'error' - unhandled errors crash the process</li>
+                                <li><strong>Memory Leaks:</strong> Default max 10 listeners per event. Remove listeners when done to prevent leaks</li>
+                                <li><strong>once() Method:</strong> Use for one-time events (auto-removes after first emission)</li>
+                                <li><strong>Multiple Listeners:</strong> Same event can have multiple listeners (all executed)</li>
+                                <li><strong>captureRejections:</strong> Enable to catch async errors in event handlers automatically</li>
+                                <li><strong>Use Cases:</strong> Streams, HTTP servers, custom app events, decoupling services</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Always add 'error' event listener</li>
+                                    <li>Remove listeners when no longer needed</li>
+                                    <li>Use once() for one-time events</li>
+                                    <li>Name events consistently (kebab-case)</li>
+                                    <li>Document emitted events in class</li>
+                                    <li>Use setMaxListeners if legitimate need</li>
+                                    <li>Emit events with descriptive data objects</li>
+                                    <li>Keep listeners focused and small</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't forget error event handlers</li>
+                                    <li>Don't add infinite listeners (memory leak)</li>
+                                    <li>Don't modify emitter in listener callbacks</li>
+                                    <li>Don't use events for synchronous flow control</li>
+                                    <li>Don't catch errors inside emit() calls</li>
+                                    <li>Don't rely on listener execution order critically</li>
+                                    <li>Don't use events for return values</li>
+                                    <li>Don't ignore max listeners warnings</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q44: Event-Driven Message Queues -->
+            <div class="question-node" id="q44">
+                <div class="question-header" onclick="toggleQuestion('q44')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q44</span>
+                        <span class="question-title">Event-Driven Architecture - Message Queues (RabbitMQ, Kafka)</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🐰 RabbitMQ</h3>
+                                <p>Message broker using AMQP protocol. Exchanges route messages to queues based on routing keys. Types: direct, topic, fanout, headers. Supports acknowledgments, dead-letter queues, message TTL. Library: amqplib.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🌊 Apache Kafka</h3>
+                                <p>Distributed streaming platform with high throughput. Topics divided into partitions for parallel processing. Consumer groups enable load balancing. Retains messages for configured time (log-based). Library: kafkajs.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📨 Queue Patterns</h3>
+                                <p>Work Queue: multiple consumers compete for tasks. Pub/Sub: broadcast to multiple subscribers. Request/Reply: RPC pattern with correlation IDs. Priority queues: process high-priority messages first.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>✅ Message Acknowledgments</h3>
+                                <p>Manual ack ensures message processed before removal. Auto-ack for performance (risk of loss). Negative ack (nack) to reject and requeue. Idempotent consumers handle duplicates. At-least-once vs exactly-once delivery.</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q44-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>RabbitMQ Producer & Consumer with Work Queue</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q44-1">
+                                <pre><code><span class="comment">// npm install amqplib</span>
+<span class="keyword">const</span> amqp = <span class="function">require</span>(<span class="string">'amqplib'</span>);
+
+<span class="comment">// Producer - Send messages to queue</span>
+<span class="keyword">async function</span> <span class="function">sendToQueue</span>(queueName, message) {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> connection = <span class="keyword">await</span> amqp.<span class="function">connect</span>(<span class="string">'amqp://localhost'</span>);
+        <span class="keyword">const</span> channel = <span class="keyword">await</span> connection.<span class="function">createChannel</span>();
+        
+        <span class="comment">// Declare queue (durable = survives broker restart)</span>
+        <span class="keyword">await</span> channel.<span class="function">assertQueue</span>(queueName, { durable: <span class="keyword">true</span> });
+        
+        <span class="comment">// Send message (persistent = survives broker restart)</span>
+        channel.<span class="function">sendToQueue</span>(
+            queueName, 
+            <span class="function">Buffer.from</span>(<span class="function">JSON.stringify</span>(message)),
+            { persistent: <span class="keyword">true</span> }
+        );
+        
+        console.<span class="function">log</span>(<span class="string">`Sent: ${JSON.stringify(message)}`</span>);
+        
+        <span class="keyword">await</span> channel.<span class="function">close</span>();
+        <span class="keyword">await</span> connection.<span class="function">close</span>();
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Send error:'</span>, error);
+    }
+}
+
+<span class="comment">// Consumer - Process messages from queue</span>
+<span class="keyword">async function</span> <span class="function">consumeFromQueue</span>(queueName, processMessage) {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> connection = <span class="keyword">await</span> amqp.<span class="function">connect</span>(<span class="string">'amqp://localhost'</span>);
+        <span class="keyword">const</span> channel = <span class="keyword">await</span> connection.<span class="function">createChannel</span>();
+        
+        <span class="keyword">await</span> channel.<span class="function">assertQueue</span>(queueName, { durable: <span class="keyword">true</span> });
+        
+        <span class="comment">// Prefetch: only 1 message at a time (fair dispatch)</span>
+        channel.<span class="function">prefetch</span>(<span class="number">1</span>);
+        
+        console.<span class="function">log</span>(<span class="string">`Waiting for messages in ${queueName}...`</span>);
+        
+        channel.<span class="function">consume</span>(queueName, <span class="keyword">async</span> (msg) => {
+            <span class="keyword">if</span> (msg) {
+                <span class="keyword">const</span> content = <span class="function">JSON.parse</span>(msg.content.<span class="function">toString</span>());
+                console.<span class="function">log</span>(<span class="string">`Received: ${JSON.stringify(content)}`</span>);
+                
+                <span class="keyword">try</span> {
+                    <span class="keyword">await</span> <span class="function">processMessage</span>(content);
+                    
+                    <span class="comment">// Acknowledge message (remove from queue)</span>
+                    channel.<span class="function">ack</span>(msg);
+                    console.<span class="function">log</span>(<span class="string">'Message processed and acknowledged'</span>);
+                } <span class="keyword">catch</span> (error) {
+                    console.<span class="function">error</span>(<span class="string">'Processing error:'</span>, error);
+                    
+                    <span class="comment">// Negative ack - requeue message</span>
+                    channel.<span class="function">nack</span>(msg, <span class="keyword">false</span>, <span class="keyword">true</span>);
+                }
+            }
+        }, { noAck: <span class="keyword">false</span> }); <span class="comment">// Manual acknowledgment</span>
+        
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Consumer error:'</span>, error);
+    }
+}
+
+<span class="comment">// Pub/Sub with Topic Exchange</span>
+<span class="keyword">async function</span> <span class="function">publishToExchange</span>(exchangeName, routingKey, message) {
+    <span class="keyword">const</span> connection = <span class="keyword">await</span> amqp.<span class="function">connect</span>(<span class="string">'amqp://localhost'</span>);
+    <span class="keyword">const</span> channel = <span class="keyword">await</span> connection.<span class="function">createChannel</span>();
+    
+    <span class="comment">// Declare topic exchange</span>
+    <span class="keyword">await</span> channel.<span class="function">assertExchange</span>(exchangeName, <span class="string">'topic'</span>, { durable: <span class="keyword">true</span> });
+    
+    channel.<span class="function">publish</span>(
+        exchangeName,
+        routingKey,
+        <span class="function">Buffer.from</span>(<span class="function">JSON.stringify</span>(message)),
+        { persistent: <span class="keyword">true</span> }
+    );
+    
+    console.<span class="function">log</span>(<span class="string">`Published to ${exchangeName} with key ${routingKey}`</span>);
+    
+    <span class="keyword">await</span> channel.<span class="function">close</span>();
+    <span class="keyword">await</span> connection.<span class="function">close</span>();
+}
+
+<span class="keyword">async function</span> <span class="function">subscribeToTopic</span>(exchangeName, bindingKeys) {
+    <span class="keyword">const</span> connection = <span class="keyword">await</span> amqp.<span class="function">connect</span>(<span class="string">'amqp://localhost'</span>);
+    <span class="keyword">const</span> channel = <span class="keyword">await</span> connection.<span class="function">createChannel</span>();
+    
+    <span class="keyword">await</span> channel.<span class="function">assertExchange</span>(exchangeName, <span class="string">'topic'</span>, { durable: <span class="keyword">true</span> });
+    
+    <span class="comment">// Create exclusive queue (deleted when connection closes)</span>
+    <span class="keyword">const</span> q = <span class="keyword">await</span> channel.<span class="function">assertQueue</span>(<span class="string">''</span>, { exclusive: <span class="keyword">true</span> });
+    
+    <span class="comment">// Bind queue to exchange with patterns</span>
+    <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">of</span> bindingKeys) {
+        <span class="keyword">await</span> channel.<span class="function">bindQueue</span>(q.queue, exchangeName, key);
+    }
+    
+    console.<span class="function">log</span>(<span class="string">`Subscribed to ${bindingKeys.join(', ')}`</span>);
+    
+    channel.<span class="function">consume</span>(q.queue, (msg) => {
+        console.<span class="function">log</span>(<span class="string">`[${msg.fields.routingKey}] ${msg.content.toString()}`</span>);
+    }, { noAck: <span class="keyword">true</span> });
+}
+
+<span class="comment">// Usage</span>
+<span class="function">sendToQueue</span>(<span class="string">'tasks'</span>, { task: <span class="string">'process-order'</span>, orderId: <span class="number">123</span> });
+<span class="function">consumeFromQueue</span>(<span class="string">'tasks'</span>, <span class="keyword">async</span> (msg) => {
+    <span class="comment">// Simulate work</span>
+    <span class="keyword">await</span> <span class="keyword">new</span> <span class="function">Promise</span>(resolve => <span class="function">setTimeout</span>(resolve, <span class="number">1000</span>));
+    console.<span class="function">log</span>(<span class="string">'Task processed'</span>);
+});</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q44-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Kafka Transaction Processing with Consumer Groups</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q44-2">
+                                <pre><code><span class="comment">// npm install kafkajs</span>
+<span class="keyword">const</span> { Kafka } = <span class="function">require</span>(<span class="string">'kafkajs'</span>);
+
+<span class="comment">// Kafka setup</span>
+<span class="keyword">const</span> kafka = <span class="keyword">new</span> <span class="function">Kafka</span>({
+    clientId: <span class="string">'banking-app'</span>,
+    brokers: [<span class="string">'localhost:9092'</span>]
+});
+
+<span class="comment">// Transaction Producer</span>
+<span class="keyword">class</span> <span class="function">TransactionProducer</span> {
+    <span class="keyword">constructor</span>() {
+        <span class="keyword">this</span>.producer = kafka.<span class="function">producer</span>();
+    }
+
+    <span class="keyword">async</span> <span class="function">connect</span>() {
+        <span class="keyword">await</span> <span class="keyword">this</span>.producer.<span class="function">connect</span>();
+        console.<span class="function">log</span>(<span class="string">'Transaction producer connected'</span>);
+    }
+
+    <span class="keyword">async</span> <span class="function">publishTransaction</span>(transaction) {
+        <span class="keyword">try</span> {
+            <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="keyword">this</span>.producer.<span class="function">send</span>({
+                topic: <span class="string">'banking-transactions'</span>,
+                messages: [
+                    {
+                        key: transaction.accountId, <span class="comment">// Partitioning key</span>
+                        value: <span class="function">JSON.stringify</span>(transaction),
+                        headers: {
+                            type: transaction.type,
+                            timestamp: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>()
+                        }
+                    }
+                ]
+            });
+
+            console.<span class="function">log</span>(<span class="string">`Transaction published: ${transaction.id}`</span>);
+            <span class="keyword">return</span> result;
+        } <span class="keyword">catch</span> (error) {
+            console.<span class="function">error</span>(<span class="string">'Publish error:'</span>, error);
+            <span class="keyword">throw</span> error;
+        }
+    }
+
+    <span class="keyword">async</span> <span class="function">disconnect</span>() {
+        <span class="keyword">await</span> <span class="keyword">this</span>.producer.<span class="function">disconnect</span>();
+    }
+}
+
+<span class="comment">// Transaction Processor (Consumer Group)</span>
+<span class="keyword">class</span> <span class="function">TransactionProcessor</span> {
+    <span class="keyword">constructor</span>(groupId, processName) {
+        <span class="keyword">this</span>.consumer = kafka.<span class="function">consumer</span>({ 
+            groupId,
+            sessionTimeout: <span class="number">30000</span>
+        });
+        <span class="keyword">this</span>.processName = processName;
+    }
+
+    <span class="keyword">async</span> <span class="function">start</span>() {
+        <span class="keyword">await</span> <span class="keyword">this</span>.consumer.<span class="function">connect</span>();
+        <span class="keyword">await</span> <span class="keyword">this</span>.consumer.<span class="function">subscribe</span>({ 
+            topic: <span class="string">'banking-transactions'</span>,
+            fromBeginning: <span class="keyword">false</span>
+        });
+
+        console.<span class="function">log</span>(<span class="string">`${this.processName} processor started`</span>);
+
+        <span class="keyword">await</span> <span class="keyword">this</span>.consumer.<span class="function">run</span>({
+            eachMessage: <span class="keyword">async</span> ({ topic, partition, message }) => {
+                <span class="keyword">try</span> {
+                    <span class="keyword">const</span> transaction = <span class="function">JSON.parse</span>(message.value.<span class="function">toString</span>());
+                    
+                    console.<span class="function">log</span>(<span class="string">`[${this.processName}] Processing: ${transaction.id}`</span>);
+                    console.<span class="function">log</span>(<span class="string">`  Partition: ${partition}, Offset: ${message.offset}`</span>);
+                    
+                    <span class="comment">// Simulate processing</span>
+                    <span class="keyword">await</span> <span class="keyword">this</span>.<span class="function">processTransaction</span>(transaction);
+                    
+                    <span class="comment">// Auto-commit offset after successful processing</span>
+                    console.<span class="function">log</span>(<span class="string">`[${this.processName}] Completed: ${transaction.id}`</span>);
+                    
+                } <span class="keyword">catch</span> (error) {
+                    console.<span class="function">error</span>(<span class="string">`[${this.processName}] Error:` </span>, error.message);
+                    <span class="comment">// Don't throw - let Kafka handle retries</span>
+                }
+            }
+        });
+    }
+
+    <span class="keyword">async</span> <span class="function">processTransaction</span>(transaction) {
+        <span class="comment">// Simulate business logic</span>
+        <span class="keyword">await</span> <span class="keyword">new</span> <span class="function">Promise</span>(resolve => <span class="function">setTimeout</span>(resolve, <span class="number">2000</span>));
+        
+        <span class="keyword">if</span> (transaction.type === <span class="string">'TRANSFER'</span>) {
+            console.<span class="function">log</span>(<span class="string">`  Transfer $${transaction.amount} from ${transaction.fromAccount} to ${transaction.toAccount}`</span>);
+        } <span class="keyword">else</span> {
+            console.<span class="function">log</span>(<span class="string">`  ${transaction.type}: $${transaction.amount}`</span>);
+        }
+    }
+
+    <span class="keyword">async</span> <span class="function">stop</span>() {
+        <span class="keyword">await</span> <span class="keyword">this</span>.consumer.<span class="function">disconnect</span>();
+    }
+}
+
+<span class="comment">// Fraud Detection Consumer (Different Group)</span>
+<span class="keyword">class</span> <span class="function">FraudDetector</span> {
+    <span class="keyword">constructor</span>() {
+        <span class="keyword">this</span>.consumer = kafka.<span class="function">consumer</span>({ groupId: <span class="string">'fraud-detection-group'</span> });
+    }
+
+    <span class="keyword">async</span> <span class="function">start</span>() {
+        <span class="keyword">await</span> <span class="keyword">this</span>.consumer.<span class="function">connect</span>();
+        <span class="keyword">await</span> <span class="keyword">this</span>.consumer.<span class="function">subscribe</span>({ 
+            topic: <span class="string">'banking-transactions'</span>,
+            fromBeginning: <span class="keyword">false</span>
+        });
+
+        <span class="keyword">await</span> <span class="keyword">this</span>.consumer.<span class="function">run</span>({
+            eachMessage: <span class="keyword">async</span> ({ message }) => {
+                <span class="keyword">const</span> transaction = <span class="function">JSON.parse</span>(message.value.<span class="function">toString</span>());
+                
+                <span class="comment">// Check for suspicious activity</span>
+                <span class="keyword">if</span> (transaction.amount > <span class="number">50000</span>) {
+                    console.<span class="function">log</span>(<span class="string">`[FRAUD ALERT] Large transaction: ${transaction.id} - $${transaction.amount}`</span>);
+                }
+            }
+        });
+    }
+}
+
+<span class="comment">// Usage Example</span>
+(<span class="keyword">async</span> () => {
+    <span class="keyword">const</span> producer = <span class="keyword">new</span> <span class="function">TransactionProducer</span>();
+    <span class="keyword">await</span> producer.<span class="function">connect</span>();
+
+    <span class="comment">// Start multiple processors in same group (load balancing)</span>
+    <span class="keyword">const</span> processor1 = <span class="keyword">new</span> <span class="function">TransactionProcessor</span>(<span class="string">'transaction-processors'</span>, <span class="string">'Processor-1'</span>);
+    <span class="keyword">const</span> processor2 = <span class="keyword">new</span> <span class="function">TransactionProcessor</span>(<span class="string">'transaction-processors'</span>, <span class="string">'Processor-2'</span>);
+    
+    <span class="comment">// Start fraud detector (different group - receives all messages)</span>
+    <span class="keyword">const</span> fraudDetector = <span class="keyword">new</span> <span class="function">FraudDetector</span>();
+
+    <span class="keyword">await</span> <span class="function">Promise.all</span>([
+        processor1.<span class="function">start</span>(),
+        processor2.<span class="function">start</span>(),
+        fraudDetector.<span class="function">start</span>()
+    ]);
+
+    <span class="comment">// Publish test transactions</span>
+    <span class="keyword">const</span> transactions = [
+        { id: <span class="string">'TXN001'</span>, accountId: <span class="string">'ACC001'</span>, type: <span class="string">'DEPOSIT'</span>, amount: <span class="number">5000</span> },
+        { id: <span class="string">'TXN002'</span>, accountId: <span class="string">'ACC002'</span>, type: <span class="string">'WITHDRAWAL'</span>, amount: <span class="number">3000</span> },
+        { id: <span class="string">'TXN003'</span>, accountId: <span class="string">'ACC001'</span>, type: <span class="string">'TRANSFER'</span>, amount: <span class="number">75000</span>, fromAccount: <span class="string">'ACC001'</span>, toAccount: <span class="string">'ACC003'</span> }
+    ];
+
+    <span class="keyword">for</span> (<span class="keyword">const</span> txn <span class="keyword">of</span> transactions) {
+        <span class="keyword">await</span> producer.<span class="function">publishTransaction</span>(txn);
+        <span class="keyword">await</span> <span class="keyword">new</span> <span class="function">Promise</span>(r => <span class="function">setTimeout</span>(r, <span class="number">1000</span>));
+    }
+})();</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>RabbitMQ:</strong> Message broker with exchanges (direct, topic, fanout) and queues. Good for task distribution</li>
+                                <li><strong>Kafka:</strong> Distributed log with high throughput. Topics have partitions. Good for event streaming</li>
+                                <li><strong>Acknowledgments:</strong> Manual ack ensures at-least-once delivery. Auto-ack for performance but risk loss</li>
+                                <li><strong>Consumer Groups:</strong> Kafka partitions divided among consumers for parallel processing</li>
+                                <li><strong>Durability:</strong> RabbitMQ: durable queues & persistent messages. Kafka: configurable retention</li>
+                                <li><strong>Ordering:</strong> Kafka guarantees order within partition. RabbitMQ guarantees order per queue</li>
+                                <li><strong>Idempotency:</strong> Design consumers to handle duplicate messages safely</li>
+                                <li><strong>Dead Letter:</strong> Route failed messages to dead-letter queue for analysis</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use manual acknowledgments for reliability</li>
+                                    <li>Implement idempotent consumers</li>
+                                    <li>Set message TTL to prevent queue buildup</li>
+                                    <li>Use dead-letter queues for failed messages</li>
+                                    <li>Monitor queue depths and lag</li>
+                                    <li>Use partitioning keys for ordering (Kafka)</li>
+                                    <li>Implement retry logic with exponential backoff</li>
+                                    <li>Enable message persistence for durability</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't use auto-ack without understanding risks</li>
+                                    <li>Don't process messages without error handling</li>
+                                    <li>Don't ignore message ordering requirements</li>
+                                    <li>Don't forget to set consumer prefetch limits</li>
+                                    <li>Don't store large payloads in messages</li>
+                                    <li>Don't ignore consumer lag monitoring</li>
+                                    <li>Don't requeue failed messages infinitely</li>
+                                    <li>Don't share connections between threads unsafely</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q45: Serverless AWS Lambda -->
+            <div class="question-node" id="q45">
+                <div class="question-header" onclick="toggleQuestion('q45')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q45</span>
+                        <span class="question-title">Serverless Architecture - AWS Lambda Functions</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>⚡ Lambda Basics</h3>
+                                <p>Event-driven serverless compute. Handler function receives event and context objects. Supports Node.js, Python, Java, etc. Auto-scaling, pay-per-invocation. Max timeout: 15 minutes. Memory: 128MB-10GB.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🥶 Cold Starts</h3>
+                                <p>First invocation or after idle period requires initialization (container creation, code loading). Warm starts reuse existing containers. Reduce cold starts: Provisioned Concurrency, smaller packages, optimize init code, use compiled languages.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📤 Event Sources</h3>
+                                <p>Trigger types: API Gateway (HTTP), S3 (file uploads), DynamoDB Streams, SQS/SNS, EventBridge, CloudWatch Events. Sync (HTTP) vs Async (S3, SNS). Stream-based (DynamoDB, Kinesis) use batching.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📦 Lambda Layers</h3>
+                                <p>Share code/dependencies across functions. Max 5 layers per function, 50MB zipped per layer. Common uses: npm packages, shared utilities, runtime dependencies. Reduces deployment package size.</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q45-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>Basic Lambda Function with Different Event Sources</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q45-1">
+                                <pre><code><span class="comment">// Basic Lambda Handler</span>
+exports.<span class="function">handler</span> = <span class="keyword">async</span> (event, context) => {
+    console.<span class="function">log</span>(<span class="string">'Event:'</span>, <span class="function">JSON.stringify</span>(event));
+    console.<span class="function">log</span>(<span class="string">'Context:'</span>, context);
+    
+    <span class="keyword">return</span> {
+        statusCode: <span class="number">200</span>,
+        body: <span class="function">JSON.stringify</span>({ message: <span class="string">'Hello from Lambda!'</span> })
+    };
+};
+
+<span class="comment">// API Gateway Proxy Integration</span>
+exports.<span class="function">apiHandler</span> = <span class="keyword">async</span> (event, context) => {
+    <span class="keyword">const</span> { httpMethod, path, body, queryStringParameters } = event;
+    
+    console.<span class="function">log</span>(<span class="string">`${httpMethod} ${path}`</span>);
+    
+    <span class="keyword">try</span> {
+        <span class="keyword">let</span> response;
+        
+        <span class="keyword">if</span> (httpMethod === <span class="string">'GET'</span>) {
+            response = { message: <span class="string">'GET request'</span>, query: queryStringParameters };
+        } <span class="keyword">else if</span> (httpMethod === <span class="string">'POST'</span>) {
+            <span class="keyword">const</span> data = <span class="function">JSON.parse</span>(body);
+            response = { message: <span class="string">'POST request'</span>, data };
+        }
+        
+        <span class="keyword">return</span> {
+            statusCode: <span class="number">200</span>,
+            headers: {
+                <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+                <span class="string">'Access-Control-Allow-Origin'</span>: <span class="string">'*'</span>
+            },
+            body: <span class="function">JSON.stringify</span>(response)
+        };
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(error);
+        <span class="keyword">return</span> {
+            statusCode: <span class="number">500</span>,
+            body: <span class="function">JSON.stringify</span>({ error: error.message })
+        };
+    }
+};
+
+<span class="comment">// S3 Event Handler</span>
+exports.<span class="function">s3Handler</span> = <span class="keyword">async</span> (event, context) => {
+    <span class="keyword">for</span> (<span class="keyword">const</span> record <span class="keyword">of</span> event.Records) {
+        <span class="keyword">const</span> bucket = record.s3.bucket.name;
+        <span class="keyword">const</span> key = <span class="function">decodeURIComponent</span>(record.s3.object.key.<span class="function">replace</span>(/\+/g, <span class="string">' '</span>));
+        
+        console.<span class="function">log</span>(<span class="string">`File uploaded: ${bucket}/${key}`</span>);
+        console.<span class="function">log</span>(<span class="string">`Size: ${record.s3.object.size} bytes`</span>);
+        
+        <span class="comment">// Process file (download, transform, etc.)</span>
+        <span class="keyword">const</span> AWS = <span class="function">require</span>(<span class="string">'aws-sdk'</span>);
+        <span class="keyword">const</span> s3 = <span class="keyword">new</span> AWS.<span class="function">S3</span>();
+        
+        <span class="keyword">const</span> params = { Bucket: bucket, Key: key };
+        <span class="keyword">const</span> data = <span class="keyword">await</span> s3.<span class="function">getObject</span>(params).<span class="function">promise</span>();
+        
+        console.<span class="function">log</span>(<span class="string">'File content loaded'</span>);
+    }
+    
+    <span class="keyword">return</span> { statusCode: <span class="number">200</span> };
+};
+
+<span class="comment">// SQS Queue Handler (Batch Processing)</span>
+exports.<span class="function">sqsHandler</span> = <span class="keyword">async</span> (event, context) => {
+    <span class="keyword">const</span> failures = [];
+    
+    <span class="keyword">for</span> (<span class="keyword">const</span> record <span class="keyword">of</span> event.Records) {
+        <span class="keyword">try</span> {
+            <span class="keyword">const</span> message = <span class="function">JSON.parse</span>(record.body);
+            console.<span class="function">log</span>(<span class="string">'Processing message:'</span>, message);
+            
+            <span class="comment">// Process message</span>
+            <span class="keyword">await</span> <span class="function">processMessage</span>(message);
+            
+        } <span class="keyword">catch</span> (error) {
+            console.<span class="function">error</span>(<span class="string">'Failed to process message:'</span>, error);
+            failures.<span class="function">push</span>(record.messageId);
+        }
+    }
+    
+    <span class="comment">// Return batch failures for retry</span>
+    <span class="keyword">if</span> (failures.length > <span class="number">0</span>) {
+        <span class="keyword">return</span> {
+            batchItemFailures: failures.<span class="function">map</span>(id => ({ itemIdentifier: id }))
+        };
+    }
+    
+    <span class="keyword">return</span> { statusCode: <span class="number">200</span> };
+};
+
+<span class="comment">// Environment Variables & Context</span>
+exports.<span class="function">configHandler</span> = <span class="keyword">async</span> (event, context) => {
+    <span class="keyword">return</span> {
+        environment: {
+            region: process.env.AWS_REGION,
+            stage: process.env.STAGE,
+            dbHost: process.env.DB_HOST
+        },
+        context: {
+            requestId: context.requestId,
+            functionName: context.functionName,
+            remainingTime: context.<span class="function">getRemainingTimeInMillis</span>(),
+            memoryLimit: context.memoryLimitInMB
+        }
+    };
+};
+
+<span class="keyword">async function</span> <span class="function">processMessage</span>(message) {
+    <span class="comment">// Simulate processing</span>
+    <span class="keyword">await</span> <span class="keyword">new</span> <span class="function">Promise</span>(resolve => <span class="function">setTimeout</span>(resolve, <span class="number">100</span>));
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q45-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Serverless Transaction Processor with DynamoDB</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q45-2">
+                                <pre><code><span class="comment">// npm install aws-sdk uuid</span>
+<span class="keyword">const</span> AWS = <span class="function">require</span>(<span class="string">'aws-sdk'</span>);
+<span class="keyword">const</span> { v4: <span class="function">uuidv4</span> } = <span class="function">require</span>(<span class="string">'uuid'</span>);
+
+<span class="keyword">const</span> dynamodb = <span class="keyword">new</span> AWS.<span class="function">DynamoDB.DocumentClient</span>();
+<span class="keyword">const</span> TRANSACTIONS_TABLE = process.env.TRANSACTIONS_TABLE || <span class="string">'BankTransactions'</span>;
+<span class="keyword">const</span> ACCOUNTS_TABLE = process.env.ACCOUNTS_TABLE || <span class="string">'BankAccounts'</span>;
+
+<span class="comment">// Lambda handler for transaction processing</span>
+exports.<span class="function">processTransaction</span> = <span class="keyword">async</span> (event, context) => {
+    console.<span class="function">log</span>(<span class="string">'Request ID:'</span>, context.requestId);
+    
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> body = <span class="function">JSON.parse</span>(event.body);
+        <span class="keyword">const</span> { accountId, type, amount } = body;
+        
+        <span class="comment">// Validation</span>
+        <span class="keyword">if</span> (!accountId || !type || !amount) {
+            <span class="keyword">return</span> <span class="function">response</span>(<span class="number">400</span>, { error: <span class="string">'Missing required fields'</span> });
+        }
+        
+        <span class="keyword">if</span> (amount <= <span class="number">0</span>) {
+            <span class="keyword">return</span> <span class="function">response</span>(<span class="number">400</span>, { error: <span class="string">'Amount must be positive'</span> });
+        }
+        
+        <span class="comment">// Get account</span>
+        <span class="keyword">const</span> account = <span class="keyword">await</span> <span class="function">getAccount</span>(accountId);
+        <span class="keyword">if</span> (!account) {
+            <span class="keyword">return</span> <span class="function">response</span>(<span class="number">404</span>, { error: <span class="string">'Account not found'</span> });
+        }
+        
+        <span class="comment">// Check balance for withdrawals</span>
+        <span class="keyword">if</span> (type === <span class="string">'WITHDRAWAL'</span> && account.balance < amount) {
+            <span class="keyword">return</span> <span class="function">response</span>(<span class="number">400</span>, { 
+                error: <span class="string">'Insufficient funds'</span>,
+                balance: account.balance,
+                requested: amount
+            });
+        }
+        
+        <span class="comment">// Calculate new balance</span>
+        <span class="keyword">const</span> newBalance = type === <span class="string">'DEPOSIT'</span> 
+            ? account.balance + amount 
+            : account.balance - amount;
+        
+        <span class="comment">// Create transaction record</span>
+        <span class="keyword">const</span> transaction = {
+            transactionId: <span class="function">uuidv4</span>(),
+            accountId,
+            type,
+            amount,
+            oldBalance: account.balance,
+            newBalance,
+            timestamp: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>(),
+            status: <span class="string">'COMPLETED'</span>
+        };
+        
+        <span class="comment">// Update account and save transaction (in transaction)</span>
+        <span class="keyword">await</span> <span class="function">processTransactionAtomic</span>(accountId, newBalance, transaction);
+        
+        console.<span class="function">log</span>(<span class="string">`Transaction ${transaction.transactionId} completed`</span>);
+        
+        <span class="keyword">return</span> <span class="function">response</span>(<span class="number">201</span>, {
+            message: <span class="string">'Transaction successful'</span>,
+            transaction
+        });
+        
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Error:'</span>, error);
+        <span class="keyword">return</span> <span class="function">response</span>(<span class="number">500</span>, { 
+            error: <span class="string">'Internal server error'</span>,
+            message: error.message 
+        });
+    }
+};
+
+<span class="comment">// Get account balance</span>
+exports.<span class="function">getAccountBalance</span> = <span class="keyword">async</span> (event, context) => {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> accountId = event.pathParameters.accountId;
+        <span class="keyword">const</span> account = <span class="keyword">await</span> <span class="function">getAccount</span>(accountId);
+        
+        <span class="keyword">if</span> (!account) {
+            <span class="keyword">return</span> <span class="function">response</span>(<span class="number">404</span>, { error: <span class="string">'Account not found'</span> });
+        }
+        
+        <span class="keyword">return</span> <span class="function">response</span>(<span class="number">200</span>, account);
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Error:'</span>, error);
+        <span class="keyword">return</span> <span class="function">response</span>(<span class="number">500</span>, { error: error.message });
+    }
+};
+
+<span class="comment">// Get transaction history</span>
+exports.<span class="function">getTransactionHistory</span> = <span class="keyword">async</span> (event, context) => {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> accountId = event.pathParameters.accountId;
+        <span class="keyword">const</span> limit = event.queryStringParameters?.limit || <span class="number">10</span>;
+        
+        <span class="keyword">const</span> params = {
+            TableName: TRANSACTIONS_TABLE,
+            KeyConditionExpression: <span class="string">'accountId = :accountId'</span>,
+            ExpressionAttributeValues: {
+                <span class="string">':accountId'</span>: accountId
+            },
+            ScanIndexForward: <span class="keyword">false</span>, <span class="comment">// Most recent first</span>
+            Limit: <span class="function">parseInt</span>(limit)
+        };
+        
+        <span class="keyword">const</span> result = <span class="keyword">await</span> dynamodb.<span class="function">query</span>(params).<span class="function">promise</span>();
+        
+        <span class="keyword">return</span> <span class="function">response</span>(<span class="number">200</span>, {
+            accountId,
+            transactions: result.Items,
+            count: result.Count
+        });
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Error:'</span>, error);
+        <span class="keyword">return</span> <span class="function">response</span>(<span class="number">500</span>, { error: error.message });
+    }
+};
+
+<span class="comment">// Helper functions</span>
+<span class="keyword">async function</span> <span class="function">getAccount</span>(accountId) {
+    <span class="keyword">const</span> params = {
+        TableName: ACCOUNTS_TABLE,
+        Key: { accountId }
+    };
+    
+    <span class="keyword">const</span> result = <span class="keyword">await</span> dynamodb.<span class="function">get</span>(params).<span class="function">promise</span>();
+    <span class="keyword">return</span> result.Item;
+}
+
+<span class="keyword">async function</span> <span class="function">processTransactionAtomic</span>(accountId, newBalance, transaction) {
+    <span class="comment">// Use DynamoDB TransactWrite for atomicity</span>
+    <span class="keyword">const</span> params = {
+        TransactItems: [
+            {
+                Update: {
+                    TableName: ACCOUNTS_TABLE,
+                    Key: { accountId },
+                    UpdateExpression: <span class="string">'SET balance = :newBalance, lastUpdated = :timestamp'</span>,
+                    ExpressionAttributeValues: {
+                        <span class="string">':newBalance'</span>: newBalance,
+                        <span class="string">':timestamp'</span>: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>()
+                    }
+                }
+            },
+            {
+                Put: {
+                    TableName: TRANSACTIONS_TABLE,
+                    Item: transaction
+                }
+            }
+        ]
+    };
+    
+    <span class="keyword">await</span> dynamodb.<span class="function">transactWrite</span>(params).<span class="function">promise</span>();
+}
+
+<span class="keyword">function</span> <span class="function">response</span>(statusCode, body) {
+    <span class="keyword">return</span> {
+        statusCode,
+        headers: {
+            <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+            <span class="string">'Access-Control-Allow-Origin'</span>: <span class="string">'*'</span>
+        },
+        body: <span class="function">JSON.stringify</span>(body)
+    };
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Serverless:</strong> No server management, auto-scaling, pay-per-invocation pricing model</li>
+                                <li><strong>Cold Starts:</strong> First invocation slower due to container initialization. Warm with Provisioned Concurrency</li>
+                                <li><strong>Timeout Limits:</strong> Max 15 minutes execution time. Choose appropriate timeout to avoid hanging</li>
+                                <li><strong>Memory = CPU:</strong> More memory allocation = more CPU power (proportional)</li>
+                                <li><strong>Event Sources:</strong> Sync (API Gateway, ALB), Async (S3, SNS), Stream (DynamoDB, Kinesis)</li>
+                                <li><strong>Layers:</strong> Share dependencies across functions. Max 5 layers, 250MB unzipped total</li>
+                                <li><strong>Environment Variables:</strong> Store config (encrypted with KMS). Access via process.env</li>
+                                <li><strong>Best Practices:</strong> Keep functions small, reuse connections, handle errors properly</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Initialize connections outside handler (reuse)</li>
+                                    <li>Use environment variables for configuration</li>
+                                    <li>Set appropriate timeout and memory limits</li>
+                                    <li>Implement idempotent functions</li>
+                                    <li>Use Lambda Layers for shared dependencies</li>
+                                    <li>Enable X-Ray for distributed tracing</li>
+                                    <li>Use Provisioned Concurrency for low latency</li>
+                                    <li>Return proper HTTP response format for API Gateway</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't create new DB connections per invocation</li>
+                                    <li>Don't use Lambda for long-running tasks (>15 min)</li>
+                                    <li>Don't store state in memory (use DynamoDB/S3)</li>
+                                    <li>Don't set max timeout unnecessarily</li>
+                                    <li>Don't ignore cold start optimization</li>
+                                    <li>Don't bundle unnecessary dependencies</li>
+                                    <li>Don't forget to handle errors in async handlers</li>
+                                    <li>Don't skip IAM role least-privilege principle</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q46: Serverless API Gateway -->
+            <div class="question-node" id="q46">
+                <div class="question-header" onclick="toggleQuestion('q46')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q46</span>
+                        <span class="question-title">Serverless Architecture - AWS API Gateway</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🚪 Gateway Routing</h3>
+                                <p>Managed API layer between clients and backend services. REST API (regional, edge-optimized) or HTTP API (cheaper, faster). Routes requests to Lambda, HTTP endpoints, AWS services. Supports path parameters, query strings, headers.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🚦 Rate Limiting & Throttling</h3>
+                                <p>Usage Plans define throttling limits (requests/second, burst). Prevents backend overload. API Keys for client identification. Per-stage throttling (dev vs prod). 429 Too Many Requests response on limit exceeded.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔐 Authentication & Authorization</h3>
+                                <p>Authorizer types: IAM (AWS credentials), Lambda Authorizer (custom logic), Cognito User Pools (JWT). Request/Token authorizers with caching. API Keys for simple auth (not secure alone). mTLS for enhanced security.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>💾 Caching & Transformations</h3>
+                                <p>Response caching (0.5GB-237GB) reduces backend calls. TTL: 0-3600s. Cache key from path, query, headers. Request/Response transformation with VTL (Velocity Template Language). CORS configuration for browser clients.</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q46-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>Lambda Authorizer for API Gateway (JWT Validation)</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q46-1">
+                                <pre><code><span class="comment">// Lambda Authorizer Function</span>
+<span class="keyword">const</span> jwt = <span class="function">require</span>(<span class="string">'jsonwebtoken'</span>);
+
+<span class="keyword">const</span> SECRET_KEY = process.env.JWT_SECRET || <span class="string">'your-secret-key'</span>;
+
+exports.<span class="function">handler</span> = <span class="keyword">async</span> (event, context) => {
+    console.<span class="function">log</span>(<span class="string">'Auth event:'</span>, <span class="function">JSON.stringify</span>(event));
+    
+    <span class="keyword">try</span> {
+        <span class="comment">// Extract token from Authorization header</span>
+        <span class="keyword">const</span> token = event.authorizationToken || event.headers?.Authorization;
+        
+        <span class="keyword">if</span> (!token) {
+            <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'No token provided'</span>);
+        }
+        
+        <span class="comment">// Remove "Bearer " prefix if present</span>
+        <span class="keyword">const</span> cleanToken = token.<span class="function">replace</span>(<span class="string">'Bearer '</span>, <span class="string">''</span>);
+        
+        <span class="comment">// Verify JWT token</span>
+        <span class="keyword">const</span> decoded = jwt.<span class="function">verify</span>(cleanToken, SECRET_KEY);
+        
+        console.<span class="function">log</span>(<span class="string">'Decoded token:'</span>, decoded);
+        
+        <span class="comment">// Generate IAM policy</span>
+        <span class="keyword">const</span> policy = <span class="function">generatePolicy</span>(
+            decoded.userId,
+            <span class="string">'Allow'</span>,
+            event.methodArn,
+            {
+                userId: decoded.userId,
+                email: decoded.email,
+                role: decoded.role
+            }
+        );
+        
+        <span class="keyword">return</span> policy;
+        
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Authorization failed:'</span>, error.message);
+        
+        <span class="comment">// Return Deny policy</span>
+        <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'Unauthorized'</span>); <span class="comment">// Returns 401</span>
+    }
+};
+
+<span class="keyword">function</span> <span class="function">generatePolicy</span>(principalId, effect, resource, context = {}) {
+    <span class="keyword">const</span> authResponse = {
+        principalId
+    };
+    
+    <span class="keyword">if</span> (effect && resource) {
+        authResponse.policyDocument = {
+            Version: <span class="string">'2012-10-17'</span>,
+            Statement: [
+                {
+                    Action: <span class="string">'execute-api:Invoke'</span>,
+                    Effect: effect,
+                    Resource: resource
+                }
+            ]
+        };
+    }
+    
+    <span class="comment">// Pass user context to Lambda function</span>
+    authResponse.context = context;
+    
+    <span class="keyword">return</span> authResponse;
+}
+
+<span class="comment">// Protected Lambda function (receives context from authorizer)</span>
+exports.<span class="function">protectedHandler</span> = <span class="keyword">async</span> (event, context) => {
+    <span class="comment">// Access user info from authorizer context</span>
+    <span class="keyword">const</span> userId = event.requestContext.authorizer.userId;
+    <span class="keyword">const</span> email = event.requestContext.authorizer.email;
+    <span class="keyword">const</span> role = event.requestContext.authorizer.role;
+    
+    console.<span class="function">log</span>(<span class="string">`Authenticated user: ${userId} (${email})`</span>);
+    
+    <span class="comment">// Role-based access control</span>
+    <span class="keyword">if</span> (role !== <span class="string">'ADMIN'</span> && event.httpMethod === <span class="string">'DELETE'</span>) {
+        <span class="keyword">return</span> {
+            statusCode: <span class="number">403</span>,
+            body: <span class="function">JSON.stringify</span>({ error: <span class="string">'Forbidden: Admin access required'</span> })
+        };
+    }
+    
+    <span class="keyword">return</span> {
+        statusCode: <span class="number">200</span>,
+        body: <span class="function">JSON.stringify</span>({
+            message: <span class="string">'Access granted'</span>,
+            user: { userId, email, role }
+        })
+    };
+};
+
+<span class="comment">// API Gateway Response with CORS</span>
+<span class="keyword">function</span> <span class="function">apiResponse</span>(statusCode, body) {
+    <span class="keyword">return</span> {
+        statusCode,
+        headers: {
+            <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+            <span class="string">'Access-Control-Allow-Origin'</span>: <span class="string">'*'</span>,
+            <span class="string">'Access-Control-Allow-Headers'</span>: <span class="string">'Content-Type,Authorization'</span>,
+            <span class="string">'Access-Control-Allow-Methods'</span>: <span class="string">'GET,POST,PUT,DELETE,OPTIONS'</span>
+        },
+        body: <span class="function">JSON.stringify</span>(body)
+    };
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q46-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: API Gateway with Rate Limiting & Request Validation</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q46-2">
+                                <pre><code><span class="comment">// Serverless Framework configuration (serverless.yml)</span>
+<span class="comment">/*
+service: banking-api
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  
+  # API Gateway throttling
+  apiGateway:
+    throttle:
+      burstLimit: 200      # Max concurrent requests
+      rateLimit: 100       # Requests per second
+    usagePlan:
+      quota:
+        limit: 10000       # Monthly quota
+        period: MONTH
+      throttle:
+        burstLimit: 200
+        rateLimit: 100
+
+functions:
+  getBalance:
+    handler: handlers.getBalance
+    events:
+      - http:
+          path: accounts/{accountId}/balance
+          method: get
+          authorizer: jwtAuthorizer
+          request:
+            parameters:
+              paths:
+                accountId: true
+          # Method-specific throttling
+          throttle:
+            burstLimit: 50
+            rateLimit: 25
+          # Response caching (1 minute)
+          caching:
+            enabled: true
+            ttlInSeconds: 60
+            
+  createTransaction:
+    handler: handlers.createTransaction
+    events:
+      - http:
+          path: transactions
+          method: post
+          authorizer: jwtAuthorizer
+          # Request validation
+          request:
+            schemas:
+              application/json: ${file(schemas/transaction.json)}
+          # Higher limits for critical operations
+          throttle:
+            burstLimit: 100
+            rateLimit: 50
+*/</span>
+
+<span class="comment">// Lambda with request validation & error handling</span>
+exports.<span class="function">getBalance</span> = <span class="keyword">async</span> (event, context) => {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> accountId = event.pathParameters.accountId;
+        <span class="keyword">const</span> userId = event.requestContext.authorizer.userId;
+        
+        <span class="comment">// Validate account ownership</span>
+        <span class="keyword">const</span> account = <span class="keyword">await</span> <span class="function">getAccount</span>(accountId);
+        
+        <span class="keyword">if</span> (!account) {
+            <span class="keyword">return</span> <span class="function">apiResponse</span>(<span class="number">404</span>, { 
+                error: <span class="string">'Account not found'</span>,
+                code: <span class="string">'ACCOUNT_NOT_FOUND'</span>
+            });
+        }
+        
+        <span class="keyword">if</span> (account.ownerId !== userId) {
+            <span class="keyword">return</span> <span class="function">apiResponse</span>(<span class="number">403</span>, { 
+                error: <span class="string">'Access denied'</span>,
+                code: <span class="string">'FORBIDDEN'</span>
+            });
+        }
+        
+        <span class="comment">// Add cache control headers</span>
+        <span class="keyword">return</span> {
+            statusCode: <span class="number">200</span>,
+            headers: {
+                <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+                <span class="string">'Cache-Control'</span>: <span class="string">'max-age=60, must-revalidate'</span>,
+                <span class="string">'X-Account-Id'</span>: accountId
+            },
+            body: <span class="function">JSON.stringify</span>({
+                accountId: account.accountId,
+                balance: account.balance,
+                currency: account.currency,
+                lastUpdated: account.lastUpdated
+            })
+        };
+        
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Error:'</span>, error);
+        
+        <span class="comment">// Handle throttling errors</span>
+        <span class="keyword">if</span> (error.code === <span class="string">'TooManyRequestsException'</span>) {
+            <span class="keyword">return</span> {
+                statusCode: <span class="number">429</span>,
+                headers: {
+                    <span class="string">'Retry-After'</span>: <span class="string">'60'</span>
+                },
+                body: <span class="function">JSON.stringify</span>({ 
+                    error: <span class="string">'Rate limit exceeded'</span>,
+                    code: <span class="string">'RATE_LIMIT_EXCEEDED'</span>,
+                    retryAfter: <span class="number">60</span>
+                })
+            };
+        }
+        
+        <span class="keyword">return</span> <span class="function">apiResponse</span>(<span class="number">500</span>, { 
+            error: <span class="string">'Internal server error'</span>,
+            code: <span class="string">'INTERNAL_ERROR'</span>
+        });
+    }
+};
+
+exports.<span class="function">createTransaction</span> = <span class="keyword">async</span> (event, context) => {
+    <span class="keyword">try</span> {
+        <span class="comment">// Request already validated by API Gateway</span>
+        <span class="keyword">const</span> body = <span class="function">JSON.parse</span>(event.body);
+        <span class="keyword">const</span> userId = event.requestContext.authorizer.userId;
+        
+        <span class="comment">// Additional business validation</span>
+        <span class="keyword">if</span> (body.amount > <span class="number">100000</span>) {
+            <span class="keyword">return</span> <span class="function">apiResponse</span>(<span class="number">400</span>, {
+                error: <span class="string">'Amount exceeds single transaction limit'</span>,
+                code: <span class="string">'AMOUNT_LIMIT_EXCEEDED'</span>,
+                maxAmount: <span class="number">100000</span>
+            });
+        }
+        
+        <span class="comment">// Create transaction with idempotency key</span>
+        <span class="keyword">const</span> idempotencyKey = event.headers[<span class="string">'X-Idempotency-Key'</span>] || event.headers[<span class="string">'x-idempotency-key'</span>];
+        
+        <span class="keyword">if</span> (!idempotencyKey) {
+            <span class="keyword">return</span> <span class="function">apiResponse</span>(<span class="number">400</span>, {
+                error: <span class="string">'Idempotency key required'</span>,
+                code: <span class="string">'MISSING_IDEMPOTENCY_KEY'</span>
+            });
+        }
+        
+        <span class="comment">// Check for duplicate request</span>
+        <span class="keyword">const</span> existingTxn = <span class="keyword">await</span> <span class="function">checkIdempotency</span>(idempotencyKey);
+        <span class="keyword">if</span> (existingTxn) {
+            <span class="keyword">return</span> <span class="function">apiResponse</span>(<span class="number">200</span>, existingTxn);
+        }
+        
+        <span class="comment">// Process transaction</span>
+        <span class="keyword">const</span> transaction = <span class="keyword">await</span> <span class="function">processTransaction</span>({ ...body, userId, idempotencyKey });
+        
+        <span class="keyword">return</span> <span class="function">apiResponse</span>(<span class="number">201</span>, transaction);
+        
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">'Transaction error:'</span>, error);
+        <span class="keyword">return</span> <span class="function">apiResponse</span>(<span class="number">500</span>, { error: error.message });
+    }
+};
+
+<span class="comment">// Helper functions (stubs)</span>
+<span class="keyword">async function</span> <span class="function">getAccount</span>(accountId) {
+    <span class="comment">// DynamoDB query</span>
+    <span class="keyword">return</span> { accountId, ownerId: <span class="string">'user123'</span>, balance: <span class="number">50000</span>, currency: <span class="string">'USD'</span>, lastUpdated: <span class="keyword">new</span> <span class="function">Date</span>() };
+}
+
+<span class="keyword">async function</span> <span class="function">checkIdempotency</span>(key) {
+    <span class="comment">// Check DynamoDB for existing transaction with this key</span>
+    <span class="keyword">return</span> <span class="keyword">null</span>;
+}
+
+<span class="keyword">async function</span> <span class="function">processTransaction</span>(data) {
+    <span class="comment">// Business logic</span>
+    <span class="keyword">return</span> { transactionId: <span class="string">'TXN123'</span>, status: <span class="string">'SUCCESS'</span>, ...data };
+}
+
+<span class="keyword">function</span> <span class="function">apiResponse</span>(statusCode, body) {
+    <span class="keyword">return</span> {
+        statusCode,
+        headers: {
+            <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+            <span class="string">'X-Request-Id'</span>: context.requestId
+        },
+        body: <span class="function">JSON.stringify</span>(body)
+    };
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Gateway Types:</strong> REST API (full features), HTTP API (70% cheaper, lower latency), WebSocket API</li>
+                                <li><strong>Throttling:</strong> Burst limit (concurrent) + Rate limit (per second). Prevents backend overload</li>
+                                <li><strong>Authorizers:</strong> Lambda (custom), Cognito (JWT), IAM (AWS credentials). Cache for performance</li>
+                                <li><strong>Caching:</strong> 0.5GB-237GB cache. TTL 0-3600s. Cache key from path/query/headers</li>
+                                <li><strong>Stages:</strong> Dev, staging, prod with different configs. Deploy to stages independently</li>
+                                <li><strong>Request Validation:</strong> JSON Schema validation before Lambda invocation. Reduces costs</li>
+                                <li><strong>CORS:</strong> Configure for browser clients. Enable in API Gateway or Lambda responses</li>
+                                <li><strong>Pricing:</strong> Per million requests. HTTP API ~70% cheaper than REST API</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Enable caching for read-heavy endpoints</li>
+                                    <li>Use request validation to reduce Lambda costs</li>
+                                    <li>Implement proper throttling limits per stage</li>
+                                    <li>Cache authorizer responses (300s recommended)</li>
+                                    <li>Use HTTP API for simple REST APIs (cheaper)</li>
+                                    <li>Enable CloudWatch logging for debugging</li>
+                                    <li>Configure CORS properly for browser clients</li>
+                                    <li>Use custom domain names with SSL certificates</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't skip throttling configuration (prevents abuse)</li>
+                                    <li>Don't cache responses with sensitive data</li>
+                                    <li>Don't use API Keys as sole authentication</li>
+                                    <li>Don't forget to enable CORS for browser APIs</li>
+                                    <li>Don't ignore 429 (rate limit) errors</li>
+                                    <li>Don't skip request validation (reduces costs)</li>
+                                    <li>Don't use REST API when HTTP API suffices</li>
+                                    <li>Don't expose internal error details to clients</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q47: WebSockets Real-time Communication -->
+            <div class="question-node" id="q47">
+                <div class="question-header" onclick="toggleQuestion('q47')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q47</span>
+                        <span class="question-title">WebSockets - Real-time Bidirectional Communication</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>🔌 Socket.io Basics</h3>
+                                <p>Real-time bidirectional communication over WebSocket protocol (fallback to HTTP long-polling). Server and client emit/listen for events. Persistent connection reduces latency vs HTTP polling. Library: socket.io (server + client).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📡 Events & Rooms</h3>
+                                <p>Custom events with data payloads. Rooms group sockets for targeted messaging (chat rooms, game lobbies). Broadcasting to all/room/specific sockets. Namespaces for logical separation (/admin, /user).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🏠 Room Management</h3>
+                                <p>Clients join/leave rooms dynamically. Emit to room: io.to('room').emit(). Private rooms for 1-on-1 chat. Room data stored in memory (use Redis adapter for multi-server).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>📢 Broadcasting Patterns</h3>
+                                <p>broadcast.emit() - all except sender. io.emit() - all clients. socket.emit() - single client. to('room').emit() - room members. Acknowledgment callbacks for confirmation.</p>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q47-1')">
+                                <div class="code-title">
+                                    <span class="code-icon">💻</span>
+                                    <span>Socket.io Server & Client with Rooms & Events</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q47-1">
+                                <pre><code><span class="comment">// npm install socket.io express</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> { createServer } = <span class="function">require</span>(<span class="string">'http'</span>);
+<span class="keyword">const</span> { Server } = <span class="function">require</span>(<span class="string">'socket.io'</span>);
+
+<span class="keyword">const</span> app = <span class="function">express</span>();
+<span class="keyword">const</span> httpServer = <span class="function">createServer</span>(app);
+<span class="keyword">const</span> io = <span class="keyword">new</span> <span class="function">Server</span>(httpServer, {
+    cors: {
+        origin: <span class="string">'*'</span>,
+        methods: [<span class="string">'GET'</span>, <span class="string">'POST'</span>]
+    }
+});
+
+<span class="comment">// Track active users</span>
+<span class="keyword">const</span> activeUsers = <span class="keyword">new</span> <span class="function">Map</span>();
+
+<span class="comment">// Connection event</span>
+io.<span class="function">on</span>(<span class="string">'connection'</span>, (socket) => {
+    console.<span class="function">log</span>(<span class="string">`Client connected: ${socket.id}`</span>);
+    
+    <span class="comment">// User joins with username</span>
+    socket.<span class="function">on</span>(<span class="string">'join'</span>, (username) => {
+        activeUsers.<span class="function">set</span>(socket.id, username);
+        
+        <span class="comment">// Broadcast to all other clients</span>
+        socket.broadcast.<span class="function">emit</span>(<span class="string">'user-joined'</span>, {
+            username,
+            userId: socket.id,
+            timestamp: <span class="keyword">new</span> <span class="function">Date</span>()
+        });
+        
+        <span class="comment">// Send current user list to new user</span>
+        socket.<span class="function">emit</span>(<span class="string">'active-users'</span>, <span class="function">Array.from</span>(activeUsers.<span class="function">values</span>()));
+        
+        console.<span class="function">log</span>(<span class="string">`${username} joined. Total users: ${activeUsers.size}`</span>);
+    });
+    
+    <span class="comment">// Join a room</span>
+    socket.<span class="function">on</span>(<span class="string">'join-room'</span>, (roomId) => {
+        socket.<span class="function">join</span>(roomId);
+        console.<span class="function">log</span>(<span class="string">`${socket.id} joined room: ${roomId}`</span>);
+        
+        <span class="comment">// Notify room members</span>
+        io.<span class="function">to</span>(roomId).<span class="function">emit</span>(<span class="string">'room-notification'</span>, {
+            message: <span class="string">`${activeUsers.get(socket.id)} joined the room`</span>,
+            roomId
+        });
+    });
+    
+    <span class="comment">// Leave a room</span>
+    socket.<span class="function">on</span>(<span class="string">'leave-room'</span>, (roomId) => {
+        socket.<span class="function">leave</span>(roomId);
+        console.<span class="function">log</span>(<span class="string">`${socket.id} left room: ${roomId}`</span>);
+        
+        io.<span class="function">to</span>(roomId).<span class="function">emit</span>(<span class="string">'room-notification'</span>, {
+            message: <span class="string">`${activeUsers.get(socket.id)} left the room`</span>,
+            roomId
+        });
+    });
+    
+    <span class="comment">// Send message to room</span>
+    socket.<span class="function">on</span>(<span class="string">'room-message'</span>, ({ roomId, message }) => {
+        <span class="keyword">const</span> username = activeUsers.<span class="function">get</span>(socket.id);
+        
+        <span class="comment">// Emit to everyone in room including sender</span>
+        io.<span class="function">to</span>(roomId).<span class="function">emit</span>(<span class="string">'room-message'</span>, {
+            username,
+            userId: socket.id,
+            message,
+            roomId,
+            timestamp: <span class="keyword">new</span> <span class="function">Date</span>()
+        });
+    });
+    
+    <span class="comment">// Private message (1-on-1)</span>
+    socket.<span class="function">on</span>(<span class="string">'private-message'</span>, ({ toUserId, message }) => {
+        <span class="keyword">const</span> fromUsername = activeUsers.<span class="function">get</span>(socket.id);
+        
+        <span class="comment">// Send to specific socket</span>
+        io.<span class="function">to</span>(toUserId).<span class="function">emit</span>(<span class="string">'private-message'</span>, {
+            fromUserId: socket.id,
+            fromUsername,
+            message,
+            timestamp: <span class="keyword">new</span> <span class="function">Date</span>()
+        });
+    });
+    
+    <span class="comment">// Event with acknowledgment callback</span>
+    socket.<span class="function">on</span>(<span class="string">'send-data'</span>, (data, callback) => {
+        console.<span class="function">log</span>(<span class="string">'Received data:'</span>, data);
+        
+        <span class="comment">// Acknowledge receipt</span>
+        <span class="function">callback</span>({
+            status: <span class="string">'received'</span>,
+            timestamp: <span class="keyword">new</span> <span class="function">Date</span>()
+        });
+    });
+    
+    <span class="comment">// Disconnect event</span>
+    socket.<span class="function">on</span>(<span class="string">'disconnect'</span>, (reason) => {
+        <span class="keyword">const</span> username = activeUsers.<span class="function">get</span>(socket.id);
+        activeUsers.<span class="function">delete</span>(socket.id);
+        
+        <span class="comment">// Notify all users</span>
+        io.<span class="function">emit</span>(<span class="string">'user-left'</span>, {
+            username,
+            userId: socket.id,
+            reason,
+            timestamp: <span class="keyword">new</span> <span class="function">Date</span>()
+        });
+        
+        console.<span class="function">log</span>(<span class="string">`${username} disconnected. Reason: ${reason}`</span>);
+    });
+});
+
+httpServer.<span class="function">listen</span>(<span class="number">3000</span>, () => {
+    console.<span class="function">log</span>(<span class="string">'Socket.io server running on port 3000'</span>);
+});
+
+<span class="comment">// Client-side (HTML + JavaScript)</span>
+<span class="comment">/*
+&lt;script src="/socket.io/socket.io.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+const socket = io('http://localhost:3000');
+
+// Connection established
+socket.on('connect', () => {
+    console.log('Connected to server');
+    socket.emit('join', 'JohnDoe');
+});
+
+// Join room
+socket.emit('join-room', 'room-123');
+
+// Send message to room
+socket.emit('room-message', {
+    roomId: 'room-123',
+    message: 'Hello everyone!'
+});
+
+// Listen for room messages
+socket.on('room-message', (data) => {
+    console.log(`${data.username}: ${data.message}`);
+});
+
+// Send with acknowledgment
+socket.emit('send-data', { key: 'value' }, (ack) => {
+    console.log('Server acknowledged:', ack);
+});
+
+// Private message
+socket.emit('private-message', {
+    toUserId: 'other-socket-id',
+    message: 'Hi there!'
+});
+&lt;/script&gt;
+*/</span></code></pre>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header" onclick="toggleCode('code-q47-2')">
+                                <div class="code-title">
+                                    <span class="code-icon">🏦</span>
+                                    <span>Banking: Real-time Account Balance Updates & Transaction Notifications</span>
+                                </div>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="code-block" id="code-q47-2">
+                                <pre><code><span class="keyword">const</span> io = <span class="function">require</span>(<span class="string">'socket.io'</span>)(<span class="number">3000</span>);
+
+<span class="comment">// Middleware for authentication</span>
+io.<span class="function">use</span>(<span class="keyword">async</span> (socket, next) => {
+    <span class="keyword">const</span> token = socket.handshake.auth.token;
+    <span class="keyword">if</span> (!token) <span class="keyword">return</span> <span class="function">next</span>(<span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Authentication required'</span>));
+    
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> user = <span class="keyword">await</span> <span class="function">verifyToken</span>(token);
+        socket.userId = user.id;
+        socket.accountIds = user.accounts;
+        <span class="function">next</span>();
+    } <span class="keyword">catch</span> (err) {
+        <span class="function">next</span>(<span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Invalid token'</span>));
+    }
+});
+
+io.<span class="function">on</span>(<span class="string">'connection'</span>, (socket) => {
+    console.<span class="function">log</span>(<span class="string">`User ${socket.userId} connected`</span>);
+    
+    <span class="comment">// Subscribe to account updates</span>
+    socket.accountIds.<span class="function">forEach</span>(accountId => {
+        socket.<span class="function">join</span>(<span class="string">`account:${accountId}`</span>);
+    });
+    
+    <span class="comment">// Get real-time balance</span>
+    socket.<span class="function">on</span>(<span class="string">'subscribe-balance'</span>, (accountId) => {
+        <span class="keyword">if</span> (!socket.accountIds.<span class="function">includes</span>(accountId)) {
+            <span class="keyword">return</span> socket.<span class="function">emit</span>(<span class="string">'error'</span>, { message: <span class="string">'Unauthorized'</span> });
+        }
+        socket.<span class="function">join</span>(<span class="string">`account:${accountId}`</span>);
+        <span class="comment">// Send current balance immediately</span>
+        <span class="function">sendCurrentBalance</span>(socket, accountId);
+    });
+    
+    socket.<span class="function">on</span>(<span class="string">'disconnect'</span>, () => {
+        console.<span class="function">log</span>(<span class="string">`User ${socket.userId} disconnected`</span>);
+    });
+});
+
+<span class="comment">// Emit balance update when transaction occurs</span>
+<span class="keyword">function</span> <span class="function">notifyBalanceUpdate</span>(accountId, newBalance, transaction) {
+    io.<span class="function">to</span>(<span class="string">`account:${accountId}`</span>).<span class="function">emit</span>(<span class="string">'balance-updated'</span>, {
+        accountId,
+        balance: newBalance,
+        transaction: {
+            id: transaction.id,
+            type: transaction.type,
+            amount: transaction.amount,
+            timestamp: transaction.timestamp
+        }
+    });
+}
+
+<span class="keyword">function</span> <span class="function">notifyTransaction</span>(accountId, transaction) {
+    io.<span class="function">to</span>(<span class="string">`account:${accountId}`</span>).<span class="function">emit</span>(<span class="string">'new-transaction'</span>, transaction);
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>WebSocket Protocol:</strong> Full-duplex communication over single TCP connection. Lower latency than HTTP</li>
+                                <li><strong>Socket.io:</strong> Feature-rich library with events, rooms, namespaces, auto-reconnection</li>
+                                <li><strong>Rooms:</strong> Group sockets for targeted broadcasting. Perfect for chat rooms, game lobbies</li>
+                                <li><strong>Broadcasting:</strong> socket.broadcast (all except sender), io.emit (all), io.to(room)</li>
+                                <li><strong>Acknowledgments:</strong> Callback-based confirmation for critical events</li>
+                                <li><strong>Namespaces:</strong> Logical separation (/admin, /user). Each has own rooms and events</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use authentication middleware for socket connections</li>
+                                    <li>Implement reconnection logic on client</li>
+                                    <li>Use rooms for targeted message delivery</li>
+                                    <li>Clean up listeners on disconnect</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't send large payloads over WebSockets</li>
+                                    <li>Don't forget authentication/authorization</li>
+                                    <li>Don't store sensitive data in memory only</li>
+                                    <li>Don't emit events in tight loops</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q48: WebSockets Scaling -->
+            <div class="question-node" id="q48">
+                <div class="question-header" onclick="toggleQuestion('q48')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q48</span>
+                        <span class="question-title">WebSockets Scaling - Redis Pub/Sub & Horizontal Scaling</span>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📡 Redis Adapter</h3>
+                                <p>Broadcast events across multiple Socket.io servers using Redis pub/sub. All server instances subscribe to Redis channels. When one server emits to a room, Redis propagates to all servers. Library: @socket.io/redis-adapter.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔗 Sticky Sessions</h3>
+                                <p>Load balancer ensures client always connects to same server instance. Required because WebSocket = stateful connection. Use IP hash or cookie-based routing. NGINX ip_hash or AWS ALB target group stickiness.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>⚖️ Load Balancing</h3>
+                                <p>Distribute WebSocket connections across servers. ALB supports WebSocket. NGINX with proxy_pass and upgrade headers. HAProxy with balance source for sticky sessions. Monitor connection distribution.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🚀 Horizontal Scaling</h3>
+                                <p>Add more server instances to handle load. Redis stores shared state (rooms, sessions). Use Redis Cluster for high availability. Auto-scaling based on connection count or CPU. Graceful shutdown to drain connections.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Redis Adapter:</strong> Enables broadcasting across multiple Socket.io instances via pub/sub</li>
+                                <li><strong>Sticky Sessions:</strong> Client must reconnect to same server. Use IP hash or cookies</li>
+                                <li><strong>Load Balancer:</strong> Must support WebSocket upgrade (NGINX, ALB, HAProxy)</li>
+                                <li><strong>Shared State:</strong> Store rooms/sessions in Redis, not server memory</li>
+                                <li><strong>Graceful Shutdown:</strong> Drain connections before killing server instance</li>
+                                <li><strong>Monitoring:</strong> Track connection count per server, Redis latency, message throughput</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use Redis adapter for multi-server setups</li>
+                                    <li>Enable sticky sessions on load balancer</li>
+                                    <li>Implement graceful shutdown for connections</li>
+                                    <li>Monitor connection distribution across servers</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't scale without Redis adapter (events won't broadcast)</li>
+                                    <li>Don't forget sticky sessions (clients disconnect)</li>
+                                    <li>Don't store state in server memory only</li>
+                                    <li>Don't ignore Redis single point of failure</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q49: Docker Containerization -->
+            <div class="question-node" id="q49">
+                <div class="question-header" onclick="toggleQuestion('q49')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q49</span>
+                        <span class="question-title">Docker Containerization - Building & Deploying Node.js Apps</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📦 Dockerfile</h3>
+                                <p>Blueprint for Docker image. FROM (base image), COPY (files), RUN (commands), CMD (startup). Layer caching for faster builds. Use .dockerignore to exclude node_modules, .git. Optimize layer order.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🏗️ Multi-stage Builds</h3>
+                                <p>Multiple FROM statements for build and runtime. Build stage installs devDependencies, compiles TypeScript. Production stage copies only needed files. Reduces final image size significantly (100MB+ savings).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>💾 Volumes & Bind Mounts</h3>
+                                <p>Persist data outside container lifecycle. Named volumes for databases, logs. Bind mounts for development (live reload). Volume drivers for cloud storage (AWS EFS, Azure Files).</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🌐 Networks</h3>
+                                <p>Container-to-container communication. Bridge network (default), Host network, Overlay network (Swarm). Service discovery via container names. Port mapping (-p 3000:3000) for external access.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>Multi-stage:</strong> Build in one stage, run in another. Smaller production images</li>
+                                <li><strong>Layer Caching:</strong> Order Dockerfile commands to maximize cache hits (COPY package.json first)</li>
+                                <li><strong>Security:</strong> Run as non-root user. Scan images for vulnerabilities. Use official base images</li>
+                                <li><strong>Volumes:</strong> Persist data (databases, logs, uploads). Survive container restarts</li>
+                                <li><strong>Environment:</strong> Use ENV or .env files for configuration. Never hardcode secrets</li>
+                                <li><strong>.dockerignore:</strong> Exclude node_modules, .git, tests to speed up builds</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use multi-stage builds for production</li>
+                                    <li>Run as non-root user (USER node)</li>
+                                    <li>Use .dockerignore to exclude unnecessary files</li>
+                                    <li>Tag images with version numbers</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't install devDependencies in production</li>
+                                    <li>Don't run as root user (security risk)</li>
+                                    <li>Don't hardcode secrets in Dockerfile</li>
+                                    <li>Don't use 'latest' tag in production</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q50: Docker Compose -->
+            <div class="question-node" id="q50">
+                <div class="question-header" onclick="toggleQuestion('q50')">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="question-number">Q50</span>
+                        <span class="question-title">Docker Compose - Multi-Container Applications</span>
+                        <span class="badge badge-intermediate">Intermediate</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="question-content">
+                    <div class="content-inner">
+                        <div class="sub-topics">
+                            <div class="sub-topic">
+                                <h3>📄 docker-compose.yml</h3>
+                                <p>YAML file defining multi-container app. services (containers), networks, volumes. Version 3.x syntax. Define dependencies with depends_on. Environment variables, port mappings, restart policies.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🔗 Service Dependencies</h3>
+                                <p>depends_on ensures start order (DB before API). healthcheck verifies service ready. Wait scripts for database readiness. Links (deprecated) vs networks for communication.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>🌉 Networks</h3>
+                                <p>Isolated network for services. Default bridge network auto-created. Custom networks for segmentation. Services communicate via service names (api → db:5432). External networks connect to existing networks.</p>
+                            </div>
+                            <div class="sub-topic">
+                                <h3>💾 Volumes</h3>
+                                <p>Named volumes for data persistence. Share volumes between services. Volume drivers for NFS, cloud storage. Backup strategies. Development bind mounts for hot reload.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h3>🎯 Key Takeaways</h3>
+                            <ul>
+                                <li><strong>docker-compose.yml:</strong> Define entire stack (API, DB, Redis, NGINX) in one file</li>
+                                <li><strong>depends_on:</strong> Control service startup order. Add healthcheck for readiness</li>
+                                <li><strong>Networks:</strong> Services communicate via service names. Isolated from host</li>
+                                <li><strong>Volumes:</strong> Persist database data, logs. Survive container recreation</li>
+                                <li><strong>Commands:</strong> up (start), down (stop & remove), logs, ps, exec</li>
+                                <li><strong>Environment:</strong> Use .env file for secrets. env_file or environment keys</li>
+                            </ul>
+                        </div>
+
+                        <div class="dos-donts">
+                            <div class="dos">
+                                <h4>✅ DO's</h4>
+                                <ul>
+                                    <li>Use version control for docker-compose.yml</li>
+                                    <li>Define health checks for critical services</li>
+                                    <li>Use named volumes for data persistence</li>
+                                    <li>Separate dev and prod compose files</li>
+                                </ul>
+                            </div>
+                            <div class="donts">
+                                <h4>❌ DON'Ts</h4>
+                                <ul>
+                                    <li>Don't commit .env files with secrets</li>
+                                    <li>Don't rely on depends_on for readiness</li>
+                                    <li>Don't use host network mode unnecessarily</li>
+                                    <li>Don't forget to backup volumes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>💡 Master these concepts for your Node.js interviews</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Banking & Financial Services Focus</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleQuestion(questionId) {
+            const questionNode = document.getElementById(questionId);
+            questionNode.classList.toggle('collapsed');
+        }
+
+        function toggleCode(codeId) {
+            const codeSection = document.getElementById(codeId).parentElement;
+            codeSection.classList.toggle('collapsed');
+        }
+
+        // Initialize all questions as expanded
+        document.addEventListener('DOMContentLoaded', function() {
+            // All questions start expanded by default
+        });
+    </script>
+</body>
+</html>

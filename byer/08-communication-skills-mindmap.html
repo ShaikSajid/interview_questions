@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communication Skills - Interactive Mindmap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .controls button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            background: #f0f0f0;
+        }
+
+        .mindmap-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1400px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .mindmap {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            min-height: 800px;
+        }
+
+        .central-node {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            border-radius: 50%;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            position: relative;
+            z-index: 10;
+            max-width: 280px;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        .branches {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .branch {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .branch:nth-child(1) { animation-delay: 0.1s; }
+        .branch:nth-child(2) { animation-delay: 0.2s; }
+        .branch:nth-child(3) { animation-delay: 0.3s; }
+        .branch:nth-child(4) { animation-delay: 0.4s; }
+        .branch:nth-child(5) { animation-delay: 0.5s; }
+        .branch:nth-child(6) { animation-delay: 0.6s; }
+        .branch:nth-child(7) { animation-delay: 0.7s; }
+
+        .branch:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .branch-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .branch-icon {
+            font-size: 1.8em;
+        }
+
+        .sub-topics {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .sub-topic {
+            background: white;
+            margin: 10px 0;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sub-topic:hover {
+            transform: translateX(5px);
+            border-left-color: #764ba2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .sub-topic-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .details {
+            display: none;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .details.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .detail-item {
+            padding: 5px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .detail-item::before {
+            content: "▸";
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 2em;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-title {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .modal-section {
+            margin: 20px 0;
+        }
+
+        .modal-section h3 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+
+        .modal-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .modal-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .legend {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .mindmap-container {
+                padding: 20px;
+            }
+
+            .central-node {
+                font-size: 1em;
+                padding: 20px;
+                max-width: 200px;
+                min-height: 200px;
+            }
+
+            .branches {
+                grid-template-columns: 1fr;
+            }
+
+            .controls button {
+                margin: 5px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🗣️ Communication Skills for Software Engineers</h1>
+        <p>Interactive Mindmap - Click to explore details</p>
+    </div>
+
+    <div class="controls">
+        <button onclick="expandAll()">📖 Expand All</button>
+        <button onclick="collapseAll()">📕 Collapse All</button>
+        <button onclick="printView()">🖨️ Print</button>
+    </div>
+
+    <div class="mindmap-container">
+        <div class="branches">
+            <!-- Branch 1: Technical to Non-Technical -->
+            <div class="branch" onclick="showModal('modal1')">
+                <div class="branch-title">
+                    <span class="branch-icon">🎯</span>
+                    <span>Technical to Non-Technical Communication</span>
+                </div>
+                <ul class="sub-topics">
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Communication Framework</div>
+                        <div class="details">
+                            <div class="detail-item">Start with the Problem</div>
+                            <div class="detail-item">Use Analogies</div>
+                            <div class="detail-item">Focus on Benefits</div>
+                            <div class="detail-item">Use Visuals</div>
+                            <div class="detail-item">Invite Questions</div>
+                            <div class="detail-item">Confirm Understanding</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Audience Adaptation</div>
+                        <div class="details">
+                            <div class="detail-item">Finance: Accounts, Ledgers</div>
+                            <div class="detail-item">Marketing: Campaigns, Funnels</div>
+                            <div class="detail-item">Network: Routers, Bandwidth</div>
+                            <div class="detail-item">Business: Daily Life Examples</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Examples & Templates</div>
+                        <div class="details">
+                            <div class="detail-item">Email Templates</div>
+                            <div class="detail-item">Presentation Formats</div>
+                            <div class="detail-item">Meeting Scripts</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Branch 2: Technical Documentation -->
+            <div class="branch" onclick="showModal('modal2')">
+                <div class="branch-title">
+                    <span class="branch-icon">📚</span>
+                    <span>Technical Documentation</span>
+                </div>
+                <ul class="sub-topics">
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">README Files</div>
+                        <div class="details">
+                            <div class="detail-item">Project Overview</div>
+                            <div class="detail-item">Installation Guide</div>
+                            <div class="detail-item">Usage Examples</div>
+                            <div class="detail-item">Troubleshooting</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">API Documentation</div>
+                        <div class="details">
+                            <div class="detail-item">Endpoints & Methods</div>
+                            <div class="detail-item">Request/Response Examples</div>
+                            <div class="detail-item">Authentication</div>
+                            <div class="detail-item">Error Codes</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Architecture Docs</div>
+                        <div class="details">
+                            <div class="detail-item">System Diagrams</div>
+                            <div class="detail-item">Component Design</div>
+                            <div class="detail-item">Data Flow</div>
+                            <div class="detail-item">Scalability Plans</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Branch 3: Code Reviews -->
+            <div class="branch" onclick="showModal('modal3')">
+                <div class="branch-title">
+                    <span class="branch-icon">👨‍💻</span>
+                    <span>Code Reviews</span>
+                </div>
+                <ul class="sub-topics">
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Positive Feedback</div>
+                        <div class="details">
+                            <div class="detail-item">Acknowledge Good Work</div>
+                            <div class="detail-item">Be Specific</div>
+                            <div class="detail-item">Encourage Learning</div>
+                            <div class="detail-item">Build Confidence</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Constructive Criticism</div>
+                        <div class="details">
+                            <div class="detail-item">Focus on Code, Not Person</div>
+                            <div class="detail-item">Suggest Alternatives</div>
+                            <div class="detail-item">Explain Why</div>
+                            <div class="detail-item">Use Questions</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Comment Types</div>
+                        <div class="details">
+                            <div class="detail-item">Blocking Issues</div>
+                            <div class="detail-item">Suggestions</div>
+                            <div class="detail-item">Questions</div>
+                            <div class="detail-item">Educational</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Branch 4: Cross-Team Collaboration -->
+            <div class="branch" onclick="showModal('modal4')">
+                <div class="branch-title">
+                    <span class="branch-icon">🤝</span>
+                    <span>Cross-Team Collaboration</span>
+                </div>
+                <ul class="sub-topics">
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Communication Channels</div>
+                        <div class="details">
+                            <div class="detail-item">Slack/Teams: Quick questions</div>
+                            <div class="detail-item">Email: Formal communication</div>
+                            <div class="detail-item">Video: Complex discussions</div>
+                            <div class="detail-item">Docs: Persistent knowledge</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Collaboration Patterns</div>
+                        <div class="details">
+                            <div class="detail-item">Clear Ownership (DRI)</div>
+                            <div class="detail-item">Response Times</div>
+                            <div class="detail-item">Escalation Paths</div>
+                            <div class="detail-item">Decision Documentation</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Remote Work Best Practices</div>
+                        <div class="details">
+                            <div class="detail-item">Overcommunicate</div>
+                            <div class="detail-item">Use Video</div>
+                            <div class="detail-item">Respect Time Zones</div>
+                            <div class="detail-item">Async Updates</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Branch 5: Effective Meetings -->
+            <div class="branch" onclick="showModal('modal5')">
+                <div class="branch-title">
+                    <span class="branch-icon">📅</span>
+                    <span>Effective Meetings</span>
+                </div>
+                <ul class="sub-topics">
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Meeting Types</div>
+                        <div class="details">
+                            <div class="detail-item">Sprint Planning</div>
+                            <div class="detail-item">Daily Stand-ups</div>
+                            <div class="detail-item">Retrospectives</div>
+                            <div class="detail-item">Design Reviews</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Meeting Structure</div>
+                        <div class="details">
+                            <div class="detail-item">Clear Agenda</div>
+                            <div class="detail-item">Time Boxing</div>
+                            <div class="detail-item">Action Items</div>
+                            <div class="detail-item">Meeting Notes</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Status Updates</div>
+                        <div class="details">
+                            <div class="detail-item">Goals vs Actuals</div>
+                            <div class="detail-item">Key Metrics</div>
+                            <div class="detail-item">Blockers</div>
+                            <div class="detail-item">Next Steps</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Branch 6: Incident Communication -->
+            <div class="branch" onclick="showModal('modal6')">
+                <div class="branch-title">
+                    <span class="branch-icon">🚨</span>
+                    <span>Incident Communication</span>
+                </div>
+                <ul class="sub-topics">
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Severity Levels</div>
+                        <div class="details">
+                            <div class="detail-item">P1: Critical - Immediate</div>
+                            <div class="detail-item">P2: Major - 2 hours</div>
+                            <div class="detail-item">P3: Minor - Next day</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Incident Lifecycle</div>
+                        <div class="details">
+                            <div class="detail-item">Detection</div>
+                            <div class="detail-item">Investigation</div>
+                            <div class="detail-item">Identification</div>
+                            <div class="detail-item">Resolution</div>
+                            <div class="detail-item">Post-Mortem</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Communication Templates</div>
+                        <div class="details">
+                            <div class="detail-item">Initial Alert</div>
+                            <div class="detail-item">Progress Updates</div>
+                            <div class="detail-item">Resolution Notice</div>
+                            <div class="detail-item">Post-Mortem Report</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Branch 7: Mentoring & Knowledge Sharing -->
+            <div class="branch" onclick="showModal('modal7')">
+                <div class="branch-title">
+                    <span class="branch-icon">🎓</span>
+                    <span>Mentoring & Knowledge Sharing</span>
+                </div>
+                <ul class="sub-topics">
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Mentoring Approach</div>
+                        <div class="details">
+                            <div class="detail-item">Ask Questions First</div>
+                            <div class="detail-item">Explain Options</div>
+                            <div class="detail-item">Let Them Decide</div>
+                            <div class="detail-item">Provide Resources</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Knowledge Sharing Formats</div>
+                        <div class="details">
+                            <div class="detail-item">Tech Talks</div>
+                            <div class="detail-item">Tutorials</div>
+                            <div class="detail-item">Code Examples</div>
+                            <div class="detail-item">Documentation</div>
+                        </div>
+                    </li>
+                    <li class="sub-topic" onclick="event.stopPropagation(); toggleDetails(this)">
+                        <div class="sub-topic-title">Knowledge Repositories</div>
+                        <div class="details">
+                            <div class="detail-item">Internal Wiki</div>
+                            <div class="detail-item">GitHub Repos</div>
+                            <div class="detail-item">Video Library</div>
+                            <div class="detail-item">Slack Channels</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="legend">
+            💡 <strong>Tip:</strong> Click on any branch for detailed information • Click on sub-topics to expand/collapse details
+        </div>
+    </div>
+
+    <!-- Modals for detailed content -->
+    <div id="modal1" class="modal" onclick="closeModal('modal1')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal('modal1')">&times;</span>
+            <h2 class="modal-title">🎯 Technical to Non-Technical Communication</h2>
+            
+            <div class="modal-section">
+                <h3>Communication Framework (6 Steps)</h3>
+                <ul class="modal-list">
+                    <li><strong>Step 1:</strong> Start with the Problem (Business Impact)</li>
+                    <li><strong>Step 2:</strong> Use Analogies from Their Domain</li>
+                    <li><strong>Step 3:</strong> Focus on Benefits, Not Implementation</li>
+                    <li><strong>Step 4:</strong> Use Visuals When Possible</li>
+                    <li><strong>Step 5:</strong> Invite Questions</li>
+                    <li><strong>Step 6:</strong> Confirm Understanding</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Audience Adaptation</h3>
+                <ul class="modal-list">
+                    <li><strong>Finance:</strong> Use accounts, ledgers, interest, debit/credit analogies</li>
+                    <li><strong>Marketing:</strong> Use campaigns, funnels, customer journeys</li>
+                    <li><strong>Network Engineers:</strong> Use routers, bandwidth, packets</li>
+                    <li><strong>Business Users:</strong> Use daily life examples and simple metaphors</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Example: Poor vs Good Communication</h3>
+                <p><strong>Poor:</strong> "We need a distributed microservices architecture with event-driven communication..."</p>
+                <p><strong>Good:</strong> "Think of it like Netflix - when recommendations are down, you can still watch shows. Each feature works independently."</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal2" class="modal" onclick="closeModal('modal2')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal('modal2')">&times;</span>
+            <h2 class="modal-title">📚 Technical Documentation</h2>
+            
+            <div class="modal-section">
+                <h3>README Files Structure</h3>
+                <ul class="modal-list">
+                    <li>Project Overview (What it does, why it exists)</li>
+                    <li>Prerequisites (Required software, dependencies)</li>
+                    <li>Installation (Step-by-step setup)</li>
+                    <li>Usage (Basic examples, configuration)</li>
+                    <li>Troubleshooting (Common issues, solutions)</li>
+                    <li>Contributing (Guidelines, process)</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>API Documentation Must-Haves</h3>
+                <ul class="modal-list">
+                    <li>Endpoint descriptions with HTTP methods</li>
+                    <li>Request/Response examples (multiple languages)</li>
+                    <li>Authentication methods and token handling</li>
+                    <li>Error codes with explanations</li>
+                    <li>Rate limits and throttling</li>
+                    <li>Live playground for testing</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Best Practices</h3>
+                <ul class="modal-list">
+                    <li>✅ Use clear structure with table of contents</li>
+                    <li>✅ Include working, tested code examples</li>
+                    <li>✅ Add visual diagrams and flowcharts</li>
+                    <li>✅ Make it searchable with keywords</li>
+                    <li>✅ Keep under version control</li>
+                    <li>✅ Update regularly with changes</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal3" class="modal" onclick="closeModal('modal3')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal('modal3')">&times;</span>
+            <h2 class="modal-title">👨‍💻 Code Reviews</h2>
+            
+            <div class="modal-section">
+                <h3>Positive Feedback Techniques</h3>
+                <ul class="modal-list">
+                    <li><strong>Acknowledge:</strong> "Great refactoring here!"</li>
+                    <li><strong>Be Specific:</strong> "I like how you extracted the validation logic"</li>
+                    <li><strong>Encourage:</strong> "Interesting approach! I learned something new"</li>
+                    <li><strong>Build Confidence:</strong> Especially for junior developers</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Constructive Criticism</h3>
+                <ul class="modal-list">
+                    <li><strong>Focus on Code:</strong> Not "You made a mistake" but "This code has..."</li>
+                    <li><strong>Suggest Alternatives:</strong> "Consider using X instead of Y"</li>
+                    <li><strong>Explain Why:</strong> "This could cause performance issues because..."</li>
+                    <li><strong>Use Questions:</strong> "What if the user inputs...?"</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Comment Types</h3>
+                <ul class="modal-list">
+                    <li><strong>Blocking:</strong> "Must fix before merge" - Security, breaking changes</li>
+                    <li><strong>Non-blocking:</strong> "nit:", "suggestion:" - Optional improvements</li>
+                    <li><strong>Questions:</strong> Seeking clarification or understanding</li>
+                    <li><strong>Educational:</strong> Explaining patterns and best practices</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal4" class="modal" onclick="closeModal('modal4')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal('modal4')">&times;</span>
+            <h2 class="modal-title">🤝 Cross-Team Collaboration</h2>
+            
+            <div class="modal-section">
+                <h3>Communication Channels</h3>
+                <ul class="modal-list">
+                    <li><strong>Slack/Teams:</strong> Quick questions, status updates (< 1 hour response)</li>
+                    <li><strong>Email:</strong> Formal communication, external parties (same day)</li>
+                    <li><strong>Video Calls:</strong> Complex discussions, pair programming</li>
+                    <li><strong>Documentation:</strong> Persistent knowledge, onboarding</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Collaboration Patterns</h3>
+                <ul class="modal-list">
+                    <li><strong>Clear Ownership:</strong> DRI (Directly Responsible Individual)</li>
+                    <li><strong>Response Times:</strong> Urgent < 1h, Important same day, Normal 24h</li>
+                    <li><strong>Escalation Paths:</strong> When/who/how to escalate</li>
+                    <li><strong>Decision Docs:</strong> ADRs, meeting notes, email summaries</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Conflict Resolution</h3>
+                <ul class="modal-list">
+                    <li>Active Listening - Understand before responding</li>
+                    <li>Focus on Facts - Data over opinions</li>
+                    <li>Find Common Ground - Shared goals, win-win</li>
+                    <li>Escalate When Needed - Know your limits</li>
+                    <li>Document Decisions - Why, who, what, when</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal5" class="modal" onclick="closeModal('modal5')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal('modal5')">&times;</span>
+            <h2 class="modal-title">📅 Effective Meetings</h2>
+            
+            <div class="modal-section">
+                <h3>Sprint Planning (90 min)</h3>
+                <ul class="modal-list">
+                    <li>Sprint review (10 min)</li>
+                    <li>Sprint goals (15 min)</li>
+                    <li>Story review & estimation (45 min)</li>
+                    <li>Capacity planning (10 min)</li>
+                    <li>Commitments (10 min)</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Daily Stand-ups (15 min max)</h3>
+                <ul class="modal-list">
+                    <li>What I did yesterday</li>
+                    <li>What I'm doing today</li>
+                    <li>Any blockers</li>
+                    <li>📌 Keep it brief, park detailed discussions</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Status Update Template</h3>
+                <ul class="modal-list">
+                    <li><strong>Goals vs Actuals:</strong> What was planned vs done</li>
+                    <li><strong>Key Metrics:</strong> Performance, bugs, velocity</li>
+                    <li><strong>Accomplishments:</strong> Major wins with links</li>
+                    <li><strong>Blockers:</strong> What's stopping progress</li>
+                    <li><strong>Next Week:</strong> Planned work</li>
+                    <li><strong>Risks:</strong> Potential issues</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal6" class="modal" onclick="closeModal('modal6')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal('modal6')">&times;</span>
+            <h2 class="modal-title">🚨 Incident Communication</h2>
+            
+            <div class="modal-section">
+                <h3>Severity Classification</h3>
+                <ul class="modal-list">
+                    <li><strong>P1 Critical:</strong> Complete outage, data loss, security breach (Immediate)</li>
+                    <li><strong>P2 Major:</strong> Degraded performance, major feature down (2-hour SLA)</li>
+                    <li><strong>P3 Minor:</strong> Small bugs, cosmetic issues (Next business day)</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Incident Lifecycle</h3>
+                <ul class="modal-list">
+                    <li><strong>1. Detection:</strong> Alerts triggered, users report issues</li>
+                    <li><strong>2. Investigation:</strong> War room, team assembled</li>
+                    <li><strong>3. Identification:</strong> Root cause found, solution proposed</li>
+                    <li><strong>4. Resolution:</strong> Fix deployed, services restored</li>
+                    <li><strong>5. Post-Mortem:</strong> Timeline, root cause, action items</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Initial Alert Template</h3>
+                <ul class="modal-list">
+                    <li>🚨 Status: INVESTIGATING</li>
+                    <li>Severity: P[1/2/3]</li>
+                    <li>Started: [UTC timestamp]</li>
+                    <li>Affected: [Services/Users]</li>
+                    <li>Impact: [Description]</li>
+                    <li>Current Actions: [Bullet points]</li>
+                    <li>Next Update: [Time]</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Post-Mortem Must-Haves</h3>
+                <ul class="modal-list">
+                    <li>Executive summary (impact in numbers)</li>
+                    <li>Detailed timeline (minute-by-minute)</li>
+                    <li>Root cause analysis (why it happened)</li>
+                    <li>What went well / What went wrong</li>
+                    <li>Action items with owners and due dates</li>
+                    <li>Prevention measures</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal7" class="modal" onclick="closeModal('modal7')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal('modal7')">&times;</span>
+            <h2 class="modal-title">🎓 Mentoring & Knowledge Sharing</h2>
+            
+            <div class="modal-section">
+                <h3>1-on-1 Mentoring Session (30 min)</h3>
+                <ul class="modal-list">
+                    <li>Progress check-in (5 min) - How's it going?</li>
+                    <li>Technical discussion (15 min) - Deep dive into topic</li>
+                    <li>Career development (5 min) - Goals, growth</li>
+                    <li>Action items (5 min) - Next steps, resources</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Mentoring Approach</h3>
+                <ul class="modal-list">
+                    <li><strong>Ask Questions First:</strong> "What have you tried?" "What do you think?"</li>
+                    <li><strong>Explain Options:</strong> Show multiple approaches, discuss trade-offs</li>
+                    <li><strong>Let Them Decide:</strong> Guide, don't dictate - build confidence</li>
+                    <li><strong>Provide Resources:</strong> Articles, videos, code examples</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Tech Talk Structure (30 min)</h3>
+                <ul class="modal-list">
+                    <li><strong>Hook (2 min):</strong> Start with a problem or story</li>
+                    <li><strong>Context (5 min):</strong> Why this matters, what you'll learn</li>
+                    <li><strong>Main Content (15 min):</strong> Core concepts, live demo</li>
+                    <li><strong>Hands-on (5 min):</strong> Quick exercise, try it yourself</li>
+                    <li><strong>Q&A (3 min):</strong> Answer questions, share resources</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Knowledge Repositories</h3>
+                <ul class="modal-list">
+                    <li><strong>Internal Wiki:</strong> How-to guides, best practices, onboarding</li>
+                    <li><strong>GitHub Repos:</strong> Example projects, templates, boilerplates</li>
+                    <li><strong>Video Library:</strong> Recorded talks, tutorials, walkthroughs</li>
+                    <li><strong>Slack Channels:</strong> #help-[tech], #learning, #tech-talks</li>
+                    <li><strong>Brown Bags:</strong> Weekly learning lunches 🍕</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDetails(element) {
+            const details = element.querySelector('.details');
+            if (details) {
+                details.classList.toggle('show');
+            }
+        }
+
+        function expandAll() {
+            document.querySelectorAll('.details').forEach(detail => {
+                detail.classList.add('show');
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.details').forEach(detail => {
+                detail.classList.remove('show');
+            });
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function printView() {
+            window.print();
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('show');
+                });
+            }
+        });
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
